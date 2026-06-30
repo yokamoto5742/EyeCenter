@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EyeCenter</RootNamespace>
+    <AssemblyName>EyeCenter</AssemblyName>
+    <ApplicationIcon>ai1.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.Excel, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\macs\utility\Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="MedicalLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Shinseikai\MedicalLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContrastPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ControlIVPage.cs" />
+    <Compile Include="ControlSumPage.cs" />
+    <Compile Include="FormControl.cs" />
+    <Compile Include="FormExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExport.Designer.cs">
+      <DependentUpon>FormExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormExportKensa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormExportKensa.Designer.cs">
+      <DependentUpon>FormExportKensa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFindSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFindSummary.Designer.cs">
+      <DependentUpon>FormFindSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrint.Designer.cs">
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormKensa2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormKensa2.Designer.cs">
+      <DependentUpon>FormKensa2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormList.Designer.cs">
+      <DependentUpon>FormList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBase.Designer.cs">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFindOpeRecord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFindOpeRecord.Designer.cs">
+      <DependentUpon>FormFindOpeRecord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInput.Designer.cs">
+      <DependentUpon>FormInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormKensaHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormKensaHistory.Designer.cs">
+      <DependentUpon>FormKensaHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOpeCal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOpeCal.Designer.cs">
+      <DependentUpon>FormOpeCal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOpeRsv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOpeRsv.Designer.cs">
+      <DependentUpon>FormOpeRsv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOpeRsvList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOpeRsvList.Designer.cs">
+      <DependentUpon>FormOpeRsvList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPat.Designer.cs">
+      <DependentUpon>FormPat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelection.Designer.cs">
+      <DependentUpon>FormSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSumPlan1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSumPlan1.Designer.cs">
+      <DependentUpon>FormSumPlan1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSumPlan2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSumPlan2.Designer.cs">
+      <DependentUpon>FormSumPlan2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InPrint1.cs" />
+    <Compile Include="InPrint2.cs" />
+    <Compile Include="InPrint3.cs" />
+    <Compile Include="KensaPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KensaPanelDetail.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KensaTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KensaTabPage2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KensaTabPageBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormExport.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormExportKensa.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormExportKensa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFindSummary.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormFindSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrint.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormKensa2.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormKensa2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormList.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFindOpeRecord.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormFindOpeRecord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInput.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormKensaHistory.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormKensaHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOpeCal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormOpeCal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOpeRsv.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormOpeRsv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOpeRsvList.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormOpeRsvList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPat.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormPat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelection.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSumPlan1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormSumPlan1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSumPlan2.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FormSumPlan2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFindKensa.resx">
+      <DependentUpon>FormFindKensa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TenkeyPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormFindKensa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFindKensa.Designer.cs">
+      <DependentUpon>FormFindKensa.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="agent.ico" />
+    <Content Include="ai1.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
