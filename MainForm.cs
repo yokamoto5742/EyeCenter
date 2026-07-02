@@ -185,18 +185,5 @@ namespace EyeCenter
         {
             Launcher.OpeOrder();
         }
-
-        private void MultiPatBox_CheckedChanged(object sender, EventArgs e)
-        {
-            // 多人数モードをオフにする時の注意
-            if (!this.MultiPatBox.Checked && FormControl.FormPat_Count > 1)
-            {
-                MessageBox.Show("多人数モードをオフにする際は、患者台帳は１つだけにするか、全部閉じてからお願いします。");
-                this.MultiPatBox.Checked = true;
-                return;
-            }
-
-            FormControl.MultiPat = this.MultiPatBox.Checked;
-        }
     }
 }

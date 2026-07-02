@@ -181,11 +181,6 @@ namespace EyeCenter
             this.FormTextShow();
              */
 
-            if (!MacsProgram.Exists)
-            {
-                this.MacsButton.Enabled = false;
-            }
-
             if (!InnoProgram.Exists)
             {
                 this.InnoButton.Enabled = false;
@@ -200,11 +195,6 @@ namespace EyeCenter
             outcomeDict.Add("6", "“]‰@");
             outcomeDict.Add("7", "ˆê‘Ş‰@");
             outcomeDict.Add("8", "•s•Ï");
-
-            this.TermBox.Items.Add("6ƒ–Œ");
-            this.TermBox.Items.Add("12ƒ–Œ");
-            this.TermBox.Items.Add("‚·‚×‚Ä");
-            this.TermBox.Text = "6ƒ–Œ";
 
             passTip = new ToolTip();
             passTip.ShowAlways = true;
@@ -290,18 +280,6 @@ namespace EyeCenter
             {
                 tmpTable.Columns.Add(r["Text"].ToString());
             }
-
-            tmpTable = dSet.Tables.Add("—ˆ‰@—ğ");
-            tmpTable.Columns.Add("“ú•t");
-            tmpTable.Columns.Add("f—Ã‰È");
-            tmpTable.Columns.Add("ˆãt");
-
-            tmpTable = dSet.Tables.Add("“ü‰@—ğ");
-            tmpTable.Columns.Add("“ü‰@“ú");
-            tmpTable.Columns.Add("‘Ş‰@“ú");
-            tmpTable.Columns.Add("“]‹A");
-            tmpTable.Columns.Add("f—Ã‰È");
-            tmpTable.Columns.Add("ˆãt");
 
             tmpTable = dSet.Tables.Add("ŒŸ¸—ğ");
             tmpTable.Columns.Add("KENSA_DATE");
@@ -1474,8 +1452,6 @@ namespace EyeCenter
             }
 
             this.PtOpeHistoryShow();
-            this.PtComeHistoryShow();
-            this.PtInHistoryShow();
             this.PtKensaHistoryShow();
 
             this.AllOpeClear();
@@ -1485,131 +1461,6 @@ namespace EyeCenter
 
             // ŒŸ¸ƒf[ƒ^‚ğ•\¦
             KensaShow(this.Pat.Id, KensaDate.Value.ToString("yyyyMMdd"));
-        }
-
-        /// <summary>
-        /// —ˆ‰@—ğ‚ğ•\¦‚·‚é
-        /// </summary>
-        private void PtComeHistoryShow()
-        {
-            if (this.Pat.Id.Length == 0)
-            {
-                return;
-            }
-
-            string start_date = "20060901";
-
-            if (TermBox.Text.Equals("6ƒ–Œ"))
-            {
-                start_date = DateTime.Now.AddMonths(-6).ToString("yyyyMMdd");
-            }
-            else if (TermBox.Text.Equals("12ƒ–Œ"))
-            {
-                start_date = DateTime.Now.AddYears(-1).ToString("yyyyMMdd");
-            }
-
-            DataTable tmpTable = dSet.Tables["—ˆ‰@—ğ"];
-            tmpTable.Rows.Clear();
-
-            List<PatOut> tmpList = PatOut.GetHistory(this.Pat.Id, start_date);
-
-            foreach (PatOut tmpPat in tmpList)
-            {
-                DataRow r = tmpTable.NewRow();
-
-                r["“ú•t"] = tmpPat.ComeDate.PadRight(8, '0').Substring(2, 6).Insert(2, "/").Insert(5, "/");
-                r["f—Ã‰È"] = tmpPat.DeptName;
-                r["ˆãt"] = tmpPat.DoctorName;
-
-                tmpTable.Rows.Add(r);
-            }
-
-            this.PtComeHistoryFormat();
-        }
-
-        /// <summary>
-        /// —ˆ‰@—ğ‚Ì•\¦§Œä
-        /// </summary>
-        private void PtComeHistoryFormat()
-        {
-            DataView tmpView = new DataView(dSet.Tables["—ˆ‰@—ğ"]);
-
-            if (AllDeptBox.Checked)
-            {
-                tmpView.RowFilter = "";
-            }
-            else
-            {
-                tmpView.RowFilter = "f—Ã‰È = 'Šá‰È'";
-            }
-
-            ComeHistoryView.DataSource = tmpView;
-
-            ComeHistoryView.Columns["“ú•t"].Width = 60;
-            ComeHistoryView.Columns["“ú•t"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            ComeHistoryView.Columns["f—Ã‰È"].HeaderText = "‰È";
-            ComeHistoryView.Columns["f—Ã‰È"].Width = 45;
-            ComeHistoryView.Columns["f—Ã‰È"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            ComeHistoryView.Columns["ˆãt"].Width = 55;
-            ComeHistoryView.Columns["ˆãt"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-        }
-
-        /// <summary>
-        /// “ü‰@—ğ‚ğ•\¦‚·‚é
-        /// </summary>
-        private void PtInHistoryShow()
-        {
-            if (this.Pat.Id.Length == 0)
-            {
-                return;
-            }
-
-            DataTable tmpTable = dSet.Tables["“ü‰@—ğ"];
-            tmpTable.Rows.Clear();
-
-            List<PatIn> list = PatIn.GetHistory(this.Pat.Id);
-
-            foreach (PatIn obj in list)
-            {
-                DataRow r = tmpTable.NewRow();
-
-                r["“ü‰@“ú"] = obj.InDateStringShort;
-                r["‘Ş‰@“ú"] = obj.OutDateStringShort;
-                r["“]‹A"] = obj.OutKindString;
-                r["ˆãt"] = obj.DoctorName;
-                r["f—Ã‰È"] = obj.DeptName;
-
-                tmpTable.Rows.Add(r);
-            }
-
-            this.PtInHistoryFormat();
-        }
-
-        /// <summary>
-        /// “ü‰@—ğ‚Ì•\¦§Œä
-        /// </summary>
-        private void PtInHistoryFormat()
-        {
-            DataView tmpView = new DataView(dSet.Tables["“ü‰@—ğ"]);
-
-            InHistoryView.DataSource = tmpView;
-
-            InHistoryView.Columns["“ü‰@“ú"].Width = 55;
-            InHistoryView.Columns["“ü‰@“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            InHistoryView.Columns["‘Ş‰@“ú"].Width = 55;
-            InHistoryView.Columns["‘Ş‰@“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            InHistoryView.Columns["“]‹A"].Visible = false;
-
-            InHistoryView.Columns["f—Ã‰È"].HeaderText = "‰È";
-            InHistoryView.Columns["f—Ã‰È"].Width = 40;
-            InHistoryView.Columns["f—Ã‰È"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            InHistoryView.Columns["ˆãt"].Width = 45;
-            InHistoryView.Columns["ˆãt"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         /// <summary>
@@ -3275,16 +3126,6 @@ namespace EyeCenter
             }
         }
 
-        private void AllDeptBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.PtComeHistoryFormat();
-        }
-
-        private void TermBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.PtComeHistoryShow();
-        }
-
         private void OpeRegButton_Click(object sender, EventArgs e)
         {
             if (this.Pat.Id.Length == 0)
@@ -3599,14 +3440,6 @@ namespace EyeCenter
             Launcher.PdfViewer();
         }
 
-        private void MacsButton_Click(object sender, EventArgs e)
-        {
-            if (!MacsProgram.KarteShow(this.Pat.Id))
-            {
-                MessageBox.Show("ƒJƒ‹ƒe‚ª‹N“®‚µ‚Ä‚¢‚Ü‚¹‚ñ");
-            }
-        }
-
         private void InnoButton_Click(object sender, EventArgs e)
         {
             if (!InnoProgram.KarteShow(this.Pat.Id))
@@ -3645,14 +3478,6 @@ namespace EyeCenter
         {
             if (KensaWideBox.Checked)
             {
-                // —ˆ‰@—ğ‚ğ”ñ•\¦‚É‚·‚é
-                ComeHistoryLabel.Visible = false;
-                AllDeptBox.Visible = false;
-                TermBox.Visible = false;
-
-                // “ü‰@—ğ‚ğ”ñ•\¦‚É‚·‚é
-                InHistoryLabel.Visible = false;
-
                 // èp—ğ‚ğ”ñ•\¦‚É‚·‚é
                 OpeHistoryLabel.Visible = false;
                 OpeClearButton.Visible = false;
@@ -3670,14 +3495,6 @@ namespace EyeCenter
             }
             else if (OpeWideBox.Checked)
             {
-                // —ˆ‰@—ğ‚ğ”ñ•\¦‚É‚·‚é
-                ComeHistoryLabel.Visible = false;
-                AllDeptBox.Visible = false;
-                TermBox.Visible = false;
-
-                // “ü‰@—ğ‚ğ”ñ•\¦‚É‚·‚é
-                InHistoryLabel.Visible = false;
-
                 // èp—ğ‚Ì•\¦ˆÊ’u‚ğ•ÏX‚·‚é
                 OpeHistoryLabel.Location = new Point(3, 35);
                 OpeClearButton.Location = new Point(60, 29);
@@ -3695,14 +3512,6 @@ namespace EyeCenter
             }
             else
             {
-                // —ˆ‰@—ğ‚ğ•\¦‚·‚é
-                ComeHistoryLabel.Visible = true;
-                AllDeptBox.Visible = true;
-                TermBox.Visible = true;
-
-                // “ü‰@—ğ‚ğ•\¦‚·‚é
-                InHistoryLabel.Visible = true;
-
                 // èp—ğ‚ğ•\¦‚·‚é
                 OpeHistoryLabel.Location = new Point(389, 35);
                 OpeClearButton.Location = new Point(440, 29);

@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.CanonButton = new System.Windows.Forms.Button();
             this.NidekButton = new System.Windows.Forms.Button();
-            this.MultiPatBox = new System.Windows.Forms.CheckBox();
             this.SummaryFindButton = new System.Windows.Forms.Button();
             this.KensaFindButton = new System.Windows.Forms.Button();
             this.OpeOrderButton = new System.Windows.Forms.Button();
@@ -62,17 +61,6 @@
             this.NidekButton.Text = "Nidek ARK";
             this.NidekButton.UseVisualStyleBackColor = true;
             this.NidekButton.Click += new System.EventHandler(this.NidekButton_Click);
-            // 
-            // MultiPatBox
-            // 
-            this.MultiPatBox.AutoSize = true;
-            this.MultiPatBox.Location = new System.Drawing.Point(20, 182);
-            this.MultiPatBox.Name = "MultiPatBox";
-            this.MultiPatBox.Size = new System.Drawing.Size(143, 16);
-            this.MultiPatBox.TabIndex = 14;
-            this.MultiPatBox.Text = "患者台帳 多人数モード";
-            this.MultiPatBox.UseVisualStyleBackColor = true;
-            this.MultiPatBox.CheckedChanged += new System.EventHandler(this.MultiPatBox_CheckedChanged);
             // 
             // SummaryFindButton
             // 
@@ -171,7 +159,6 @@
             this.ClientSize = new System.Drawing.Size(185, 202);
             this.Controls.Add(this.CanonButton);
             this.Controls.Add(this.NidekButton);
-            this.Controls.Add(this.MultiPatBox);
             this.Controls.Add(this.SummaryFindButton);
             this.Controls.Add(this.KensaFindButton);
             this.Controls.Add(this.OpeOrderButton);
@@ -205,7 +192,6 @@
         private System.Windows.Forms.Button OpeOrderButton;
         private System.Windows.Forms.Button KensaFindButton;
         private System.Windows.Forms.Button SummaryFindButton;
-        private System.Windows.Forms.CheckBox MultiPatBox;
         private System.Windows.Forms.Button NidekButton;
         private System.Windows.Forms.Button CanonButton;
     }

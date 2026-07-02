@@ -30,12 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPat));
@@ -188,12 +184,7 @@
             this.KensaLabel = new System.Windows.Forms.Label();
             this.KensaDate = new System.Windows.Forms.DateTimePicker();
             this.ReloadButton = new System.Windows.Forms.Button();
-            this.TermBox = new System.Windows.Forms.ComboBox();
-            this.AllDeptBox = new System.Windows.Forms.CheckBox();
-            this.InHistoryLabel = new System.Windows.Forms.Label();
-            this.InHistoryView = new System.Windows.Forms.DataGridView();
             this.KensaHistoryLabel = new System.Windows.Forms.Label();
-            this.ComeHistoryLabel = new System.Windows.Forms.Label();
             this.KensaHistoryView = new System.Windows.Forms.DataGridView();
             this.KensaHistoryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.KensaHistoryNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -205,7 +196,6 @@
             this.SightBCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.TensionBCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ComeHistoryView = new System.Windows.Forms.DataGridView();
             this.OpeHistoryLabel = new System.Windows.Forms.Label();
             this.OpeHistoryView = new System.Windows.Forms.DataGridView();
             this.InnoButton = new System.Windows.Forms.Button();
@@ -218,7 +208,6 @@
             this.PDFButton = new System.Windows.Forms.Button();
             this.FamilyButton = new System.Windows.Forms.Button();
             this.IntroBox = new System.Windows.Forms.TextBox();
-            this.MacsButton = new System.Windows.Forms.Button();
             this.AllergyButton = new System.Windows.Forms.Button();
             this.GrapaButton = new System.Windows.Forms.Button();
             this.stdControlPat11 = new MedicalLibrary.Boundary.StdControlPat1();
@@ -236,10 +225,8 @@
             this.OpeDoctorPanel.SuspendLayout();
             this.OpePassPanel.SuspendLayout();
             this.KensaTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.InHistoryView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KensaHistoryView)).BeginInit();
             this.KensaHistoryMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ComeHistoryView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OpeHistoryView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1878,71 +1865,6 @@
             this.ReloadButton.UseVisualStyleBackColor = true;
             this.ReloadButton.Click += new System.EventHandler(this.ReloadButton_Click);
             // 
-            // TermBox
-            // 
-            this.TermBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.TermBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.TermBox.FormattingEnabled = true;
-            this.TermBox.Location = new System.Drawing.Point(110, 28);
-            this.TermBox.Name = "TermBox";
-            this.TermBox.Size = new System.Drawing.Size(73, 20);
-            this.TermBox.TabIndex = 148;
-            this.TermBox.SelectedIndexChanged += new System.EventHandler(this.TermBox_SelectedIndexChanged);
-            // 
-            // AllDeptBox
-            // 
-            this.AllDeptBox.AutoSize = true;
-            this.AllDeptBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.AllDeptBox.Location = new System.Drawing.Point(62, 33);
-            this.AllDeptBox.Name = "AllDeptBox";
-            this.AllDeptBox.Size = new System.Drawing.Size(48, 16);
-            this.AllDeptBox.TabIndex = 147;
-            this.AllDeptBox.Text = "全科";
-            this.AllDeptBox.UseVisualStyleBackColor = true;
-            this.AllDeptBox.CheckedChanged += new System.EventHandler(this.AllDeptBox_CheckedChanged);
-            // 
-            // InHistoryLabel
-            // 
-            this.InHistoryLabel.AutoSize = true;
-            this.InHistoryLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InHistoryLabel.Location = new System.Drawing.Point(187, 35);
-            this.InHistoryLabel.Name = "InHistoryLabel";
-            this.InHistoryLabel.Size = new System.Drawing.Size(41, 12);
-            this.InHistoryLabel.TabIndex = 146;
-            this.InHistoryLabel.Text = "入院歴";
-            // 
-            // InHistoryView
-            // 
-            this.InHistoryView.AllowUserToAddRows = false;
-            this.InHistoryView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.InHistoryView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.InHistoryView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.InHistoryView.DefaultCellStyle = dataGridViewCellStyle3;
-            this.InHistoryView.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InHistoryView.Location = new System.Drawing.Point(186, 50);
-            this.InHistoryView.MultiSelect = false;
-            this.InHistoryView.Name = "InHistoryView";
-            this.InHistoryView.ReadOnly = true;
-            this.InHistoryView.RowHeadersVisible = false;
-            this.InHistoryView.RowTemplate.Height = 21;
-            this.InHistoryView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.InHistoryView.Size = new System.Drawing.Size(200, 120);
-            this.InHistoryView.TabIndex = 145;
-            // 
             // KensaHistoryLabel
             // 
             this.KensaHistoryLabel.AutoSize = true;
@@ -1952,16 +1874,6 @@
             this.KensaHistoryLabel.Size = new System.Drawing.Size(41, 12);
             this.KensaHistoryLabel.TabIndex = 144;
             this.KensaHistoryLabel.Text = "検査歴";
-            // 
-            // ComeHistoryLabel
-            // 
-            this.ComeHistoryLabel.AutoSize = true;
-            this.ComeHistoryLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.ComeHistoryLabel.Location = new System.Drawing.Point(3, 35);
-            this.ComeHistoryLabel.Name = "ComeHistoryLabel";
-            this.ComeHistoryLabel.Size = new System.Drawing.Size(41, 12);
-            this.ComeHistoryLabel.TabIndex = 143;
-            this.ComeHistoryLabel.Text = "通院歴";
             // 
             // KensaHistoryView
             // 
@@ -2067,38 +1979,6 @@
             this.TensionBCopyMenuItem.Size = new System.Drawing.Size(188, 22);
             this.TensionBCopyMenuItem.Text = "両視力・眼圧 コピー";
             this.TensionBCopyMenuItem.Click += new System.EventHandler(this.TensionBCopyMenuItem_Click);
-            // 
-            // ComeHistoryView
-            // 
-            this.ComeHistoryView.AllowUserToAddRows = false;
-            this.ComeHistoryView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ComeHistoryView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.ComeHistoryView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ComeHistoryView.DefaultCellStyle = dataGridViewCellStyle7;
-            this.ComeHistoryView.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.ComeHistoryView.Location = new System.Drawing.Point(3, 50);
-            this.ComeHistoryView.MultiSelect = false;
-            this.ComeHistoryView.Name = "ComeHistoryView";
-            this.ComeHistoryView.ReadOnly = true;
-            this.ComeHistoryView.RowHeadersVisible = false;
-            this.ComeHistoryView.RowTemplate.Height = 21;
-            this.ComeHistoryView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ComeHistoryView.Size = new System.Drawing.Size(180, 120);
-            this.ComeHistoryView.TabIndex = 141;
             // 
             // OpeHistoryLabel
             // 
@@ -2268,19 +2148,6 @@
             this.IntroBox.TabIndex = 184;
             this.IntroBox.DoubleClick += new System.EventHandler(this.IntroBox_DoubleClick);
             // 
-            // MacsButton
-            // 
-            this.MacsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MacsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.MacsButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.MacsButton.Location = new System.Drawing.Point(880, 4);
-            this.MacsButton.Name = "MacsButton";
-            this.MacsButton.Size = new System.Drawing.Size(42, 23);
-            this.MacsButton.TabIndex = 186;
-            this.MacsButton.Text = "Karte";
-            this.MacsButton.UseVisualStyleBackColor = false;
-            this.MacsButton.Click += new System.EventHandler(this.MacsButton_Click);
-            // 
             // AllergyButton
             // 
             this.AllergyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -2323,7 +2190,6 @@
             this.Controls.Add(this.stdControlPat11);
             this.Controls.Add(this.GrapaButton);
             this.Controls.Add(this.AllergyButton);
-            this.Controls.Add(this.MacsButton);
             this.Controls.Add(this.IntroBox);
             this.Controls.Add(this.FamilyButton);
             this.Controls.Add(this.PDFButton);
@@ -2336,15 +2202,9 @@
             this.Controls.Add(this.OpeClearButton);
             this.Controls.Add(this.InnoButton);
             this.Controls.Add(this.ReloadButton);
-            this.Controls.Add(this.TermBox);
-            this.Controls.Add(this.AllDeptBox);
             this.Controls.Add(this.OpeHistoryView);
-            this.Controls.Add(this.ComeHistoryLabel);
-            this.Controls.Add(this.InHistoryLabel);
             this.Controls.Add(this.OpeHistoryLabel);
-            this.Controls.Add(this.ComeHistoryView);
             this.Controls.Add(this.KensaHistoryLabel);
-            this.Controls.Add(this.InHistoryView);
             this.Controls.Add(this.MainTabControl);
             this.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2377,10 +2237,8 @@
             this.OpePassPanel.PerformLayout();
             this.KensaTab.ResumeLayout(false);
             this.KensaTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.InHistoryView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.KensaHistoryView)).EndInit();
             this.KensaHistoryMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ComeHistoryView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.OpeHistoryView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2476,14 +2334,8 @@
         private System.Windows.Forms.Button DoctorRegButton;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label KensaHistoryLabel;
-        private System.Windows.Forms.Label ComeHistoryLabel;
         private System.Windows.Forms.DataGridView KensaHistoryView;
-        private System.Windows.Forms.DataGridView ComeHistoryView;
         private System.Windows.Forms.TabControl RecordTabControl;
-        private System.Windows.Forms.Label InHistoryLabel;
-        private System.Windows.Forms.DataGridView InHistoryView;
-        private System.Windows.Forms.CheckBox AllDeptBox;
-        private System.Windows.Forms.ComboBox TermBox;
         private System.Windows.Forms.Panel PassPanel;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Label label45;
@@ -2567,7 +2419,6 @@
         private System.Windows.Forms.Button SumInitValueButton3;
         protected internal System.Windows.Forms.TextBox SumHistBox;
         private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Button MacsButton;
         private System.Windows.Forms.Button AllergyButton;
         private System.Windows.Forms.CheckBox EarlierOKBox;
         private System.Windows.Forms.Button GrapaButton;

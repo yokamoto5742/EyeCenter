@@ -10,11 +10,6 @@ namespace EyeCenter
 {
     class FormControl
     {
-        /// <summary>
-        /// 複数の患者画面を開けるかどうか
-        /// </summary>
-        public static bool MultiPat = false;
-
         static FormOpeRsv F_OpeRsv;
         static FormOpeRsvList F_OpeRsvList;
         static FormFindOpeRecord F_FindOpeRecord;
@@ -67,22 +62,14 @@ namespace EyeCenter
         {
             FormPat f = null;
 
-            if (MultiPat)
+            if (FormPat_List.Count > 0)
             {
-                f = new FormPat();
-                FormPat_List.Add(f);
+                f = FormPat_List[0];
             }
             else
             {
-                if (FormPat_List.Count > 0)
-                {
-                    f = FormPat_List[0];
-                }
-                else
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
+                f = new FormPat();
+                FormPat_List.Add(f);
             }
 
             f.Show();
@@ -98,39 +85,18 @@ namespace EyeCenter
         {
             FormPat f = null;
 
-            if (MultiPat)
+            if (FormPat_List.Count > 0)
             {
-                foreach (FormPat fp in FormPat_List)
-                {
-                    if (fp.Pat.Id.Equals(pt_id))
-                    {
-                        f = fp;
-                        break;
-                    }
-                }
-
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    f.ShowByPat(pt_id, FormPat.Mode.SHOW);
-                    FormPat_List.Add(f);
-                }
+                f = FormPat_List[0];
             }
-            else
+
+            if (f == null || !f.Created)
             {
-                if (FormPat_List.Count > 0)
-                {
-                    f = FormPat_List[0];
-                }
-
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
-
-                f.ShowByPat(pt_id, FormPat.Mode.SHOW);
+                f = new FormPat();
+                FormPat_List.Add(f);
             }
+
+            f.ShowByPat(pt_id, FormPat.Mode.SHOW);
 
             f.Activate();
             f.BringToFront();
@@ -148,35 +114,15 @@ namespace EyeCenter
 
             FormPat f = null;
 
-            if (MultiPat)
+            if (FormPat_List.Count > 0)
             {
-                foreach (FormPat fp in FormPat_List)
-                {
-                    if (fp.Pat.Id.Equals(pt_id))
-                    {
-                        f = fp;
-                        break;
-                    }
-                }
-
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
+                f = FormPat_List[0];
             }
-            else
-            {
-                if (FormPat_List.Count > 0)
-                {
-                    f = FormPat_List[0];
-                }
 
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
+            if (f == null || !f.Created)
+            {
+                f = new FormPat();
+                FormPat_List.Add(f);
             }
 
             f.ShowByRecord(record_id);
@@ -195,35 +141,15 @@ namespace EyeCenter
         {
             FormPat f = null;
 
-            if (MultiPat)
+            if (FormPat_List.Count > 0)
             {
-                foreach (FormPat fp in FormPat_List)
-                {
-                    if (fp.Pat.Id.Equals(pt_id))
-                    {
-                        f = fp;
-                        break;
-                    }
-                }
-
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
+                f = FormPat_List[0];
             }
-            else
-            {
-                if (FormPat_List.Count > 0)
-                {
-                    f = FormPat_List[0];
-                }
 
-                if (f == null || !f.Created)
-                {
-                    f = new FormPat();
-                    FormPat_List.Add(f);
-                }
+            if (f == null || !f.Created)
+            {
+                f = new FormPat();
+                FormPat_List.Add(f);
             }
 
             f.ShowByNewRecord(pt_id, ope_kind, ope_date, ope_time);
