@@ -92,7 +92,6 @@
             this.OpeTab = new System.Windows.Forms.TabPage();
             this.OpeInfoPanel = new System.Windows.Forms.Panel();
             this.EarlierOKBox = new System.Windows.Forms.CheckBox();
-            this.ShortOpe3Box = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.OpeStaffLabel = new System.Windows.Forms.Label();
             this.RecordPrintButton = new System.Windows.Forms.Button();
@@ -820,7 +819,6 @@
             this.OpeInfoPanel.AutoScroll = true;
             this.OpeInfoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(192)))));
             this.OpeInfoPanel.Controls.Add(this.EarlierOKBox);
-            this.OpeInfoPanel.Controls.Add(this.ShortOpe3Box);
             this.OpeInfoPanel.Controls.Add(this.label2);
             this.OpeInfoPanel.Controls.Add(this.OpeStaffLabel);
             this.OpeInfoPanel.Controls.Add(this.RecordPrintButton);
@@ -905,16 +903,6 @@
             this.EarlierOKBox.TabIndex = 175;
             this.EarlierOKBox.Text = "締切後手術";
             this.EarlierOKBox.UseVisualStyleBackColor = true;
-            // 
-            // ShortOpe3Box
-            // 
-            this.ShortOpe3Box.AutoSize = true;
-            this.ShortOpe3Box.Location = new System.Drawing.Point(210, 160);
-            this.ShortOpe3Box.Name = "ShortOpe3Box";
-            this.ShortOpe3Box.Size = new System.Drawing.Size(150, 16);
-            this.ShortOpe3Box.TabIndex = 174;
-            this.ShortOpe3Box.Text = "短期滞在手術等基本料3";
-            this.ShortOpe3Box.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -2597,7 +2585,6 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Button MacsButton;
         private System.Windows.Forms.Button AllergyButton;
-        private System.Windows.Forms.CheckBox ShortOpe3Box;
         private System.Windows.Forms.CheckBox EarlierOKBox;
         private System.Windows.Forms.Button GrapaButton;
         private MedicalLibrary.Boundary.StdControlPat1 stdControlPat11;

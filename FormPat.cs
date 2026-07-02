@@ -1148,7 +1148,6 @@ namespace EyeCenter
             EyeDropBox.Checked = false;
             AgreeBox.Checked = false;
             PreCheckBox.Checked = false;
-            ShortOpe3Box.Checked = false;
             EarlierOKBox.Checked = false;
             OpeStaffLabel.Text = "";
 
@@ -2392,11 +2391,6 @@ namespace EyeCenter
                 this.PreCheckBox.Checked = true;
             }
 
-            if (ope.ShortOpe3.Equals("1"))
-            {
-                this.ShortOpe3Box.Checked = true;
-            }
-
             if (ope.EarlierOK.Equals("1"))
             {
                 this.EarlierOKBox.Checked = true;
@@ -3421,11 +3415,6 @@ namespace EyeCenter
             if (this.PreCheckBox.Checked)
             {
                 ope.PreCheck = "1";
-            }
-
-            if (this.ShortOpe3Box.Checked)
-            {
-                ope.ShortOpe3 = "1";
             }
 
             if (this.EarlierOKBox.Checked)
