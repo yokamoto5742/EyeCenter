@@ -15,7 +15,6 @@ namespace EyeCenter
         /// </summary>
         public static bool MultiPat = false;
 
-        static FormList F_List;
         static FormOpeRsv F_OpeRsv;
         static FormOpeRsvList F_OpeRsvList;
         static FormFindOpeRecord F_FindOpeRecord;
@@ -23,7 +22,6 @@ namespace EyeCenter
         static FormFindSummary F_FindSummary;
         static FormPrint F_Print;
         static FormInput F_Input;
-        static FormRsvPatList F_RsvPatList;
 
         static List<FormPat> FormPat_List = new List<FormPat>();
 
@@ -60,24 +58,6 @@ namespace EyeCenter
 
             F_Print = new FormPrint();
             F_Print.Hide();
-        }
-
-        /// <summary>
-        /// FormList を表示する。
-        /// </summary>
-        public static void FormList_Show()
-        {
-            if (F_List == null || !F_List.Created)
-            {
-                F_List = new FormList();
-            }
-
-            F_List.Show();
-            F_List.Activate();
-            F_List.BringToFront();
-            F_List.WindowState = FormWindowState.Normal;
-
-            F_List.EyeListViewShow1();
         }
 
         /// <summary>
@@ -384,25 +364,6 @@ namespace EyeCenter
         public static void FormPrint_WorksheetPrint(string room, string pt_id, string pt_name, string pt_kana)
         {
             F_Print.WorksheetPrint(room, pt_id, pt_name, pt_kana);
-        }
-
-        /// <summary>
-        /// FormRsvPatList を表示する。
-        /// </summary>
-        public static void FormRsvPatList_Show()
-        {
-            if (F_RsvPatList == null || !F_RsvPatList.Created)
-            {
-                F_RsvPatList = new FormRsvPatList();
-            }
-
-            F_RsvPatList.Show();
-            F_RsvPatList.Activate();
-
-            if (F_RsvPatList.WindowState == FormWindowState.Minimized)
-            {
-                F_RsvPatList.WindowState = FormWindowState.Normal;
-            }
         }
 
         /// <summary>

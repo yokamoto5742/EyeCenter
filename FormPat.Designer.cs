@@ -218,7 +218,6 @@
             this.PDFButton = new System.Windows.Forms.Button();
             this.FamilyButton = new System.Windows.Forms.Button();
             this.IntroBox = new System.Windows.Forms.TextBox();
-            this.ListButton = new System.Windows.Forms.Button();
             this.MacsButton = new System.Windows.Forms.Button();
             this.AllergyButton = new System.Windows.Forms.Button();
             this.GrapaButton = new System.Windows.Forms.Button();
@@ -2269,19 +2268,6 @@
             this.IntroBox.TabIndex = 184;
             this.IntroBox.DoubleClick += new System.EventHandler(this.IntroBox_DoubleClick);
             // 
-            // ListButton
-            // 
-            this.ListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.ListButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.ListButton.Location = new System.Drawing.Point(766, 4);
-            this.ListButton.Name = "ListButton";
-            this.ListButton.Size = new System.Drawing.Size(38, 23);
-            this.ListButton.TabIndex = 185;
-            this.ListButton.Text = "一覧";
-            this.ListButton.UseVisualStyleBackColor = false;
-            this.ListButton.Click += new System.EventHandler(this.ListButton_Click);
-            // 
             // MacsButton
             // 
             this.MacsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2338,7 +2324,6 @@
             this.Controls.Add(this.GrapaButton);
             this.Controls.Add(this.AllergyButton);
             this.Controls.Add(this.MacsButton);
-            this.Controls.Add(this.ListButton);
             this.Controls.Add(this.IntroBox);
             this.Controls.Add(this.FamilyButton);
             this.Controls.Add(this.PDFButton);
@@ -2539,7 +2524,6 @@
         private System.Windows.Forms.Button PDFButton;
         private System.Windows.Forms.Button FamilyButton;
         private System.Windows.Forms.TextBox IntroBox;
-        private System.Windows.Forms.Button ListButton;
         private System.Windows.Forms.TabPage SummaryTab;
         private System.Windows.Forms.Label SumDiagLabel;
         private System.Windows.Forms.Label label43;

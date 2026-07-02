@@ -116,12 +116,6 @@
     <Compile Include="FormKensa2.Designer.cs">
       <DependentUpon>FormKensa2.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormList.Designer.cs">
-      <DependentUpon>FormList.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,10 +227,6 @@
     <EmbeddedResource Include="FormKensa2.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FormKensa2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormList.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FormList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormBase.resx">
       <SubType>Designer</SubType>

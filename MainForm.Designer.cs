@@ -29,11 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.RsvListButton = new System.Windows.Forms.Button();
             this.CanonButton = new System.Windows.Forms.Button();
             this.NidekButton = new System.Windows.Forms.Button();
             this.MultiPatBox = new System.Windows.Forms.CheckBox();
-            this.MAFormPatListButton1 = new System.Windows.Forms.Button();
             this.SummaryFindButton = new System.Windows.Forms.Button();
             this.KensaFindButton = new System.Windows.Forms.Button();
             this.OpeOrderButton = new System.Windows.Forms.Button();
@@ -43,23 +41,11 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.RsvButton = new System.Windows.Forms.Button();
             this.PatButton = new System.Windows.Forms.Button();
-            this.ListButton = new System.Windows.Forms.Button();
-            this.MAFormPatButton1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // RsvListButton
-            // 
-            this.RsvListButton.Location = new System.Drawing.Point(95, 176);
-            this.RsvListButton.Name = "RsvListButton";
-            this.RsvListButton.Size = new System.Drawing.Size(85, 23);
-            this.RsvListButton.TabIndex = 17;
-            this.RsvListButton.Text = "予約一覧";
-            this.RsvListButton.UseVisualStyleBackColor = true;
-            this.RsvListButton.Click += new System.EventHandler(this.RsvListButton_Click);
             // 
             // CanonButton
             // 
-            this.CanonButton.Location = new System.Drawing.Point(5, 148);
+            this.CanonButton.Location = new System.Drawing.Point(5, 120);
             this.CanonButton.Name = "CanonButton";
             this.CanonButton.Size = new System.Drawing.Size(85, 23);
             this.CanonButton.TabIndex = 16;
@@ -69,7 +55,7 @@
             // 
             // NidekButton
             // 
-            this.NidekButton.Location = new System.Drawing.Point(95, 148);
+            this.NidekButton.Location = new System.Drawing.Point(95, 120);
             this.NidekButton.Name = "NidekButton";
             this.NidekButton.Size = new System.Drawing.Size(85, 23);
             this.NidekButton.TabIndex = 15;
@@ -80,7 +66,7 @@
             // MultiPatBox
             // 
             this.MultiPatBox.AutoSize = true;
-            this.MultiPatBox.Location = new System.Drawing.Point(20, 238);
+            this.MultiPatBox.Location = new System.Drawing.Point(20, 182);
             this.MultiPatBox.Name = "MultiPatBox";
             this.MultiPatBox.Size = new System.Drawing.Size(143, 16);
             this.MultiPatBox.TabIndex = 14;
@@ -88,19 +74,9 @@
             this.MultiPatBox.UseVisualStyleBackColor = true;
             this.MultiPatBox.CheckedChanged += new System.EventHandler(this.MultiPatBox_CheckedChanged);
             // 
-            // MAFormPatListButton1
-            // 
-            this.MAFormPatListButton1.Location = new System.Drawing.Point(5, 120);
-            this.MAFormPatListButton1.Name = "MAFormPatListButton1";
-            this.MAFormPatListButton1.Size = new System.Drawing.Size(85, 23);
-            this.MAFormPatListButton1.TabIndex = 12;
-            this.MAFormPatListButton1.Text = "MA外来";
-            this.MAFormPatListButton1.UseVisualStyleBackColor = true;
-            this.MAFormPatListButton1.Click += new System.EventHandler(this.MAFormPatListButton1_Click);
-            // 
             // SummaryFindButton
             // 
-            this.SummaryFindButton.Location = new System.Drawing.Point(5, 176);
+            this.SummaryFindButton.Location = new System.Drawing.Point(5, 148);
             this.SummaryFindButton.Name = "SummaryFindButton";
             this.SummaryFindButton.Size = new System.Drawing.Size(85, 23);
             this.SummaryFindButton.TabIndex = 11;
@@ -160,7 +136,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(95, 204);
+            this.ExitButton.Location = new System.Drawing.Point(95, 148);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(85, 23);
             this.ExitButton.TabIndex = 3;
@@ -180,7 +156,7 @@
             // 
             // PatButton
             // 
-            this.PatButton.Location = new System.Drawing.Point(95, 8);
+            this.PatButton.Location = new System.Drawing.Point(5, 8);
             this.PatButton.Name = "PatButton";
             this.PatButton.Size = new System.Drawing.Size(85, 23);
             this.PatButton.TabIndex = 1;
@@ -188,37 +164,14 @@
             this.PatButton.UseVisualStyleBackColor = true;
             this.PatButton.Click += new System.EventHandler(this.PatButton_Click);
             // 
-            // ListButton
-            // 
-            this.ListButton.Location = new System.Drawing.Point(5, 8);
-            this.ListButton.Name = "ListButton";
-            this.ListButton.Size = new System.Drawing.Size(85, 23);
-            this.ListButton.TabIndex = 0;
-            this.ListButton.Text = "患者一覧";
-            this.ListButton.UseVisualStyleBackColor = true;
-            this.ListButton.Click += new System.EventHandler(this.ListButton_Click);
-            // 
-            // MAFormPatButton1
-            // 
-            this.MAFormPatButton1.Location = new System.Drawing.Point(95, 120);
-            this.MAFormPatButton1.Name = "MAFormPatButton1";
-            this.MAFormPatButton1.Size = new System.Drawing.Size(85, 23);
-            this.MAFormPatButton1.TabIndex = 13;
-            this.MAFormPatButton1.Text = "MAカルテ";
-            this.MAFormPatButton1.UseVisualStyleBackColor = true;
-            this.MAFormPatButton1.Click += new System.EventHandler(this.MAFormPatButton1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(185, 258);
-            this.Controls.Add(this.RsvListButton);
+            this.ClientSize = new System.Drawing.Size(185, 202);
             this.Controls.Add(this.CanonButton);
             this.Controls.Add(this.NidekButton);
             this.Controls.Add(this.MultiPatBox);
-            this.Controls.Add(this.MAFormPatButton1);
-            this.Controls.Add(this.MAFormPatListButton1);
             this.Controls.Add(this.SummaryFindButton);
             this.Controls.Add(this.KensaFindButton);
             this.Controls.Add(this.OpeOrderButton);
@@ -228,7 +181,6 @@
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.RsvButton);
             this.Controls.Add(this.PatButton);
-            this.Controls.Add(this.ListButton);
             this.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -244,7 +196,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button ListButton;
         private System.Windows.Forms.Button PatButton;
         private System.Windows.Forms.Button RsvButton;
         private System.Windows.Forms.Button ExitButton;
@@ -254,11 +205,8 @@
         private System.Windows.Forms.Button OpeOrderButton;
         private System.Windows.Forms.Button KensaFindButton;
         private System.Windows.Forms.Button SummaryFindButton;
-        private System.Windows.Forms.Button MAFormPatListButton1;
         private System.Windows.Forms.CheckBox MultiPatBox;
         private System.Windows.Forms.Button NidekButton;
         private System.Windows.Forms.Button CanonButton;
-        private System.Windows.Forms.Button RsvListButton;
-        private System.Windows.Forms.Button MAFormPatButton1;
     }
 }

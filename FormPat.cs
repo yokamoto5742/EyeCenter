@@ -3581,11 +3581,6 @@ namespace EyeCenter
             this.PtOpeHistoryShow();
         }
 
-        private void ListButton_Click(object sender, EventArgs e)
-        {
-            FormControl.FormList_Show();
-        }
-
         private void RsvButton_Click(object sender, EventArgs e)
         {
             if (this.Pat.Id.Length > 0)

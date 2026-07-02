@@ -18,7 +18,6 @@ namespace EyeCenter
         enum FIRST_SHOW : int
         {
             MAIN = 0,
-            LIST = 1,
             PAT = 2,
             RSV = 3
         }
@@ -94,10 +93,6 @@ namespace EyeCenter
                         i++;
                     }
                 }
-                else if (args[i].Equals("-l", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    first_show = FIRST_SHOW.LIST;
-                }
                 else if (args[i].Equals("-r", StringComparison.CurrentCultureIgnoreCase))
                 {
                     first_show = FIRST_SHOW.RSV;
@@ -109,19 +104,10 @@ namespace EyeCenter
                 FormControl.FormPat_Show(pat_id.ToString(), FormPat.Mode.SHOW);
             }
 
-            if (first_show == FIRST_SHOW.LIST)
-            {
-                FormControl.FormList_Show();
-            }
-            else if (first_show == FIRST_SHOW.RSV)
+            if (first_show == FIRST_SHOW.RSV)
             {
                 FormControl.FormOpeRsv_Show();
             }
-        }
-
-        private void ListButton_Click(object sender, EventArgs e)
-        {
-            FormControl.FormList_Show();
         }
 
         private void PatButton_Click(object sender, EventArgs e)
@@ -198,21 +184,6 @@ namespace EyeCenter
         private void OpeOrderButton_Click(object sender, EventArgs e)
         {
             Launcher.OpeOrder();
-        }
-
-        private void MAFormPatListButton1_Click(object sender, EventArgs e)
-        {
-            MedicalLibrary.Boundary.FormControl.FormPatList_Show();
-        }
-
-        private void MAFormPatButton1_Click(object sender, EventArgs e)
-        {
-            MedicalLibrary.Boundary.FormControl.FormPat_Show(new PatBase());
-        }
-
-        private void RsvListButton_Click(object sender, EventArgs e)
-        {
-            FormControl.FormRsvPatList_Show();
         }
 
         private void MultiPatBox_CheckedChanged(object sender, EventArgs e)
