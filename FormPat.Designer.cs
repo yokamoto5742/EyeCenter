@@ -2029,7 +2029,7 @@
             this.InnoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.InnoButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.InnoButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InnoButton.Location = new System.Drawing.Point(733, 4);
+            this.InnoButton.Location = new System.Drawing.Point(608, 4);
             this.InnoButton.Name = "InnoButton";
             this.InnoButton.Size = new System.Drawing.Size(35, 23);
             this.InnoButton.TabIndex = 173;
@@ -2076,7 +2076,7 @@
             this.RsvButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RsvButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.RsvButton.Location = new System.Drawing.Point(615, 4);
+            this.RsvButton.Location = new System.Drawing.Point(570, 4);
             this.RsvButton.Name = "RsvButton";
             this.RsvButton.Size = new System.Drawing.Size(38, 23);
             this.RsvButton.TabIndex = 179;
@@ -2113,7 +2113,7 @@
             this.PDFButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PDFButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.PDFButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.PDFButton.Location = new System.Drawing.Point(654, 4);
+            this.PDFButton.Location = new System.Drawing.Point(688, 4);
             this.PDFButton.Name = "PDFButton";
             this.PDFButton.Size = new System.Drawing.Size(35, 23);
             this.PDFButton.TabIndex = 182;
@@ -2150,7 +2150,7 @@
             this.GrapaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GrapaButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.GrapaButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.GrapaButton.Location = new System.Drawing.Point(769, 4);
+            this.GrapaButton.Location = new System.Drawing.Point(643, 4);
             this.GrapaButton.Name = "GrapaButton";
             this.GrapaButton.Size = new System.Drawing.Size(45, 23);
             this.GrapaButton.TabIndex = 188;
