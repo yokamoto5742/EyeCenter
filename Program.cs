@@ -2,24 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using MedicalLibrary.Utility;
 
 namespace EyeCenter
 {
     static class Program
     {
-        /*
-        [DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll", EntryPoint = "SendMessage")]
-        static extern IntPtr SendMessage(IntPtr hWnd, IntPtr Msg, IntPtr wParam, IntPtr lParam);
-        */
-
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>

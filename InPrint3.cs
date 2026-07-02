@@ -14,23 +14,6 @@ namespace EyeCenter
         public List<string> ValueList1 = new List<string>();
         public List<string> ValueList2 = new List<string>();
 
-        public static Dictionary<string, InPrint3> GetDict(string room, string pt_id, string pt_name, string pt_kana)
-        {
-            Dictionary<string, InPrint3> tmpDict = new Dictionary<string, InPrint3>();
-
-            InPrint3 tmpPrint = new InPrint3();
-            tmpPrint.BaseList.Add(room);
-            tmpPrint.BaseList.Add(pt_id);
-            tmpPrint.BaseList.Add(pt_name);
-            tmpPrint.BaseList.Add(pt_kana);
-            tmpPrint.BaseList.Add("");
-            tmpDict.Add(pt_id, tmpPrint);
-
-            SetDict(tmpDict);
-
-            return tmpDict;
-        }
-
         public static Dictionary<string, InPrint3> GetDict(string adm_date)
         {
             Dictionary<string, InPrint3> tmpDict = new Dictionary<string, InPrint3>();

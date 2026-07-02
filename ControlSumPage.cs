@@ -672,23 +672,6 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// SumPanel1 に初期値をセットする。
-        /// </summary>
-        public void InitValue1()
-        {
-            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
-            {
-                if (r["Text"].ToString().Length > 0 && (r["Type"].ToString().Equals("TextBox") || r["Type"].ToString().Equals("ComboBox")))
-                {
-                    if (FP.SumPanel1.Controls.ContainsKey(r["Code"].ToString() + "_C"))
-                    {
-                        FP.SumPanel1.Controls[r["Code"].ToString() + "_C"].Text = r["Text"].ToString();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// SumPanel3 に初期値をセットする。
         /// </summary>
         public void InitValue3()
@@ -705,22 +688,6 @@ namespace EyeCenter
             }
         }
 
-        /// <summary>
-        /// SumPanel4 に初期値をセットする。
-        /// </summary>
-        public void InitValue4()
-        {
-            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
-            {
-                if (r["Text"].ToString().Length > 0 && (r["Type"].ToString().Equals("TextBox") || r["Type"].ToString().Equals("ComboBox")))
-                {
-                    if (FP.SumPanel4.Controls.ContainsKey(r["Name"].ToString()))
-                    {
-                        FP.SumPanel4.Controls[r["Name"].ToString()].Text = r["Text"].ToString();
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// サマリを表示する。

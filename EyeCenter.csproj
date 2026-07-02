@@ -92,12 +92,6 @@
     <Compile Include="FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormExportKensa.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormExportKensa.Designer.cs">
-      <DependentUpon>FormExportKensa.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormFindSummary.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,10 +206,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>FormExport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormExportKensa.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>FormExportKensa.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormFindSummary.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FormFindSummary.cs</DependentUpon>
@@ -322,7 +312,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="agent.ico" />
     <Content Include="ai1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

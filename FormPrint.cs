@@ -17,8 +17,7 @@ namespace EyeCenter
         {
             PAT_LIST = 1,
             KENSA_LIST = 2,
-            WORK_SHEET = 3,
-            OPE_ORDER = 4
+            WORK_SHEET = 3
         }
 
         MODE mode = MODE.PAT_LIST;
@@ -60,21 +59,9 @@ namespace EyeCenter
         int StartY33 = 700;
         int counter3 = 0;
 
-        /*
-        int StartX4 = 30;
-        int StartY4 = 20;
-        int Height4 = 25;
-        int StartX41 = 30;
-        int StartY41 = 110;
-        int StartX42 = 280;
-        int StartY42 = 220;
-        int counter4 = 0;
-        */
-
         List<InPrint1> List1;
         List<InPrint2> List2;
         List<InPrint3> List3;
-//        List<PatOpeOrder2> List4;
 
         public FormPrint()
         {
@@ -120,34 +107,6 @@ namespace EyeCenter
             counter3 = 0;
             Print();
         }
-
-        public void WorksheetPrint(string room, string pt_id, string pt_name, string pt_kana)
-        {
-            mode = MODE.WORK_SHEET;
-
-            List3 = new List<InPrint3>();
-            Dictionary<string, InPrint3> dict3 = InPrint3.GetDict(room, pt_id, pt_name, pt_kana);
-
-            foreach (string k in dict3.Keys)
-            {
-                List3.Add(dict3[k]);
-            }
-
-            counter3 = 0;
-            Print();
-        }
-
-        /*
-        private void OpeOrderButton_Click(object sender, EventArgs e)
-        {
-            mode = MODE.OPE_ORDER;
-
-            List4 = PatOpeOrder2.Load(int.Parse(PrintDate.Value.ToString("yyyyMMdd")));
-
-            counter4 = 0;
-            Print();
-        }
-        */
 
         /// <summary>
         /// àÛç¸Çé¿çsÇ∑ÇÈÅB

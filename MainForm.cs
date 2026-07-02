@@ -18,7 +18,6 @@ namespace EyeCenter
         enum FIRST_SHOW : int
         {
             MAIN = 0,
-            PAT = 2,
             RSV = 3
         }
 

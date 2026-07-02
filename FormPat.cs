@@ -175,12 +175,6 @@ namespace EyeCenter
 
         private void FormPat_Load(object sender, EventArgs e)
         {
-            // 下記は FormBase を継承する場合
-            /*
-            this.OriginalText = "眼科患者記録";
-            this.FormTextShow();
-             */
-
             if (!InnoProgram.Exists)
             {
                 this.InnoButton.Enabled = false;
@@ -1276,28 +1270,6 @@ namespace EyeCenter
             }
         }
 
-        /// <summary>
-        /// 種類と手術日・時刻のチェックを行う。
-        /// </summary>
-        private bool OpeCheck()
-        {
-            int i = 0;
-
-            if (OpeTimeBox.Text.Length == 0)
-            {
-                MessageBox.Show("時刻を入力してください");
-                return false;
-            }
-
-            if (!int.TryParse(OpeTimeBox.Text, out i) || i < 0 || i > 2400)
-            {
-                MessageBox.Show("正しい時刻を入力してください");
-                return false;
-            }
-
-            return true;
-        }
-
         private void PtIdBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1308,11 +1280,6 @@ namespace EyeCenter
             {
                 this.PatSet(FormFindPat.FindPat());
             }
-        }
-
-        private void OpeTimeBox_Leave(object sender, EventArgs e)
-        {
-            this.OpeCheck();
         }
 
         /// <summary>
@@ -2597,75 +2564,6 @@ namespace EyeCenter
             item22.Value = this.InfectionBox.Text;
             tmpDoc.ItemList.Add(item22);
 
-            /*
-            Doc.Item item23 = new Doc.Item();
-            item23.Kind = "手術基本情報";
-            item23.Name = "術前処置";
-            item23.Value = this.PostDealBox.Text;
-            tmpDoc.ItemList.Add(item23);
-
-            Doc.Item item24 = new Doc.Item();
-            item24.Kind = "手術基本情報";
-            item24.Name = "全身検査";
-
-            if (this.AllCheckBox.Checked)
-            {
-                item24.Value = "1";
-            }
-            else
-            {
-                item24.Value = "0";
-            }
-
-            tmpDoc.ItemList.Add(item24);
-
-            Doc.Item item25 = new Doc.Item();
-            item25.Kind = "手術基本情報";
-            item25.Name = "手術説明";
-
-            if (this.ExplainBox.Checked)
-            {
-                item25.Value = "1";
-            }
-            else
-            {
-                item25.Value = "0";
-            }
-
-            tmpDoc.ItemList.Add(item25);
-
-            Doc.Item item26 = new Doc.Item();
-            item26.Kind = "手術基本情報";
-            item26.Name = "点眼処方";
-
-            if (this.EyeDropBox.Checked)
-            {
-                item26.Value = "1";
-            }
-            else
-            {
-                item26.Value = "0";
-            }
-
-            tmpDoc.ItemList.Add(item26);
-
-            Doc.Item item27 = new Doc.Item();
-            item27.Kind = "手術基本情報";
-            item27.Name = "禁忌";
-
-            if (this.AgreeBox.Checked)
-            {
-                item27.Value = "1";
-            }
-            else
-            {
-                item27.Value = "0";
-            }
-
-            tmpDoc.ItemList.Add(item27);
-
-             */
-
             EyeDoc.Item item28 = new EyeDoc.Item();
             item28.Kind = "手術基本情報";
             item28.Name = "術前チェック完了";
@@ -2680,14 +2578,6 @@ namespace EyeCenter
             }
 
             tmpDoc.ItemList.Add(item28);
-
-            /*
-            Doc.Item item29 = new Doc.Item();
-            item29.Kind = "手術基本情報";
-            item29.Name = "手術履歴";
-            item29.Value = this.PastBox.Text;
-            tmpDoc.ItemList.Add(item29);
-            */
 
             EyeDoc.Item item30 = new EyeDoc.Item();
             item30.Kind = "手術基本情報";
@@ -2988,34 +2878,6 @@ namespace EyeCenter
 
             // 体表面積・ビスダイン溶液・ブドウ糖液の量を計算する。
             BodyCalc();
-
-            /*
-                        int i = 0;
-
-                        if (this.PtIdBox.Text.Length > 0 && Int32.TryParse(this.PtIdBox.Text, out i))
-                        {
-                            // 感染症のデータ取り込み
-                            if (this.InfectionBox.Text.Length == 0)
-                            {
-                                this.InfectionBox.Text = AgentlabUtilityLibrary.Pat.GetInfection(this.PtIdBox.Text);
-                            }
-
-                            // 身長のデータ取り込み
-                            if (this.HeightBox.Text.Length == 0)
-                            {
-                                this.HeightBox.Text = AppString.ZenToHan(AgentlabUtilityLibrary.Pat.GetPatInfo(this.PtIdBox.Text, AgentlabUtilityLibrary.Pat.InfoKind.SHORT_HEIGHT));
-                            }
-
-                            // 体重のデータ取り込み
-                            if (this.WeightBox.Text.Length == 0)
-                            {
-                                this.WeightBox.Text = AppString.ZenToHan(AgentlabUtilityLibrary.Pat.GetPatInfo(this.PtIdBox.Text, AgentlabUtilityLibrary.Pat.InfoKind.SHORT_WEIGHT));
-                            }
-
-                            // 体表面積・ビスダイン溶液・ブドウ糖液の量を計算する。
-                            BodyCalc();
-                        }
-             */
         }
 
         /// <summary>

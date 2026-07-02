@@ -208,17 +208,6 @@ namespace EyeCenter
                 r["入院日"] = DateTimeAgent.DateFormat(obj.InDate, DateTimeAgent.DateFormatKind.SHORT);
                 r["病室"] = obj.InRoom;
 
-                /*
-                foreach (PatIn pat in in_list)
-                {
-                    if (obj.Pat.Id.Equals(pat.Id))
-                    {
-                        r["病室"] = pat.Room;
-                        break;
-                    }
-                }
-                */
-
                 r["右"] = obj.EyeR.Equals("1") ? "○" : "";
                 r["左"] = obj.EyeL.Equals("1") ? "○" : "";
 
@@ -541,21 +530,6 @@ namespace EyeCenter
                     {
                         e.Graphics.DrawString("感染症： " + RsvGridView.Rows[row].Cells["感染詳細"].Value.ToString(), f9, Brushes.Black, 420, h + 67);
                     }
-
-                    string height = RsvGridView.Rows[row].Cells["身長"].Value.ToString();
-                    string weight = RsvGridView.Rows[row].Cells["体重"].Value.ToString();
-
-                    // ビスダイン・ブドウ糖の印字はなくす
-                    // 岡本様のご要望により 2014/04/25, by sakane
-                    /*
-                    double d = 0;
-
-                    if (double.TryParse(height, out d) && double.TryParse(weight, out d))
-                    {
-                        e.Graphics.DrawString(EyeDict.CalcVisdine(double.Parse(height), double.Parse(weight)).ToString(), f9, Brushes.Black, 580, h + 33);
-                        e.Graphics.DrawString(EyeDict.CalcGrape(double.Parse(height), double.Parse(weight)).ToString(), f9, Brushes.Black, 580, h + 48);
-                    }
-                     */
 
                     if (RsvGridView.Rows[row].Cells["締後"].Value.ToString().Equals("○"))
                     {

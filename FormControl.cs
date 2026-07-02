@@ -101,7 +101,6 @@ namespace EyeCenter
             f.Activate();
             f.BringToFront();
             f.WindowState = FormWindowState.Normal;
-            //            F_Pat.OrgSize();
         }
 
         /// <summary>
@@ -279,17 +278,6 @@ namespace EyeCenter
             {
                 F_Print.WindowState = FormWindowState.Normal;
             }
-        }
-
-        /// <summary>
-        /// ワークシートを印刷する。
-        /// </summary>
-        /// <param name="room"></param>
-        /// <param name="pt_id"></param>
-        /// <param name="pt_name"></param>
-        public static void FormPrint_WorksheetPrint(string room, string pt_id, string pt_name, string pt_kana)
-        {
-            F_Print.WorksheetPrint(room, pt_id, pt_name, pt_kana);
         }
 
         /// <summary>

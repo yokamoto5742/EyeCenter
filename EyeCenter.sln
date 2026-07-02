@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeCenter", "EyeCenter\EyeCenter.csproj", "{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicalLibrary", "..\MedicalLibrary\MedicalLibrary\MedicalLibrary.csproj", "{31F961E7-9CCD-418A-82C3-02EA28EF23EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyeCenter", "EyeCenter.csproj", "{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,12 +19,6 @@ Global
 		{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}.Release|x86.ActiveCfg = Release|x86
 		{02E9984D-0E9D-4C4C-83D7-D3B8EF8D10EB}.Release|x86.Build.0 = Release|x86
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Debug|x86.ActiveCfg = Debug|x86
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31F961E7-9CCD-418A-82C3-02EA28EF23EB}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
