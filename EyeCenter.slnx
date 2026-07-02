@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="EyeCenter.csproj" Id="02e9984d-0e9d-4c4c-83d7-d3b8ef8d10eb">
     <BuildType Project="Release" />
-    <Platform Solution="Debug|*" Project="x86" />
+    <Platform Project="x86" />
   </Project>
 </Solution>

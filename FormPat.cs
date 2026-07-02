@@ -1484,9 +1484,6 @@ namespace EyeCenter
 
             this._SumPage.Show(this.Pat.Id);
 
-            // レーザー記録を表示
-            MC500Panels1.PanelsShow(this.Pat.Id);
-
             // 検査データを表示
             KensaShow(this.Pat.Id, KensaDate.Value.ToString("yyyyMMdd"));
         }

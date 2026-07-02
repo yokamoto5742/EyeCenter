@@ -80,8 +80,6 @@
             this.IVHistoryView = new System.Windows.Forms.DataGridView();
             this.IVContBox = new System.Windows.Forms.TextBox();
             this.label50 = new System.Windows.Forms.Label();
-            this.SumTabPage4 = new System.Windows.Forms.TabPage();
-            this.MC500Panels1 = new MedicalLibrary.Agent.MC500Panels();
             this.SumKindBox3 = new System.Windows.Forms.ComboBox();
             this.label43 = new System.Windows.Forms.Label();
             this.SumKindBox2 = new System.Windows.Forms.ComboBox();
@@ -234,7 +232,6 @@
             this.SumTabPage2.SuspendLayout();
             this.SumTabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IVHistoryView)).BeginInit();
-            this.SumTabPage4.SuspendLayout();
             this.OpeTab.SuspendLayout();
             this.OpeInfoPanel.SuspendLayout();
             this.OpeRecordPanel.SuspendLayout();
@@ -396,7 +393,6 @@
             this.SumTabControl.Controls.Add(this.SumTabPage1);
             this.SumTabControl.Controls.Add(this.SumTabPage2);
             this.SumTabControl.Controls.Add(this.SumTabPage3);
-            this.SumTabControl.Controls.Add(this.SumTabPage4);
             this.SumTabControl.Location = new System.Drawing.Point(270, 10);
             this.SumTabControl.Name = "SumTabControl";
             this.SumTabControl.SelectedIndex = 0;
@@ -722,28 +718,6 @@
             this.label50.Size = new System.Drawing.Size(53, 12);
             this.label50.TabIndex = 15;
             this.label50.Text = "問診入力";
-            // 
-            // SumTabPage4
-            // 
-            this.SumTabPage4.Controls.Add(this.MC500Panels1);
-            this.SumTabPage4.Location = new System.Drawing.Point(4, 22);
-            this.SumTabPage4.Name = "SumTabPage4";
-            this.SumTabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.SumTabPage4.Size = new System.Drawing.Size(712, 504);
-            this.SumTabPage4.TabIndex = 3;
-            this.SumTabPage4.Text = "レーザー";
-            this.SumTabPage4.UseVisualStyleBackColor = true;
-            // 
-            // MC500Panels1
-            // 
-            this.MC500Panels1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MC500Panels1.AutoScroll = true;
-            this.MC500Panels1.Location = new System.Drawing.Point(3, 3);
-            this.MC500Panels1.Name = "MC500Panels1";
-            this.MC500Panels1.Size = new System.Drawing.Size(707, 495);
-            this.MC500Panels1.TabIndex = 0;
             // 
             // SumKindBox3
             // 
@@ -2419,7 +2393,6 @@
             this.SumTabPage3.ResumeLayout(false);
             this.SumTabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IVHistoryView)).EndInit();
-            this.SumTabPage4.ResumeLayout(false);
             this.OpeTab.ResumeLayout(false);
             this.OpeInfoPanel.ResumeLayout(false);
             this.OpeInfoPanel.PerformLayout();
@@ -2624,8 +2597,6 @@
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Button MacsButton;
         private System.Windows.Forms.Button AllergyButton;
-        private System.Windows.Forms.TabPage SumTabPage4;
-        private MedicalLibrary.Agent.MC500Panels MC500Panels1;
         private System.Windows.Forms.CheckBox ShortOpe3Box;
         private System.Windows.Forms.CheckBox EarlierOKBox;
         private System.Windows.Forms.Button GrapaButton;
