@@ -64,7 +64,7 @@
             // 
             // SummaryFindButton
             // 
-            this.SummaryFindButton.Location = new System.Drawing.Point(5, 148);
+            this.SummaryFindButton.Location = new System.Drawing.Point(95, 8);
             this.SummaryFindButton.Name = "SummaryFindButton";
             this.SummaryFindButton.Size = new System.Drawing.Size(85, 23);
             this.SummaryFindButton.TabIndex = 11;

@@ -1403,21 +1403,6 @@ namespace EyeCenter
                 AllergyButton.BackColor = Color.FromArgb(255, 255, 192);
             }
 
-            // 紹介元を取得
-            this.IntroBox.Text = "";
-
-            List<Intro> introList = Intro.GetList(this.Pat.Id);
-
-            foreach (Intro p in introList)
-            {
-                if ((p.Kind.Equals("2") || p.Kind.Equals("5") || p.Kind.Equals("6"))
-                    && p.DeptFromCode.Equals("7"))
-                {
-                    this.IntroBox.Text = p.Hospital + " " + p.DeptTo + " " + p.DoctorTo + " 先生";
-                    break;
-                }
-            }
-
             this.PtOpeHistoryShow();
             this.PtKensaHistoryShow();
 
@@ -3375,19 +3360,19 @@ namespace EyeCenter
             else
             {
                 // 手術歴を表示する
-                OpeHistoryLabel.Location = new Point(389, 35);
-                OpeClearButton.Location = new Point(440, 29);
-                OpeHistoryView.Location = new Point(389, 50);
+                OpeHistoryLabel.Location = new Point(3, 35);
+                OpeClearButton.Location = new Point(54, 29);
+                OpeHistoryView.Location = new Point(3, 50);
                 OpeHistoryView.Width = 275;
                 OpeHistoryLabel.Visible = true;
                 OpeClearButton.Visible = true;
                 OpeWideBox.Visible = true;
 
                 // 検査歴の表示する
-                KensaHistoryLabel.Location = new Point(667, 35);
-                KensaClearButton.Location = new Point(720, 29);
-                KensaHistoryView.Location = new Point(667, 50);
-                KensaHistoryView.Width = this.Width - 684;
+                KensaHistoryLabel.Location = new Point(281, 35);
+                KensaClearButton.Location = new Point(334, 29);
+                KensaHistoryView.Location = new Point(281, 50);
+                KensaHistoryView.Width = this.Width - 298;
                 KensaHistoryLabel.Visible = true;
                 KensaClearButton.Visible = true;
                 KensaHistoryView.Visible = true;
@@ -3569,52 +3554,6 @@ namespace EyeCenter
             if (this.Pat.Id.Length > 0)
             {
                 FormString1 f1 = new FormString1("禁忌", "禁忌", ((Button)sender).Tag.ToString());
-                f1.ShowDialog();
-            }
-        }
-
-        private void IntroBox_DoubleClick(object sender, EventArgs e)
-        {
-            if (this.Pat.Id.Length > 0)
-            {
-                List<Intro> introList = Intro.GetList(this.Pat.Id);
-
-                string intro = "";
-
-                foreach (Intro p in introList)
-                {
-                    intro += p.IntroDate.Insert(4, "/").Insert(7, "/");
-
-                    if (p.Kind.Equals("1"))
-                    {
-                        intro += " 紹介";
-                    }
-                    else if (p.Kind.Equals("2"))
-                    {
-                        intro += " 返事（眼科）";
-                    }
-                    else if (p.Kind.Equals("3"))
-                    {
-                        intro += " 依頼";
-                    }
-                    else if (p.Kind.Equals("4"))
-                    {
-                        intro += " 返信Fax";
-                    }
-                    else if (p.Kind.Equals("5"))
-                    {
-                        intro += " 返事（途中）";
-                    }
-                    else if (p.Kind.Equals("6"))
-                    {
-                        intro += " 返事（最終）";
-                    }
-
-                    intro += "　" + p.Hospital + " " + p.DeptTo + " " + p.DoctorTo + " 先生（差出人　" + p.DeptFromName + " " + p.DoctorFromName + "）\r\n";
-                }
-
-                FormString1 f1 = new FormString1("紹介状", "過去の紹介状", intro);
-                f1.Size = new Size(500, 200);
                 f1.ShowDialog();
             }
         }

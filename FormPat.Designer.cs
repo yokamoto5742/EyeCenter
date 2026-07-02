@@ -207,7 +207,6 @@
             this.InfoShareButton = new System.Windows.Forms.Button();
             this.PDFButton = new System.Windows.Forms.Button();
             this.FamilyButton = new System.Windows.Forms.Button();
-            this.IntroBox = new System.Windows.Forms.TextBox();
             this.AllergyButton = new System.Windows.Forms.Button();
             this.GrapaButton = new System.Windows.Forms.Button();
             this.stdControlPat11 = new MedicalLibrary.Boundary.StdControlPat1();
@@ -1857,7 +1856,7 @@
             // ReloadButton
             // 
             this.ReloadButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.ReloadButton.Location = new System.Drawing.Point(811, 29);
+            this.ReloadButton.Location = new System.Drawing.Point(425, 29);
             this.ReloadButton.Name = "ReloadButton";
             this.ReloadButton.Size = new System.Drawing.Size(55, 20);
             this.ReloadButton.TabIndex = 170;
@@ -1869,7 +1868,7 @@
             // 
             this.KensaHistoryLabel.AutoSize = true;
             this.KensaHistoryLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.KensaHistoryLabel.Location = new System.Drawing.Point(667, 35);
+            this.KensaHistoryLabel.Location = new System.Drawing.Point(281, 35);
             this.KensaHistoryLabel.Name = "KensaHistoryLabel";
             this.KensaHistoryLabel.Size = new System.Drawing.Size(41, 12);
             this.KensaHistoryLabel.TabIndex = 144;
@@ -1898,14 +1897,14 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.KensaHistoryView.DefaultCellStyle = dataGridViewCellStyle5;
             this.KensaHistoryView.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.KensaHistoryView.Location = new System.Drawing.Point(667, 50);
+            this.KensaHistoryView.Location = new System.Drawing.Point(281, 50);
             this.KensaHistoryView.MultiSelect = false;
             this.KensaHistoryView.Name = "KensaHistoryView";
             this.KensaHistoryView.ReadOnly = true;
             this.KensaHistoryView.RowHeadersVisible = false;
             this.KensaHistoryView.RowTemplate.Height = 21;
             this.KensaHistoryView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.KensaHistoryView.Size = new System.Drawing.Size(340, 120);
+            this.KensaHistoryView.Size = new System.Drawing.Size(726, 120);
             this.KensaHistoryView.TabIndex = 142;
             this.KensaHistoryView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.KensaHistoryView_CellClick);
             // 
@@ -1985,7 +1984,7 @@
             this.OpeHistoryLabel.AutoSize = true;
             this.OpeHistoryLabel.BackColor = System.Drawing.SystemColors.Control;
             this.OpeHistoryLabel.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.OpeHistoryLabel.Location = new System.Drawing.Point(389, 35);
+            this.OpeHistoryLabel.Location = new System.Drawing.Point(3, 35);
             this.OpeHistoryLabel.Name = "OpeHistoryLabel";
             this.OpeHistoryLabel.Size = new System.Drawing.Size(41, 12);
             this.OpeHistoryLabel.TabIndex = 74;
@@ -2014,7 +2013,7 @@
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.OpeHistoryView.DefaultCellStyle = dataGridViewCellStyle9;
             this.OpeHistoryView.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.OpeHistoryView.Location = new System.Drawing.Point(389, 50);
+            this.OpeHistoryView.Location = new System.Drawing.Point(3, 50);
             this.OpeHistoryView.MultiSelect = false;
             this.OpeHistoryView.Name = "OpeHistoryView";
             this.OpeHistoryView.ReadOnly = true;
@@ -2030,7 +2029,7 @@
             this.InnoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.InnoButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.InnoButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InnoButton.Location = new System.Drawing.Point(923, 4);
+            this.InnoButton.Location = new System.Drawing.Point(733, 4);
             this.InnoButton.Name = "InnoButton";
             this.InnoButton.Size = new System.Drawing.Size(35, 23);
             this.InnoButton.TabIndex = 173;
@@ -2041,7 +2040,7 @@
             // OpeClearButton
             // 
             this.OpeClearButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.OpeClearButton.Location = new System.Drawing.Point(440, 29);
+            this.OpeClearButton.Location = new System.Drawing.Point(54, 29);
             this.OpeClearButton.Name = "OpeClearButton";
             this.OpeClearButton.Size = new System.Drawing.Size(70, 20);
             this.OpeClearButton.TabIndex = 175;
@@ -2052,7 +2051,7 @@
             // KensaClearButton
             // 
             this.KensaClearButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.KensaClearButton.Location = new System.Drawing.Point(720, 29);
+            this.KensaClearButton.Location = new System.Drawing.Point(334, 29);
             this.KensaClearButton.Name = "KensaClearButton";
             this.KensaClearButton.Size = new System.Drawing.Size(70, 20);
             this.KensaClearButton.TabIndex = 176;
@@ -2064,7 +2063,7 @@
             // 
             this.KensaWideBox.AutoSize = true;
             this.KensaWideBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.KensaWideBox.Location = new System.Drawing.Point(887, 33);
+            this.KensaWideBox.Location = new System.Drawing.Point(501, 33);
             this.KensaWideBox.Name = "KensaWideBox";
             this.KensaWideBox.Size = new System.Drawing.Size(111, 16);
             this.KensaWideBox.TabIndex = 178;
@@ -2077,7 +2076,7 @@
             this.RsvButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.RsvButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.RsvButton.Location = new System.Drawing.Point(805, 4);
+            this.RsvButton.Location = new System.Drawing.Point(615, 4);
             this.RsvButton.Name = "RsvButton";
             this.RsvButton.Size = new System.Drawing.Size(38, 23);
             this.RsvButton.TabIndex = 179;
@@ -2089,7 +2088,7 @@
             // 
             this.OpeWideBox.AutoSize = true;
             this.OpeWideBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.OpeWideBox.Location = new System.Drawing.Point(544, 33);
+            this.OpeWideBox.Location = new System.Drawing.Point(158, 33);
             this.OpeWideBox.Name = "OpeWideBox";
             this.OpeWideBox.Size = new System.Drawing.Size(111, 16);
             this.OpeWideBox.TabIndex = 180;
@@ -2114,7 +2113,7 @@
             this.PDFButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PDFButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.PDFButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.PDFButton.Location = new System.Drawing.Point(844, 4);
+            this.PDFButton.Location = new System.Drawing.Point(654, 4);
             this.PDFButton.Name = "PDFButton";
             this.PDFButton.Size = new System.Drawing.Size(35, 23);
             this.PDFButton.TabIndex = 182;
@@ -2134,20 +2133,6 @@
             this.FamilyButton.UseVisualStyleBackColor = false;
             this.FamilyButton.Click += new System.EventHandler(this.FamilyButton_Click);
             // 
-            // IntroBox
-            // 
-            this.IntroBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.IntroBox.BackColor = System.Drawing.Color.LightYellow;
-            this.IntroBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.IntroBox.Location = new System.Drawing.Point(573, 6);
-            this.IntroBox.MaxLength = 200;
-            this.IntroBox.Name = "IntroBox";
-            this.IntroBox.ReadOnly = true;
-            this.IntroBox.Size = new System.Drawing.Size(190, 19);
-            this.IntroBox.TabIndex = 184;
-            this.IntroBox.DoubleClick += new System.EventHandler(this.IntroBox_DoubleClick);
-            // 
             // AllergyButton
             // 
             this.AllergyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -2165,7 +2150,7 @@
             this.GrapaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GrapaButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.GrapaButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.GrapaButton.Location = new System.Drawing.Point(959, 4);
+            this.GrapaButton.Location = new System.Drawing.Point(769, 4);
             this.GrapaButton.Name = "GrapaButton";
             this.GrapaButton.Size = new System.Drawing.Size(45, 23);
             this.GrapaButton.TabIndex = 188;
@@ -2190,7 +2175,6 @@
             this.Controls.Add(this.stdControlPat11);
             this.Controls.Add(this.GrapaButton);
             this.Controls.Add(this.AllergyButton);
-            this.Controls.Add(this.IntroBox);
             this.Controls.Add(this.FamilyButton);
             this.Controls.Add(this.PDFButton);
             this.Controls.Add(this.InfoShareButton);
@@ -2375,7 +2359,6 @@
         private System.Windows.Forms.Button InfoShareButton;
         private System.Windows.Forms.Button PDFButton;
         private System.Windows.Forms.Button FamilyButton;
-        private System.Windows.Forms.TextBox IntroBox;
         private System.Windows.Forms.TabPage SummaryTab;
         private System.Windows.Forms.Label SumDiagLabel;
         private System.Windows.Forms.Label label43;
