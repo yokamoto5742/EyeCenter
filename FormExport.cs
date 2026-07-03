@@ -242,7 +242,6 @@ namespace EyeCenter
                         // 前ページの最終IDより後ろをID順に PAGE_SIZE 件だけ取得する
                         string cmd = "select * from (select EYE_OPE_RECORD.ID, EYE_OPE_RECORD.CONT, EYE_OPE_RECORD.STAFF," +
                             " EYE_OPE_RECORD.SAVE_DATE, EYE_OPE_RECORD.SAVE_TIME, EYE_OPE_RECORD.STATUS," +
-                            " EYE_OPE_RECORD.PDF_SAVE, EYE_OPE_RECORD.PDF_DATE, EYE_OPE_RECORD.PDF_TIME," +
                             " EYE_OPE.PATIENT_ID, EYE_OPE.OPE_DATE, EYE_OPE.EYE_R, EYE_OPE.EYE_L" +
                             " from EYE_OPE_RECORD" +
                             " inner join EYE_OPE on EYE_OPE_RECORD.ID = EYE_OPE.ID";
