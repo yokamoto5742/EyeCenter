@@ -25,15 +25,129 @@ namespace EyeCenter
 
         private void ExeButton_Click(object sender, EventArgs e)
         {
-            if (KensaButton.Checked)
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("この機能はまだ実装されていません");
-            }
-            else
-            {
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (KensaButton.Checked)
+                {
+                    this.SaveKensa(saveFileDialog1.FileName);
+                }
+                else
                 {
                     this.Save(saveFileDialog1.FileName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 検査データ（EYE_KENSA）をCSVに書き出す。
+        /// 件数が多いため主キー順のページング処理でロードし、ストリームに逐次書き込む。
+        /// </summary>
+        void SaveKensa(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                {
+                    List<string> title_list = new List<string>() { "PATIENT_ID", "KENSA_ID", "KENSA_NAME", "KENSA_DATE", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "PDF_SAVE" };
+
+                    // 他のエクスポートと同様に先頭２行はタイトル
+                    for (int t = 0; t < 2; t++)
+                    {
+                        for (int i = 0; i < title_list.Count; i++)
+                        {
+                            writer.Write("\"" + title_list[i] + "\",");
+                        }
+
+                        writer.WriteLine();
+                    }
+
+                    string last_pt = "";
+                    string last_kensa = "";
+                    string last_date = "";
+
+                    while (true)
+                    {
+                        // 前ページの最終キーより後ろを主キー順に PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select * from EYE_KENSA ";
+
+                        if (last_pt.Length > 0)
+                        {
+                            cmd += " where PATIENT_ID > " + last_pt +
+                                " or (PATIENT_ID = " + last_pt + " and KENSA_ID > " + last_kensa + ")" +
+                                " or (PATIENT_ID = " + last_pt + " and KENSA_ID = " + last_kensa + " and KENSA_DATE > " + last_date + ")";
+                        }
+
+                        cmd += " order by PATIENT_ID, KENSA_ID, KENSA_DATE) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            last_pt = tmp.GetDataString("PATIENT_ID");
+                            last_kensa = tmp.GetDataString("KENSA_ID");
+                            last_date = tmp.GetDataString("KENSA_DATE");
+
+                            string kensa_name = "";
+
+                            if (EyeKensaMaster.Dict.ContainsKey(last_kensa))
+                            {
+                                kensa_name = EyeKensaMaster.Dict[last_kensa].Name;
+                            }
+
+                            writer.Write("\"" + last_pt + "\",");
+                            writer.Write("\"" + last_kensa + "\",");
+                            writer.Write("\"" + kensa_name.Replace("\"", "\"\"") + "\",");
+                            writer.Write("\"" + last_date + "\",");
+                            writer.Write("\"" + tmp.GetDataString("CONT").Replace("\"", "\"\"") + "\",");
+                            writer.Write("\"" + tmp.GetDataString("STAFF") + "\",");
+                            writer.Write("\"" + tmp.GetDataString("SAVE_DATE") + "\",");
+                            writer.Write("\"" + tmp.GetDataString("SAVE_TIME") + "\",");
+                            writer.Write("\"" + tmp.GetDataString("PDF_SAVE") + "\",");
+                            writer.WriteLine();
+                        }
+
+                        total += page_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
                 }
             }
         }

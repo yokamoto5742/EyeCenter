@@ -578,7 +578,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(263, 11);
+            this.label53.Location = new System.Drawing.Point(363, 11);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(53, 12);
             this.label53.TabIndex = 26;
@@ -669,14 +669,14 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.IVHistoryView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.IVHistoryView.Location = new System.Drawing.Point(263, 26);
+            this.IVHistoryView.Location = new System.Drawing.Point(363, 26);
             this.IVHistoryView.MultiSelect = false;
             this.IVHistoryView.Name = "IVHistoryView";
             this.IVHistoryView.ReadOnly = true;
             this.IVHistoryView.RowHeadersVisible = false;
             this.IVHistoryView.RowTemplate.Height = 21;
             this.IVHistoryView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.IVHistoryView.Size = new System.Drawing.Size(442, 472);
+            this.IVHistoryView.Size = new System.Drawing.Size(342, 472);
             this.IVHistoryView.TabIndex = 17;
             this.IVHistoryView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.IVHistoryView_CellClick);
             this.IVHistoryView.Resize += new System.EventHandler(this.IVHistoryView_Resize);
@@ -691,7 +691,7 @@
             this.IVContBox.Multiline = true;
             this.IVContBox.Name = "IVContBox";
             this.IVContBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.IVContBox.Size = new System.Drawing.Size(250, 421);
+            this.IVContBox.Size = new System.Drawing.Size(350, 421);
             this.IVContBox.TabIndex = 16;
             // 
             // label50
