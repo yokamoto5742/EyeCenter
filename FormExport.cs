@@ -13,11 +13,6 @@ namespace EyeCenter
 {
     public partial class FormExport : Form
     {
-        class ExpData
-        {
-            public List<string> DataList = new List<string>();
-        }
-
         public FormExport()
         {
             InitializeComponent();
@@ -31,9 +26,13 @@ namespace EyeCenter
                 {
                     this.SaveKensa(saveFileDialog1.FileName);
                 }
+                else if (OpeRecordButton.Checked)
+                {
+                    this.SaveOpe(saveFileDialog1.FileName);
+                }
                 else
                 {
-                    this.Save(saveFileDialog1.FileName);
+                    this.SaveSummary(saveFileDialog1.FileName);
                 }
             }
         }
@@ -152,378 +151,520 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// Excel にデータを入れて開く。
+        /// １行分のセルをＣＳＶ形式で書き込む（従来のエクスポートと同じ、各セル引用符囲み・末尾カンマ付き）。
         /// </summary>
-        void Save(string file_name)
+        static void WriteCsvLine(System.IO.StreamWriter writer, List<string> cells)
         {
+            for (int i = 0; i < cells.Count; i++)
+            {
+                writer.Write("\"" + cells[i].Replace("\"", "\"\"") + "\",");
+            }
+
+            writer.WriteLine();
+        }
+
+        /// <summary>
+        /// 手術記録（EYE_OPE_RECORD＋EYE_OPE）をCSVに書き出す。
+        /// 件数が多いため主キー順のページング処理でロードし、ストリームに逐次書き込む。
+        /// </summary>
+        void SaveOpe(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
             try
             {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
                 // 先頭２行に書き込むデータを作る
                 List<string> title1_list = new List<string>();
                 List<string> title2_list = new List<string>();
 
-                // ３行目以降のデータを作る
-                List<ExpData> data_list = new List<ExpData>();
+                title1_list.Add("ID");
+                title2_list.Add("ID");
 
-                if (OpeRecordButton.Checked)
+                title1_list.Add("PATIENT_ID");
+                title2_list.Add("PATIENT_ID");
+
+                title1_list.Add("OPE_DATE");
+                title2_list.Add("OPE_DATE");
+
+                title1_list.Add("EYE");
+                title2_list.Add("EYE");
+
+                title1_list.Add("EYE_R");
+                title2_list.Add("EYE_R");
+
+                title1_list.Add("EYE_L");
+                title2_list.Add("EYE_L");
+
+                foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
                 {
-                    title1_list.Add("ID");
-                    title2_list.Add("ID");
-
-                    title1_list.Add("PATIENT_ID");
-                    title2_list.Add("PATIENT_ID");
-
-                    title1_list.Add("OPE_DATE");
-                    title2_list.Add("OPE_DATE");
-
-                    title1_list.Add("EYE");
-                    title2_list.Add("EYE");
-
-                    title1_list.Add("EYE_R");
-                    title2_list.Add("EYE_R");
-
-                    title1_list.Add("EYE_L");
-                    title2_list.Add("EYE_L");
-
-                    foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
+                    if (r["Code"].ToString().Length > 0)
                     {
-                        if (r["Code"].ToString().Length > 0)
-                        {
-                            title1_list.Add(r["Code"].ToString());
-                            title2_list.Add(r["Name"].ToString());
-                        }
+                        title1_list.Add(r["Code"].ToString());
+                        title2_list.Add(r["Name"].ToString());
                     }
+                }
 
-                    title1_list.Add("STAFF");
-                    title1_list.Add("SAVE_DATE");
-                    title1_list.Add("SAVE_TIME");
-                    title1_list.Add("STATUS");
-                    title1_list.Add("PDF_SAVE");
-                    title1_list.Add("PDF_DATE");
-                    title1_list.Add("PDF_TIME");
+                title1_list.Add("STAFF");
+                title1_list.Add("SAVE_DATE");
+                title1_list.Add("SAVE_TIME");
+                title1_list.Add("STATUS");
+                title1_list.Add("PDF_SAVE");
+                title1_list.Add("PDF_DATE");
+                title1_list.Add("PDF_TIME");
 
-                    title2_list.Add("STAFF");
-                    title2_list.Add("SAVE_DATE");
-                    title2_list.Add("SAVE_TIME");
-                    title2_list.Add("STATUS");
-                    title2_list.Add("PDF_SAVE");
-                    title2_list.Add("PDF_DATE");
-                    title2_list.Add("PDF_TIME");
+                title2_list.Add("STAFF");
+                title2_list.Add("SAVE_DATE");
+                title2_list.Add("SAVE_TIME");
+                title2_list.Add("STATUS");
+                title2_list.Add("PDF_SAVE");
+                title2_list.Add("PDF_DATE");
+                title2_list.Add("PDF_TIME");
 
-                    List<EyeOpeRecord> tmp_list = EyeOpeRecord.LoadAll();
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                {
+                    WriteCsvLine(writer, title1_list);
+                    WriteCsvLine(writer, title2_list);
 
                     Dictionary<string, string> dict = new Dictionary<string, string>();
 
-                    foreach (EyeOpeRecord tmp in tmp_list)
+                    string last_id = "";
+
+                    while (true)
                     {
-                        ExpData d = new ExpData();
+                        // 前ページの最終IDより後ろをID順に PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select EYE_OPE_RECORD.ID, EYE_OPE_RECORD.CONT, EYE_OPE_RECORD.STAFF," +
+                            " EYE_OPE_RECORD.SAVE_DATE, EYE_OPE_RECORD.SAVE_TIME, EYE_OPE_RECORD.STATUS," +
+                            " EYE_OPE_RECORD.PDF_SAVE, EYE_OPE_RECORD.PDF_DATE, EYE_OPE_RECORD.PDF_TIME," +
+                            " EYE_OPE.PATIENT_ID, EYE_OPE.OPE_DATE, EYE_OPE.EYE_R, EYE_OPE.EYE_L" +
+                            " from EYE_OPE_RECORD" +
+                            " inner join EYE_OPE on EYE_OPE_RECORD.ID = EYE_OPE.ID";
 
-                        d.DataList.Add(tmp.Id);
-                        d.DataList.Add(tmp.Ope.PtId);
-                        d.DataList.Add(tmp.Ope.OpeDate);
-
-                        if (tmp.Ope.EyeR.Equals("1") && tmp.Ope.EyeL.Equals("1"))
+                        if (last_id.Length > 0)
                         {
-                            d.DataList.Add("B");
-                        }
-                        else if (tmp.Ope.EyeR.Equals("1"))
-                        {
-                            d.DataList.Add("R");
-                        }
-                        else if (tmp.Ope.EyeL.Equals("1"))
-                        {
-                            d.DataList.Add("L");
-                        }
-                        else
-                        {
-                            d.DataList.Add("");
+                            cmd += " where EYE_OPE_RECORD.ID > " + last_id;
                         }
 
-                        d.DataList.Add(tmp.Ope.EyeR);
-                        d.DataList.Add(tmp.Ope.EyeL);
+                        cmd += " order by EYE_OPE_RECORD.ID) where ROWNUM <= " + PAGE_SIZE;
 
-                        dict.Clear();
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
 
-                        foreach (string s in tmp.Cont.Split('\r', '\n'))
+                        foreach (StdClass tmp in page_list)
                         {
-                            if (s.Split(',').Length > 1 && !dict.ContainsKey(s.Split(',')[0]))
+                            last_id = tmp.GetDataString("ID");
+
+                            List<string> cells = new List<string>();
+
+                            cells.Add(last_id);
+                            cells.Add(tmp.GetDataString("PATIENT_ID"));
+                            cells.Add(tmp.GetDataString("OPE_DATE"));
+
+                            string eye_r = tmp.GetDataString("EYE_R");
+                            string eye_l = tmp.GetDataString("EYE_L");
+
+                            if (eye_r.Equals("1") && eye_l.Equals("1"))
                             {
-                                dict.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
+                                cells.Add("B");
                             }
-                        }
-
-                        foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
-                        {
-                            if (r["Code"].ToString().Length > 0)
+                            else if (eye_r.Equals("1"))
                             {
-                                if (dict.ContainsKey(r["Code"].ToString()))
+                                cells.Add("R");
+                            }
+                            else if (eye_l.Equals("1"))
+                            {
+                                cells.Add("L");
+                            }
+                            else
+                            {
+                                cells.Add("");
+                            }
+
+                            cells.Add(eye_r);
+                            cells.Add(eye_l);
+
+                            dict.Clear();
+
+                            foreach (string s in tmp.GetDataString("CONT").Split('\r', '\n'))
+                            {
+                                if (s.Split(',').Length > 1 && !dict.ContainsKey(s.Split(',')[0]))
                                 {
-                                    d.DataList.Add(dict[r["Code"].ToString()]);
-                                }
-                                else
-                                {
-                                    d.DataList.Add("");
+                                    dict.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
                                 }
                             }
+
+                            foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
+                            {
+                                if (r["Code"].ToString().Length > 0)
+                                {
+                                    if (dict.ContainsKey(r["Code"].ToString()))
+                                    {
+                                        cells.Add(dict[r["Code"].ToString()]);
+                                    }
+                                    else
+                                    {
+                                        cells.Add("");
+                                    }
+                                }
+                            }
+
+                            cells.Add(tmp.GetDataString("STAFF"));
+                            cells.Add(tmp.GetDataString("SAVE_DATE"));
+                            cells.Add(tmp.GetDataString("SAVE_TIME"));
+                            cells.Add(tmp.GetDataString("STATUS"));
+                            cells.Add(tmp.GetDataString("PDF_SAVE"));
+                            cells.Add(tmp.GetDataString("PDF_DATE"));
+                            cells.Add(tmp.GetDataString("PDF_TIME"));
+
+                            WriteCsvLine(writer, cells);
                         }
 
-                        d.DataList.Add(tmp.Staff);
-                        d.DataList.Add(tmp.SaveDate);
-                        d.DataList.Add(tmp.SaveTime);
-                        d.DataList.Add(tmp.Status);
-                        d.DataList.Add(tmp.PDFSave);
-                        d.DataList.Add(tmp.PDFDate);
-                        d.DataList.Add(tmp.PDFTime);
+                        total += page_list.Count;
 
-                        data_list.Add(d);
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
                     }
                 }
-                else if (SummaryButton.Checked)
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
                 {
-                    title1_list.Add("PATIENT_ID");
-                    title2_list.Add("PATIENT_ID");
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
 
-                    title1_list.Add("氏名");
-                    title2_list.Add("氏名");
+        /// <summary>
+        /// サマリー（EYE_SUMMARY）をCSVに書き出す。
+        /// 件数が多いため主キー順のページング処理でロードし、ストリームに逐次書き込む。
+        /// 患者氏名はページごとに PatBase.GetList でまとめて取得する。
+        /// </summary>
+        void SaveSummary(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
 
-                    title1_list.Add("DIAG");
-                    title2_list.Add("主病名");
+            string title = this.Text;
 
-                    title1_list.Add("KIND1");
-                    title2_list.Add("分類1");
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
 
-                    title1_list.Add("KIND2");
-                    title2_list.Add("分類2");
+                // 先頭２行に書き込むデータを作る
+                List<string> title1_list = new List<string>();
+                List<string> title2_list = new List<string>();
 
-                    title1_list.Add("KIND3");
-                    title2_list.Add("分類3");
+                title1_list.Add("PATIENT_ID");
+                title2_list.Add("PATIENT_ID");
 
-                    title1_list.Add("PLAN");
-                    title2_list.Add("方針");
+                title1_list.Add("氏名");
+                title2_list.Add("氏名");
 
-                    title1_list.Add("PASS");
-                    title2_list.Add("経過");
+                title1_list.Add("DIAG");
+                title2_list.Add("主病名");
 
-                    title1_list.Add("HIST");
-                    title2_list.Add("履歴");
+                title1_list.Add("KIND1");
+                title2_list.Add("分類1");
 
-                    foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
+                title1_list.Add("KIND2");
+                title2_list.Add("分類2");
+
+                title1_list.Add("KIND3");
+                title2_list.Add("分類3");
+
+                title1_list.Add("PLAN");
+                title2_list.Add("方針");
+
+                title1_list.Add("PASS");
+                title2_list.Add("経過");
+
+                title1_list.Add("HIST");
+                title2_list.Add("履歴");
+
+                foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
+                {
+                    if (r["Code"].ToString().Length > 0)
                     {
-                        if (r["Code"].ToString().Length > 0)
-                        {
-                            title1_list.Add(r["Code"].ToString());
-                            title2_list.Add(r["Label"].ToString());
-                        }
+                        title1_list.Add(r["Code"].ToString());
+                        title2_list.Add(r["Label"].ToString());
                     }
+                }
 
-                    foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem2"].Rows)
+                foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem2"].Rows)
+                {
+                    if (r["Code"].ToString().Length > 0)
                     {
-                        if (r["Code"].ToString().Length > 0)
-                        {
-                            title1_list.Add(r["Code"].ToString());
-                            title1_list.Add(r["Code"].ToString());
-                            title2_list.Add(r["Label"].ToString());
-                            title2_list.Add(r["Label"].ToString());
-                        }
+                        title1_list.Add(r["Code"].ToString());
+                        title1_list.Add(r["Code"].ToString());
+                        title2_list.Add(r["Label"].ToString());
+                        title2_list.Add(r["Label"].ToString());
                     }
+                }
 
-                    foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem3"].Rows)
+                foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem3"].Rows)
+                {
+                    if (r["Code"].ToString().Length > 0)
                     {
-                        if (r["Code"].ToString().Length > 0)
-                        {
-                            title1_list.Add(r["Code"].ToString());
-                            title2_list.Add(r["Label"].ToString());
-                        }
+                        title1_list.Add(r["Code"].ToString());
+                        title2_list.Add(r["Label"].ToString());
                     }
+                }
 
-                    foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
+                foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
+                {
+                    if (r["Code"].ToString().Length > 0)
                     {
-                        if (r["Code"].ToString().Length > 0)
-                        {
-                            title1_list.Add(r["Code"].ToString());
-                            title2_list.Add(r["Name"].ToString());
-                        }
+                        title1_list.Add(r["Code"].ToString());
+                        title2_list.Add(r["Name"].ToString());
                     }
+                }
 
-                    title1_list.Add("STAFF");
-                    title1_list.Add("SAVE_DATE");
-                    title1_list.Add("SAVE_TIME");
+                title1_list.Add("STAFF");
+                title1_list.Add("SAVE_DATE");
+                title1_list.Add("SAVE_TIME");
 
-                    title2_list.Add("STAFF");
-                    title2_list.Add("SAVE_DATE");
-                    title2_list.Add("SAVE_TIME");
+                title2_list.Add("STAFF");
+                title2_list.Add("SAVE_DATE");
+                title2_list.Add("SAVE_TIME");
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                {
+                    WriteCsvLine(writer, title1_list);
+                    WriteCsvLine(writer, title2_list);
 
                     Dictionary<string, string> dict1 = new Dictionary<string, string>();
                     Dictionary<string, string> dict2 = new Dictionary<string, string>();
                     Dictionary<string, string> dict3 = new Dictionary<string, string>();
                     Dictionary<string, string> dict4 = new Dictionary<string, string>();
 
-                    List<EyeSummary> sum_list = EyeSummary.LoadAll();
+                    string last_pt = "";
 
-                    foreach (EyeSummary tmp in sum_list)
+                    while (true)
                     {
-                        ExpData d = new ExpData();
+                        // 前ページの最終患者IDより後ろを患者ID順に PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select * from EYE_SUMMARY ";
 
-                        d.DataList.Add(tmp.PtId);
-                        d.DataList.Add(tmp.Pat.Name);
-                        d.DataList.Add(tmp.Diag);
-                        d.DataList.Add(tmp.Kind1);
-                        d.DataList.Add(tmp.Kind2);
-                        d.DataList.Add(tmp.Kind3);
-                        d.DataList.Add(tmp.Plan);
-                        d.DataList.Add(tmp.Pass);
-                        d.DataList.Add(tmp.Hist);
-
-                        dict1.Clear();
-                        dict2.Clear();
-                        dict3.Clear();
-                        dict4.Clear();
-
-                        foreach (string s in tmp.Cont1.Split('\r', '\n'))
+                        if (last_pt.Length > 0)
                         {
-                            if (s.Split(',').Length > 1 && !dict1.ContainsKey(s.Split(',')[0]))
+                            cmd += " where PATIENT_ID > " + last_pt;
+                        }
+
+                        cmd += " order by PATIENT_ID) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        // このページの患者氏名をまとめて取得する
+                        List<string> pt_list = new List<string>();
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            pt_list.Add(tmp.GetDataString("PATIENT_ID"));
+                        }
+
+                        Dictionary<string, string> name_dict = new Dictionary<string, string>();
+
+                        foreach (PatBase pat in PatBase.GetList(pt_list))
+                        {
+                            if (!name_dict.ContainsKey(pat.Id))
                             {
-                                dict1.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
+                                name_dict.Add(pat.Id, pat.Name);
                             }
                         }
 
-                        foreach (string s in tmp.Cont2.Split('\r', '\n'))
+                        foreach (StdClass tmp in page_list)
                         {
-                            if (s.Split(',').Length > 1 && !dict2.ContainsKey(s.Split(',')[0]))
-                            {
-                                dict2.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
-                            }
-                        }
+                            last_pt = tmp.GetDataString("PATIENT_ID");
 
-                        foreach (string s in tmp.Cont3.Split('\r', '\n'))
-                        {
-                            if (s.Split(',').Length > 1 && !dict3.ContainsKey(s.Split(',')[0]))
-                            {
-                                dict3.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
-                            }
-                        }
+                            List<string> cells = new List<string>();
 
-                        foreach (string s in tmp.Cont4.Split('\r', '\n'))
-                        {
-                            if (s.Split(',').Length > 1 && !dict4.ContainsKey(s.Split(',')[0]))
-                            {
-                                dict4.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
-                            }
-                        }
+                            cells.Add(last_pt);
 
-                        foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
-                        {
-                            if (r["Code"].ToString().Length > 0)
+                            if (name_dict.ContainsKey(last_pt))
                             {
-                                if (dict1.ContainsKey(r["Code"].ToString()))
+                                cells.Add(name_dict[last_pt]);
+                            }
+                            else
+                            {
+                                cells.Add("");
+                            }
+
+                            cells.Add(tmp.GetDataString("DIAG"));
+                            cells.Add(tmp.GetDataString("KIND1"));
+                            cells.Add(tmp.GetDataString("KIND2"));
+                            cells.Add(tmp.GetDataString("KIND3"));
+                            cells.Add(tmp.GetDataString("PLAN"));
+                            cells.Add(tmp.GetDataString("PASS"));
+                            cells.Add(tmp.GetDataString("HIST"));
+
+                            dict1.Clear();
+                            dict2.Clear();
+                            dict3.Clear();
+                            dict4.Clear();
+
+                            foreach (string s in tmp.GetDataString("CONT1").Split('\r', '\n'))
+                            {
+                                if (s.Split(',').Length > 1 && !dict1.ContainsKey(s.Split(',')[0]))
                                 {
-                                    d.DataList.Add(dict1[r["Code"].ToString()]);
+                                    dict1.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
                                 }
-                                else
+                            }
+
+                            foreach (string s in tmp.GetDataString("CONT2").Split('\r', '\n'))
+                            {
+                                if (s.Split(',').Length > 1 && !dict2.ContainsKey(s.Split(',')[0]))
                                 {
-                                    d.DataList.Add("");
+                                    dict2.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
                                 }
                             }
-                        }
 
-                        foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem2"].Rows)
-                        {
-                            if (r["Code"].ToString().Length > 0)
+                            foreach (string s in tmp.GetDataString("CONT3").Split('\r', '\n'))
                             {
-                                if (dict2.ContainsKey(r["Code"].ToString()))
+                                if (s.Split(',').Length > 1 && !dict3.ContainsKey(s.Split(',')[0]))
                                 {
-                                    if (dict2[r["Code"].ToString()].Contains(" "))
+                                    dict3.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
+                                }
+                            }
+
+                            foreach (string s in tmp.GetDataString("CONT4").Split('\r', '\n'))
+                            {
+                                if (s.Split(',').Length > 1 && !dict4.ContainsKey(s.Split(',')[0]))
+                                {
+                                    dict4.Add(s.Split(',')[0], s.Substring(s.IndexOf(',') + 1).Replace("<CR+LF>", "\r\n"));
+                                }
+                            }
+
+                            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
+                            {
+                                if (r["Code"].ToString().Length > 0)
+                                {
+                                    if (dict1.ContainsKey(r["Code"].ToString()))
                                     {
-                                        d.DataList.Add(dict2[r["Code"].ToString()].Split(' ')[0]);
-                                        d.DataList.Add(dict2[r["Code"].ToString()].Split(' ')[1]);
+                                        cells.Add(dict1[r["Code"].ToString()]);
                                     }
                                     else
                                     {
-                                        d.DataList.Add("");
-                                        d.DataList.Add("");
+                                        cells.Add("");
                                     }
                                 }
-                                else
-                                {
-                                    d.DataList.Add("");
-                                    d.DataList.Add("");
-                                }
                             }
-                        }
 
-                        foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem3"].Rows)
-                        {
-                            if (r["Code"].ToString().Length > 0)
+                            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem2"].Rows)
                             {
-                                if (dict3.ContainsKey(r["Code"].ToString()))
+                                if (r["Code"].ToString().Length > 0)
                                 {
-                                    d.DataList.Add(dict3[r["Code"].ToString()]);
-                                }
-                                else
-                                {
-                                    d.DataList.Add("");
+                                    if (dict2.ContainsKey(r["Code"].ToString()) && dict2[r["Code"].ToString()].Contains(" "))
+                                    {
+                                        cells.Add(dict2[r["Code"].ToString()].Split(' ')[0]);
+                                        cells.Add(dict2[r["Code"].ToString()].Split(' ')[1]);
+                                    }
+                                    else
+                                    {
+                                        cells.Add("");
+                                        cells.Add("");
+                                    }
                                 }
                             }
-                        }
 
-                        foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
-                        {
-                            if (r["Code"].ToString().Length > 0)
+                            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem3"].Rows)
                             {
-                                if (dict4.ContainsKey(r["Code"].ToString()))
+                                if (r["Code"].ToString().Length > 0)
                                 {
-                                    d.DataList.Add(dict4[r["Code"].ToString()]);
-                                }
-                                else
-                                {
-                                    d.DataList.Add("");
+                                    if (dict3.ContainsKey(r["Code"].ToString()))
+                                    {
+                                        cells.Add(dict3[r["Code"].ToString()]);
+                                    }
+                                    else
+                                    {
+                                        cells.Add("");
+                                    }
                                 }
                             }
+
+                            foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
+                            {
+                                if (r["Code"].ToString().Length > 0)
+                                {
+                                    if (dict4.ContainsKey(r["Code"].ToString()))
+                                    {
+                                        cells.Add(dict4[r["Code"].ToString()]);
+                                    }
+                                    else
+                                    {
+                                        cells.Add("");
+                                    }
+                                }
+                            }
+
+                            cells.Add(tmp.GetDataString("STAFF"));
+                            cells.Add(tmp.GetDataString("SAVE_DATE"));
+                            cells.Add(tmp.GetDataString("SAVE_TIME"));
+
+                            WriteCsvLine(writer, cells);
                         }
 
-                        d.DataList.Add(tmp.Staff);
-                        d.DataList.Add(tmp.SaveDate);
-                        d.DataList.Add(tmp.SaveTime);
+                        total += page_list.Count;
 
-                        data_list.Add(d);
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
                     }
                 }
 
-                // ファイルに書き込む
-                System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis"));
-
-                for (int i = 0; i < title1_list.Count; i++)
-                {
-                    writer.Write("\"" + title1_list[i].Replace("\"", "\"\"") + "\",");
-                }
-
-                writer.WriteLine();
-
-                for (int i = 0; i < title2_list.Count; i++)
-                {
-                    writer.Write("\"" + title2_list[i].Replace("\"", "\"\"") + "\",");
-                }
-
-                writer.WriteLine();
-
-                for (int p = 0; p < data_list.Count; p++)
-                {
-                    for (int i = 0; i < data_list[p].DataList.Count; i++)
-                    {
-                        writer.Write("\"" + data_list[p].DataList[i].Replace("\"", "\"\"") + "\",");
-                    }
-
-                    writer.WriteLine();
-                }
-
-                writer.Close();
-
-                MessageBox.Show("エクスポートが完了しました");
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
             }
             catch (Exception ex)
             {
                 string err = ex.Message;
                 MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
             }
         }
 
