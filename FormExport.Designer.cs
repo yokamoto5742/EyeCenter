@@ -35,6 +35,9 @@
             this.SummaryButton = new System.Windows.Forms.RadioButton();
             this.CloseButton = new System.Windows.Forms.Button();
             this.KensaButton = new System.Windows.Forms.RadioButton();
+            this.PatButton = new System.Windows.Forms.RadioButton();
+            this.RsvButton = new System.Windows.Forms.RadioButton();
+            this.Utf8Check = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // ExeButton
@@ -93,12 +96,47 @@
             this.KensaButton.TabStop = true;
             this.KensaButton.Text = "検査（EYE_KENSA）";
             this.KensaButton.UseVisualStyleBackColor = true;
-            // 
+            //
+            // PatButton
+            //
+            this.PatButton.AutoSize = true;
+            this.PatButton.Location = new System.Drawing.Point(65, 101);
+            this.PatButton.Name = "PatButton";
+            this.PatButton.Size = new System.Drawing.Size(121, 16);
+            this.PatButton.TabIndex = 5;
+            this.PatButton.TabStop = true;
+            this.PatButton.Text = "患者（患者マスタ）";
+            this.PatButton.UseVisualStyleBackColor = true;
+            //
+            // RsvButton
+            //
+            this.RsvButton.AutoSize = true;
+            this.RsvButton.Location = new System.Drawing.Point(65, 123);
+            this.RsvButton.Name = "RsvButton";
+            this.RsvButton.Size = new System.Drawing.Size(141, 16);
+            this.RsvButton.TabIndex = 6;
+            this.RsvButton.TabStop = true;
+            this.RsvButton.Text = "手術予約（EYE_OPE）";
+            this.RsvButton.UseVisualStyleBackColor = true;
+            //
+            // Utf8Check
+            //
+            this.Utf8Check.AutoSize = true;
+            this.Utf8Check.Location = new System.Drawing.Point(65, 160);
+            this.Utf8Check.Name = "Utf8Check";
+            this.Utf8Check.Size = new System.Drawing.Size(151, 16);
+            this.Utf8Check.TabIndex = 7;
+            this.Utf8Check.Text = "UTF-8（BOM付き）で出力";
+            this.Utf8Check.UseVisualStyleBackColor = true;
+            //
             // FormExport
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 273);
+            this.Controls.Add(this.Utf8Check);
+            this.Controls.Add(this.RsvButton);
+            this.Controls.Add(this.PatButton);
             this.Controls.Add(this.KensaButton);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.SummaryButton);
@@ -120,5 +158,8 @@
         private System.Windows.Forms.RadioButton SummaryButton;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.RadioButton KensaButton;
+        private System.Windows.Forms.RadioButton PatButton;
+        private System.Windows.Forms.RadioButton RsvButton;
+        private System.Windows.Forms.CheckBox Utf8Check;
     }
 }

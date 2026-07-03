@@ -18,6 +18,41 @@ namespace EyeCenter
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 出力文字コードを返す（UTF-8チェック時はBOM付きUTF-8、既定はShift-JIS）。
+        /// </summary>
+        Encoding GetSelectedEncoding()
+        {
+            if (Utf8Check.Checked)
+            {
+                return new UTF8Encoding(true);
+            }
+
+            return Encoding.GetEncoding("shift-jis");
+        }
+
+        /// <summary>
+        /// １セル分の値をCSV用に整形する（二重引用符囲み・エスケープ・改行の&lt;CR+LF&gt;トークン化）。
+        /// </summary>
+        static string CsvCell(string value)
+        {
+            return "\"" + value.Replace("\"", "\"\"").Replace("\r\n", "<CR+LF>").Replace("\r", "<CR+LF>").Replace("\n", "<CR+LF>") + "\"";
+        }
+
+        /// <summary>
+        /// 件数照合用のマニフェスト（対象・ファイル名・件数・出力日時）をCSVと同じ場所に出力する。
+        /// </summary>
+        void WriteManifest(string file_name, string target, int total)
+        {
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name + ".manifest.txt", false, this.GetSelectedEncoding()))
+            {
+                writer.WriteLine("対象: " + target);
+                writer.WriteLine("ファイル: " + file_name);
+                writer.WriteLine("件数: " + total.ToString("#,0"));
+                writer.WriteLine("出力日時: " + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+            }
+        }
+
         private void ExeButton_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -29,6 +64,14 @@ namespace EyeCenter
                 else if (OpeRecordButton.Checked)
                 {
                     this.SaveOpe(saveFileDialog1.FileName);
+                }
+                else if (PatButton.Checked)
+                {
+                    this.SavePat(saveFileDialog1.FileName);
+                }
+                else if (RsvButton.Checked)
+                {
+                    this.SaveRsv(saveFileDialog1.FileName);
                 }
                 else
                 {
@@ -55,9 +98,9 @@ namespace EyeCenter
 
                 int total = 0;
 
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
                 {
-                    List<string> title_list = new List<string>() { "PATIENT_ID", "KENSA_ID", "KENSA_NAME", "KENSA_DATE", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "PDF_SAVE" };
+                    List<string> title_list = new List<string>() { "PATIENT_ID", "KENSA_ID", "KENSA_NAME", "KENSA_DATE", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME" };
 
                     // ヘッダーは１行のみ出力する（汎用インポートツールは先頭１行をヘッダーとみなすため）
                     List<string> header_list = new List<string>();
@@ -110,7 +153,6 @@ namespace EyeCenter
                             cells.Add("\"" + tmp.GetDataString("STAFF") + "\"");
                             cells.Add("\"" + tmp.GetDataString("SAVE_DATE") + "\"");
                             cells.Add("\"" + tmp.GetDataString("SAVE_TIME") + "\"");
-                            cells.Add("\"" + tmp.GetDataString("PDF_SAVE") + "\"");
                             writer.WriteLine(string.Join(",", cells));
                         }
 
@@ -130,6 +172,8 @@ namespace EyeCenter
                         }
                     }
                 }
+
+                this.WriteManifest(file_name, "検査（EYE_KENSA）", total);
 
                 MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
             }
@@ -151,16 +195,18 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// １行分のセルをＣＳＶ形式で書き込む（従来のエクスポートと同じ、各セル引用符囲み・末尾カンマ付き）。
+        /// １行分のセルをＣＳＶ形式で書き込む（各セル引用符囲み・カンマ区切り、行末に余分なカンマは付けない）。
         /// </summary>
         static void WriteCsvLine(System.IO.StreamWriter writer, List<string> cells)
         {
+            List<string> quoted = new List<string>();
+
             for (int i = 0; i < cells.Count; i++)
             {
-                writer.Write("\"" + cells[i].Replace("\"", "\"\"") + "\",");
+                quoted.Add("\"" + cells[i].Replace("\"", "\"\"") + "\"");
             }
 
-            writer.WriteLine();
+            writer.WriteLine(string.Join(",", quoted));
         }
 
         /// <summary>
@@ -214,21 +260,15 @@ namespace EyeCenter
                 title1_list.Add("SAVE_DATE");
                 title1_list.Add("SAVE_TIME");
                 title1_list.Add("STATUS");
-                title1_list.Add("PDF_SAVE");
-                title1_list.Add("PDF_DATE");
-                title1_list.Add("PDF_TIME");
 
                 title2_list.Add("STAFF");
                 title2_list.Add("SAVE_DATE");
                 title2_list.Add("SAVE_TIME");
                 title2_list.Add("STATUS");
-                title2_list.Add("PDF_SAVE");
-                title2_list.Add("PDF_DATE");
-                title2_list.Add("PDF_TIME");
 
                 int total = 0;
 
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
                 {
                     WriteCsvLine(writer, title1_list);
                     WriteCsvLine(writer, title2_list);
@@ -317,9 +357,6 @@ namespace EyeCenter
                             cells.Add(tmp.GetDataString("SAVE_DATE"));
                             cells.Add(tmp.GetDataString("SAVE_TIME"));
                             cells.Add(tmp.GetDataString("STATUS"));
-                            cells.Add(tmp.GetDataString("PDF_SAVE"));
-                            cells.Add(tmp.GetDataString("PDF_DATE"));
-                            cells.Add(tmp.GetDataString("PDF_TIME"));
 
                             WriteCsvLine(writer, cells);
                         }
@@ -340,6 +377,8 @@ namespace EyeCenter
                         }
                     }
                 }
+
+                this.WriteManifest(file_name, "手術記録（EYE_OPE_RECORD）", total);
 
                 MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
             }
@@ -456,7 +495,7 @@ namespace EyeCenter
 
                 int total = 0;
 
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, Encoding.GetEncoding("shift-jis")))
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
                 {
                     WriteCsvLine(writer, title1_list);
                     WriteCsvLine(writer, title2_list);
@@ -583,8 +622,8 @@ namespace EyeCenter
                                 {
                                     if (dict2.ContainsKey(r["Code"].ToString()) && dict2[r["Code"].ToString()].Contains(" "))
                                     {
-                                        cells.Add(dict2[r["Code"].ToString()].Split(' ')[0]);
-                                        cells.Add(dict2[r["Code"].ToString()].Split(' ')[1]);
+                                        cells.Add(dict2[r["Code"].ToString()].Split(new char[] { ' ' }, 2)[0]);
+                                        cells.Add(dict2[r["Code"].ToString()].Split(new char[] { ' ' }, 2)[1]);
                                     }
                                     else
                                     {
@@ -647,6 +686,262 @@ namespace EyeCenter
                         }
                     }
                 }
+
+                this.WriteManifest(file_name, "サマリ（EYE_SUMMARY）", total);
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 患者基本情報をCSVに書き出す（現行カルテベンダーによる患者マスタ移行のバックアップ用）。
+        /// EYE_KENSA・EYE_OPE・EYE_SUMMARY に登場する全 PATIENT_ID を対象に、
+        /// 患者マスタ（PatBase）から基本情報を取得して出力する。
+        /// </summary>
+        void SavePat(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
+                {
+                    List<string> title_list = new List<string>() { "PATIENT_ID", "NAME", "KANA", "SEX", "BIRTH", "TEL", "POST", "ADDR1", "ADDR2", "DEAD" };
+
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
+                    {
+                        header_list.Add(CsvCell(title_list[i]));
+                    }
+                    writer.WriteLine(string.Join(",", header_list));
+
+                    string last_pt = "";
+
+                    while (true)
+                    {
+                        // ＥＹＥ系全テーブルの患者ＩＤの和集合を、前ページの最終ＩＤより後ろから PAGE_SIZE 件ずつ取得する
+                        string cmd = "select * from (select PATIENT_ID from " +
+                            " (select PATIENT_ID from EYE_KENSA union select PATIENT_ID from EYE_OPE union select PATIENT_ID from EYE_SUMMARY)";
+
+                        if (last_pt.Length > 0)
+                        {
+                            cmd += " where PATIENT_ID > " + last_pt;
+                        }
+
+                        cmd += " order by PATIENT_ID) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        List<string> pt_list = new List<string>();
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            pt_list.Add(tmp.GetDataString("PATIENT_ID"));
+                        }
+
+                        Dictionary<string, PatBase> pat_dict = new Dictionary<string, PatBase>();
+
+                        foreach (PatBase pat in PatBase.GetList(pt_list))
+                        {
+                            if (!pat_dict.ContainsKey(pat.Id))
+                            {
+                                pat_dict.Add(pat.Id, pat);
+                            }
+                        }
+
+                        foreach (string pt_id in pt_list)
+                        {
+                            last_pt = pt_id;
+
+                            List<string> cells = new List<string>();
+
+                            cells.Add(CsvCell(pt_id));
+
+                            if (pat_dict.ContainsKey(pt_id))
+                            {
+                                PatBase pat = pat_dict[pt_id];
+
+                                cells.Add(CsvCell(pat.Name));
+                                cells.Add(CsvCell(pat.Kana));
+                                cells.Add(CsvCell(pat.Sex));
+                                cells.Add(CsvCell(pat.Birth));
+                                cells.Add(CsvCell(pat.Tel));
+                                cells.Add(CsvCell(pat.Post));
+                                cells.Add(CsvCell(pat.Addr1));
+                                cells.Add(CsvCell(pat.Addr2));
+                                cells.Add(CsvCell(pat.Dead));
+                            }
+                            else
+                            {
+                                // 患者マスタに存在しないＩＤは空欄で出力し、突合時に検出できるようにする
+                                for (int i = 1; i < title_list.Count; i++)
+                                {
+                                    cells.Add(CsvCell(""));
+                                }
+                            }
+
+                            writer.WriteLine(string.Join(",", cells));
+                        }
+
+                        total += pt_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (pt_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.WriteManifest(file_name, "患者", total);
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 手術予約（EYE_OPE）をCSVに書き出す。
+        /// 手術記録エクスポートは EYE_OPE_RECORD との結合のため記録未作成の予約を含まないが、
+        /// こちらは EYE_OPE 全件（取消済み STATUS=0 を含む）を出力する。
+        /// 主キー（ID）のページング方式でロードし、ストリームに逐次書き込む。
+        /// </summary>
+        void SaveRsv(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
+                {
+                    List<string> title_list = new List<string>() { "ID", "PATIENT_ID", "OPE_DATE", "OPE_TIME", "OPE_KIND", "OPE_KIND_NAME",
+                        "OPE_ROOM", "OPE_NAME", "DOCTOR", "PLAN_TIME", "ANES", "DIAG", "IN_OUT", "IN_ROOM", "IN_DATE", "IN_TIME", "IN_TERM",
+                        "EYE_R", "EYE_L", "HEIGHT", "WEIGHT", "INFECTION", "POST_DEAL", "PAST", "COMT", "ALL_CHECK", "EXPLAIN", "EYE_DROP",
+                        "AGREE", "PRE_CHECK", "SHORT_OPE3", "EARLIER_OK", "STAFF", "SAVE_DATE", "SAVE_TIME", "STATUS", "DEL_STAFF", "DEL_DATE", "DEL_TIME" };
+
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
+                    {
+                        header_list.Add(CsvCell(title_list[i]));
+                    }
+                    writer.WriteLine(string.Join(",", header_list));
+
+                    string last_id = "";
+
+                    while (true)
+                    {
+                        // 前ページの最終ＩＤより後ろのＩＤ順で PAGE_SIZE 件ずつ取得する
+                        string cmd = "select * from (select * from EYE_OPE ";
+
+                        if (last_id.Length > 0)
+                        {
+                            cmd += " where ID > " + last_id;
+                        }
+
+                        cmd += " order by ID) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            last_id = tmp.GetDataString("ID");
+
+                            List<string> cells = new List<string>();
+
+                            foreach (string col in title_list)
+                            {
+                                if (col.Equals("OPE_KIND_NAME"))
+                                {
+                                    string kind = tmp.GetDataString("OPE_KIND");
+
+                                    if (EyeDict.OpeKindDict.ContainsKey(kind))
+                                    {
+                                        cells.Add(CsvCell(EyeDict.OpeKindDict[kind]));
+                                    }
+                                    else
+                                    {
+                                        cells.Add(CsvCell(""));
+                                    }
+                                }
+                                else
+                                {
+                                    cells.Add(CsvCell(tmp.GetDataString(col)));
+                                }
+                            }
+
+                            writer.WriteLine(string.Join(",", cells));
+                        }
+
+                        total += page_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.WriteManifest(file_name, "手術予約（EYE_OPE）", total);
 
                 MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
             }
