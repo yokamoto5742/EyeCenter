@@ -106,7 +106,8 @@ namespace EyeCenter
                             cells.Add("\"" + last_kensa + "\"");
                             cells.Add("\"" + kensa_name.Replace("\"", "\"\"") + "\"");
                             cells.Add("\"" + last_date + "\"");
-                            cells.Add("\"" + tmp.GetDataString("CONT").Replace("\"", "\"\"") + "\"");
+                            // CONT内の改行はトークン(<CR+LF>)に置換し、1レコード=1物理行にする（行ベースの取込ツールでも確実に読めるようにするため。Ope/Summary側と同じトークン方式）
+                            cells.Add("\"" + tmp.GetDataString("CONT").Replace("\"", "\"\"").Replace("\r\n", "<CR+LF>").Replace("\r", "<CR+LF>").Replace("\n", "<CR+LF>") + "\"");
                             cells.Add("\"" + tmp.GetDataString("STAFF") + "\"");
                             cells.Add("\"" + tmp.GetDataString("SAVE_DATE") + "\"");
                             cells.Add("\"" + tmp.GetDataString("SAVE_TIME") + "\"");
