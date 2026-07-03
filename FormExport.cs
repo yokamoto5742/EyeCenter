@@ -60,16 +60,13 @@ namespace EyeCenter
                 {
                     List<string> title_list = new List<string>() { "PATIENT_ID", "KENSA_ID", "KENSA_NAME", "KENSA_DATE", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "PDF_SAVE" };
 
-                    // 他のエクスポートと同様に先頭２行はタイトル
-                    for (int t = 0; t < 2; t++)
+                    // ヘッダーは１行のみ出力する（汎用インポートツールは先頭１行をヘッダーとみなすため）
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
                     {
-                        for (int i = 0; i < title_list.Count; i++)
-                        {
-                            writer.Write("\"" + title_list[i] + "\",");
-                        }
-
-                        writer.WriteLine();
+                        header_list.Add("\"" + title_list[i].Replace("\"", "\"\"") + "\"");
                     }
+                    writer.WriteLine(string.Join(",", header_list));
 
                     string last_pt = "";
                     string last_kensa = "";
@@ -104,16 +101,17 @@ namespace EyeCenter
                                 kensa_name = EyeKensaMaster.Dict[last_kensa].Name;
                             }
 
-                            writer.Write("\"" + last_pt + "\",");
-                            writer.Write("\"" + last_kensa + "\",");
-                            writer.Write("\"" + kensa_name.Replace("\"", "\"\"") + "\",");
-                            writer.Write("\"" + last_date + "\",");
-                            writer.Write("\"" + tmp.GetDataString("CONT").Replace("\"", "\"\"") + "\",");
-                            writer.Write("\"" + tmp.GetDataString("STAFF") + "\",");
-                            writer.Write("\"" + tmp.GetDataString("SAVE_DATE") + "\",");
-                            writer.Write("\"" + tmp.GetDataString("SAVE_TIME") + "\",");
-                            writer.Write("\"" + tmp.GetDataString("PDF_SAVE") + "\",");
-                            writer.WriteLine();
+                            List<string> cells = new List<string>();
+                            cells.Add("\"" + last_pt + "\"");
+                            cells.Add("\"" + last_kensa + "\"");
+                            cells.Add("\"" + kensa_name.Replace("\"", "\"\"") + "\"");
+                            cells.Add("\"" + last_date + "\"");
+                            cells.Add("\"" + tmp.GetDataString("CONT").Replace("\"", "\"\"") + "\"");
+                            cells.Add("\"" + tmp.GetDataString("STAFF") + "\"");
+                            cells.Add("\"" + tmp.GetDataString("SAVE_DATE") + "\"");
+                            cells.Add("\"" + tmp.GetDataString("SAVE_TIME") + "\"");
+                            cells.Add("\"" + tmp.GetDataString("PDF_SAVE") + "\"");
+                            writer.WriteLine(string.Join(",", cells));
                         }
 
                         total += page_list.Count;
