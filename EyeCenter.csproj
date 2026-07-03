@@ -85,6 +85,8 @@
     </Compile>
     <Compile Include="ControlIVPage.cs" />
     <Compile Include="ControlSumPage.cs" />
+    <Compile Include="Barcode128.cs" />
+    <Compile Include="ExcelControl.cs" />
     <Compile Include="FormControl.cs" />
     <Compile Include="FormExport.cs">
       <SubType>Form</SubType>
@@ -292,6 +294,9 @@
     <None Include="docs\BUILD_REQUIREMENTS.md" />
     <None Include="docs\CHANGELOG.md" />
     <None Include="docs\LICENSE" />
+    <None Include="EyeDataSettings.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

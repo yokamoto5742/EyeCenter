@@ -2809,7 +2809,21 @@ namespace EyeCenter
                 }
             }
 
-            tmpDoc.ExcelOpen();
+            // オペ録・眼科申し送り書はアプリ側でバーコードを生成・挿入して別名保存する
+            ExcelControl excelControl = new ExcelControl();
+
+            try
+            {
+                excelControl.MakeDocument(tmpDoc);
+            }
+            catch (Exception ex)
+            {
+                LibUtility.Except(ex);
+            }
+            finally
+            {
+                excelControl.ReleaseExcel();
+            }
         }
 
         /// <summary>
