@@ -37,6 +37,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPat));
             this.OpeHistoryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.OpeHistoryNewMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpeHistoryCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpeHistoryShowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpeHistoryDeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpeIdBox = new System.Windows.Forms.TextBox();
@@ -233,17 +234,25 @@
             // 
             this.OpeHistoryMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpeHistoryNewMenuItem,
+            this.OpeHistoryCopyMenuItem,
             this.OpeHistoryShowMenuItem,
             this.OpeHistoryDeleteMenuItem});
             this.OpeHistoryMenuStrip.Name = "HistoryMenuStrip";
-            this.OpeHistoryMenuStrip.Size = new System.Drawing.Size(125, 70);
+            this.OpeHistoryMenuStrip.Size = new System.Drawing.Size(153, 92);
             // 
             // OpeHistoryNewMenuItem
             // 
             this.OpeHistoryNewMenuItem.Name = "OpeHistoryNewMenuItem";
-            this.OpeHistoryNewMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.OpeHistoryNewMenuItem.Size = new System.Drawing.Size(152, 22);
             this.OpeHistoryNewMenuItem.Text = "新規作成";
             this.OpeHistoryNewMenuItem.Click += new System.EventHandler(this.OpeHistoryNewMenuItem_Click);
+            // 
+            // OpeHistoryCopyMenuItem
+            // 
+            this.OpeHistoryCopyMenuItem.Name = "OpeHistoryCopyMenuItem";
+            this.OpeHistoryCopyMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpeHistoryCopyMenuItem.Text = "コピーして作成";
+            this.OpeHistoryCopyMenuItem.Click += new System.EventHandler(this.OpeHistoryCopyMenuItem_Click);
             // 
             // OpeHistoryShowMenuItem
             // 
@@ -2235,6 +2244,7 @@
         private System.Windows.Forms.CheckBox PreCheckBox;
         private System.Windows.Forms.ContextMenuStrip OpeHistoryMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem OpeHistoryNewMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpeHistoryCopyMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpeHistoryShowMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpeHistoryDeleteMenuItem;
         private System.Windows.Forms.TabControl MainTabControl;

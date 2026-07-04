@@ -2123,6 +2123,32 @@ namespace EyeCenter
 
             this.OpeDateTimePicker.Value = DateTime.Parse(ope.OpeDate.Insert(4, "/").Insert(7, "/"));
 
+            this.OpeBaseShow(ope);
+
+            if (ope.InDate.Length == 8)
+            {
+                this.InDateTimePicker.Value = DateTime.Parse(ope.InDate.Insert(4, "/").Insert(7, "/"));
+            }
+
+            if (Dict.StaffDict.ContainsKey(ope.Staff))
+            {
+                this.OpeStaffLabel.Text = Dict.StaffDict[ope.Staff].Name;
+            }
+
+            this.RecordShow(EyeOpeRecord.Load(ope.Id));
+            this.DoctorShow(EyeOpeDoctor.Load(ope.Id));
+            this.PassShow(EyeOpePass.Load(ope.Id));
+
+            this.OpeModeChange(Mode.SHOW);
+        }
+
+        /// <summary>
+        /// 手術基本情報の内容を表示する。
+        /// ただしID・手術日・入院日・スタッフは設定しない。
+        /// </summary>
+        /// <param name="ope"></param>
+        private void OpeBaseShow(EyeOpe ope)
+        {
             if (EyeDict.OpeKindDict.ContainsKey(ope.OpeKind))
             {
                 this.OpeKindBox.Text = ope.OpeKind + " " + EyeDict.OpeKindDict[ope.OpeKind];
@@ -2143,12 +2169,6 @@ namespace EyeCenter
 
             this.InOutBox.Text = ope.InOut;
             this.InRoomBox.Text = ope.InRoom;
-
-            if (ope.InDate.Length == 8)
-            {
-                this.InDateTimePicker.Value = DateTime.Parse(ope.InDate.Insert(4, "/").Insert(7, "/"));
-            }
-
             this.InTimeBox.Text = ope.InTime;
             this.InTermBox.Text = ope.InTerm;
 
@@ -2199,19 +2219,8 @@ namespace EyeCenter
                 this.EarlierOKBox.Checked = true;
             }
 
-            if (Dict.StaffDict.ContainsKey(ope.Staff))
-            {
-                this.OpeStaffLabel.Text = Dict.StaffDict[ope.Staff].Name;
-            }
-
             // 身長・体重の値から、体表面積・ビスダイン溶液・ブドウ糖液の量を計算する。
             this.BodyCalc();
-
-            this.RecordShow(EyeOpeRecord.Load(ope.Id));
-            this.DoctorShow(EyeOpeDoctor.Load(ope.Id));
-            this.PassShow(EyeOpePass.Load(ope.Id));
-
-            this.OpeModeChange(Mode.SHOW);
         }
 
         /// <summary>
@@ -2918,6 +2927,33 @@ namespace EyeCenter
             {
                 this.TabChange(Tab.OPE);
                 this.AllOpeClear();
+            }
+        }
+
+        /// <summary>
+        /// 選択された手術記録の基本情報をコピーして新規作成する。
+        /// 手術日は本日の日付とする。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpeHistoryCopyMenuItem_Click(object sender, EventArgs e)
+        {
+            if (OpeHistoryView.SelectedRows.Count > 0)
+            {
+                if (MessageBox.Show("選択された手術記録の基本情報をコピーして新規作成しますか？", "確認", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                {
+                    EyeOpe tmpOpe = EyeOpe.Load(OpeHistoryView.SelectedRows[0].Cells["ID"].Value.ToString());
+
+                    this.TabChange(Tab.OPE);
+
+                    // AllOpeClear で ID がクリアされ、手術日が本日になる。
+                    this.AllOpeClear();
+
+                    // 入院日は引き継がず本日にリセットする。
+                    this.InDateTimePicker.Value = DateTime.Now;
+
+                    this.OpeBaseShow(tmpOpe);
+                }
             }
         }
 
