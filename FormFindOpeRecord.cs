@@ -19,6 +19,8 @@ namespace EyeCenter
     {
         DataSet dSet = new DataSet();
 
+        CheckBox SumJoinBox = new CheckBox();
+
         public FormFindOpeRecord()
         {
             InitializeComponent();
@@ -51,6 +53,11 @@ namespace EyeCenter
                 RecordBox11.Items.Add(r["Name"].ToString());
                 RecordBox21.Items.Add(r["Name"].ToString());
             }
+
+            SumJoinBox.AutoSize = true;
+            SumJoinBox.Text = "CSVにサマリー結合";
+            SumJoinBox.Location = new Point(365, 92);
+            this.Controls.Add(SumJoinBox);
 
             this.DSetInit();
         }
@@ -429,6 +436,21 @@ namespace EyeCenter
         private void CSVButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
+
+            if (SumJoinBox.Checked)
+            {
+                List<string> ptList = new List<string>();
+
+                foreach (DataGridViewRow d in OpeListView.Rows)
+                {
+                    ptList.Add(d.Cells["PT_ID"].Value.ToString());
+                }
+
+                if (!FormSumColumnSelect.AppendSummaryColumns(data, ptList))
+                {
+                    return;
+                }
+            }
 
             if (data.CSVSave("手術記録検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
             {
