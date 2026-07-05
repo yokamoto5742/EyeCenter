@@ -22,6 +22,9 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly: Guid("47f42ca8-7283-4874-8547-3dfe8bc9cc33")]
 
+// テストプロジェクトから internal クラス（Barcode128, ExcelControl）へアクセスするため
+[assembly: InternalsVisibleTo("EyeCenter.Tests")]
+
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
 //      Major Version

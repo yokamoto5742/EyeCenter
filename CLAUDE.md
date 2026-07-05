@@ -21,7 +21,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Visual Studio で `EyeCenter.sln` を開いてビルド、または CLI: `msbuild EyeCenter.sln /p:Configuration=Debug /p:Platform=x86`
 - 既定プラットフォームは **x86**（`EyeCenter.slnx` 参照）
 - 旧形式（非SDKスタイル）の `.csproj` のため `dotnet build` ではなく `msbuild` を使う
-- テストプロジェクトは存在しない
+
+## テスト
+
+- `EyeCenter.Tests/`（SDKスタイル, MSTest, net48/x86）。本体の `.sln` には含めていない（本体ビルドに NuGet 復元を持ち込まないため）
+- 対象は外部依存（DB・MedicalLibrary・Excel COM）なしで動く `Barcode128` と `ExcelControl` のロジックのみ
+- 実行手順: 先に本体を x86 Debug でビルド → `dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj`（`bin\x86\Debug\EyeCenter.exe` を参照するため）
 
 ## 実行時の前提
 
