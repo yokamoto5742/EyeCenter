@@ -180,9 +180,5 @@ namespace EyeCenter
             }
         }
 
-        private void OpeOrderButton_Click(object sender, EventArgs e)
-        {
-            Launcher.OpeOrder();
-        }
     }
 }

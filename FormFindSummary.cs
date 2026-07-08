@@ -384,6 +384,11 @@ namespace EyeCenter
                 data.RecordList.Add(d);
             }
 
+            if (!FormCsvColumnSelect.FilterColumns(data, "Summary"))
+            {
+                return;
+            }
+
             if (data.CSVSave("ƒTƒ}ƒŠŒŸõ" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
             {
                 MessageBox.Show("o—Í‚ªŠ®—¹‚µ‚Ü‚µ‚½");

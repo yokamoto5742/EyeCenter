@@ -427,6 +427,11 @@ namespace EyeCenter
         {
             TableData data = MakeTableData();
 
+            if (!FormCsvColumnSelect.FilterColumns(data, "OpeRecord"))
+            {
+                return;
+            }
+
             if (data.ExcelOpen())
             {
                 MessageBox.Show("ExcelèoóÕÇ™äÆóπÇµÇ‹ÇµÇΩ");
@@ -436,6 +441,11 @@ namespace EyeCenter
         private void CSVButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
+
+            if (!FormCsvColumnSelect.FilterColumns(data, "OpeRecord"))
+            {
+                return;
+            }
 
             if (SumJoinBox.Checked)
             {

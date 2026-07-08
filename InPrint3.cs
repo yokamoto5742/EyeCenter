@@ -18,11 +18,11 @@ namespace EyeCenter
         {
             Dictionary<string, InPrint3> tmpDict = new Dictionary<string, InPrint3>();
 
-            List<PatIn> patInList = PatIn.GetListByDate(adm_date, "", "7");
+            List<PatIn> patInList = PatIn.GetListByDate(adm_date, "", InPrintCommon.DeptCode);
 
             foreach (PatIn tmpPat in patInList)
             {
-                if (!tmpPat.Dept.Equals("7"))
+                if (!tmpPat.Dept.Equals(InPrintCommon.DeptCode))
                 {
                     continue;
                 }
@@ -69,12 +69,6 @@ namespace EyeCenter
                 return;
             }
 
-            string cont = "";
-            string cont1 = "";
-            string cont3 = "";
-            string cont4 = "";
-            string value = "";
-
             List<EyeSummary> tmp_list = EyeSummary.GetListByPats(pt_list);
 
             foreach (EyeSummary tmp in tmp_list)
@@ -85,49 +79,9 @@ namespace EyeCenter
 
                     tmpPrint.BaseList[4] = tmp.Plan;
 
-                    cont1 = tmp.Cont1;
-                    cont3 = tmp.Cont3;
-                    cont4 = tmp.Cont4;
-
                     foreach (DataRow r in EyeDict.EyeSet.Tables["SumPrint3"].Rows)
                     {
-                        value = "";
-
-                        if (r["Kind"].ToString().Equals("1"))
-                        {
-                            cont = cont1;
-                        }
-                        else if (r["Kind"].ToString().Equals("3"))
-                        {
-                            cont = cont3;
-                        }
-                        else if (r["Kind"].ToString().Equals("4"))
-                        {
-                            cont = cont4;
-                        }
-
-                        if (cont.Length > 0)
-                        {
-                            foreach (string s in cont.Split('\r', '\n'))
-                            {
-                                string[] ss = s.Split(',');
-
-                                if (ss.Length > 1 && r["Code"].ToString().Equals(ss[0].Trim()))
-                                {
-                                    for (int i = 1; i < ss.Length; i++)
-                                    {
-                                        if (value.Length > 0)
-                                        {
-                                            value += ",";
-                                        }
-
-                                        value += ss[i].Replace("<CR+LF>", "\r\n");
-                                    }
-
-                                    break;
-                                }
-                            }
-                        }
+                        string value = InPrintCommon.GetSummaryValue(tmp, r);
 
                         if (r["Area"].ToString().Equals("1"))
                         {

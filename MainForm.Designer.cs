@@ -33,7 +33,6 @@
             this.NidekButton = new System.Windows.Forms.Button();
             this.SummaryFindButton = new System.Windows.Forms.Button();
             this.KensaFindButton = new System.Windows.Forms.Button();
-            this.OpeOrderButton = new System.Windows.Forms.Button();
             this.ExportButton = new System.Windows.Forms.Button();
             this.PrintButton = new System.Windows.Forms.Button();
             this.OpeFindButton = new System.Windows.Forms.Button();
@@ -81,16 +80,6 @@
             this.KensaFindButton.Text = "検査検索";
             this.KensaFindButton.UseVisualStyleBackColor = true;
             this.KensaFindButton.Click += new System.EventHandler(this.KensaFindButton_Click);
-            // 
-            // OpeOrderButton
-            // 
-            this.OpeOrderButton.Location = new System.Drawing.Point(5, 92);
-            this.OpeOrderButton.Name = "OpeOrderButton";
-            this.OpeOrderButton.Size = new System.Drawing.Size(85, 23);
-            this.OpeOrderButton.TabIndex = 9;
-            this.OpeOrderButton.Text = "手術指示";
-            this.OpeOrderButton.UseVisualStyleBackColor = true;
-            this.OpeOrderButton.Click += new System.EventHandler(this.OpeOrderButton_Click);
             // 
             // ExportButton
             // 
@@ -161,7 +150,6 @@
             this.Controls.Add(this.NidekButton);
             this.Controls.Add(this.SummaryFindButton);
             this.Controls.Add(this.KensaFindButton);
-            this.Controls.Add(this.OpeOrderButton);
             this.Controls.Add(this.ExportButton);
             this.Controls.Add(this.PrintButton);
             this.Controls.Add(this.OpeFindButton);
@@ -189,7 +177,6 @@
         private System.Windows.Forms.Button OpeFindButton;
         private System.Windows.Forms.Button PrintButton;
         private System.Windows.Forms.Button ExportButton;
-        private System.Windows.Forms.Button OpeOrderButton;
         private System.Windows.Forms.Button KensaFindButton;
         private System.Windows.Forms.Button SummaryFindButton;
         private System.Windows.Forms.Button NidekButton;

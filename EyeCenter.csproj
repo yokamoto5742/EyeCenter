@@ -72,6 +72,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Shinseikai\MedicalLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.122.21.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\oracle\odac32\odp.net4\odp.net\bin\4\Oracle.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -101,6 +105,9 @@
       <DependentUpon>FormFindSummary.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSumColumnSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCsvColumnSelect.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormPrint.cs">
@@ -184,6 +191,7 @@
     <Compile Include="InPrint1.cs" />
     <Compile Include="InPrint2.cs" />
     <Compile Include="InPrint3.cs" />
+    <Compile Include="InPrintCommon.cs" />
     <Compile Include="KensaPanel.cs">
       <SubType>Component</SubType>
     </Compile>

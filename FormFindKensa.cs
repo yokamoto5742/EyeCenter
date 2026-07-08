@@ -264,6 +264,11 @@ namespace EyeCenter
         {
             TableData data = MakeTableData();
 
+            if (!FormCsvColumnSelect.FilterColumns(data, "Kensa"))
+            {
+                return;
+            }
+
             if (data.ExcelOpen())
             {
                 MessageBox.Show("Excelo—Í‚ªŠ®—¹‚µ‚Ü‚µ‚½");
@@ -273,6 +278,11 @@ namespace EyeCenter
         private void CSVButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
+
+            if (!FormCsvColumnSelect.FilterColumns(data, "Kensa"))
+            {
+                return;
+            }
 
             if (data.CSVSave("ŒŸ¸Œ‹‰ÊŒŸõ" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
             {
