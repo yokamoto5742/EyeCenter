@@ -75,6 +75,8 @@
             this.IVDeleteButton = new System.Windows.Forms.Button();
             this.IVRegButton = new System.Windows.Forms.Button();
             this.IVHistoryView = new System.Windows.Forms.DataGridView();
+            this.IVHistoryMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IVCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IVContBox = new System.Windows.Forms.TextBox();
             this.label50 = new System.Windows.Forms.Label();
             this.SumKindBox3 = new System.Windows.Forms.ComboBox();
@@ -219,6 +221,7 @@
             this.SumTabPage2.SuspendLayout();
             this.SumTabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IVHistoryView)).BeginInit();
+            this.IVHistoryMenuStrip.SuspendLayout();
             this.OpeTab.SuspendLayout();
             this.OpeInfoPanel.SuspendLayout();
             this.OpeRecordPanel.SuspendLayout();
@@ -670,6 +673,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.IVHistoryView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.IVHistoryView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.IVHistoryView.ContextMenuStrip = this.IVHistoryMenuStrip;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
@@ -689,9 +693,23 @@
             this.IVHistoryView.TabIndex = 17;
             this.IVHistoryView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.IVHistoryView_CellClick);
             this.IVHistoryView.Resize += new System.EventHandler(this.IVHistoryView_Resize);
-            // 
+            //
+            // IVHistoryMenuStrip
+            //
+            this.IVHistoryMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IVCopyMenuItem});
+            this.IVHistoryMenuStrip.Name = "IVHistoryMenuStrip";
+            this.IVHistoryMenuStrip.Size = new System.Drawing.Size(153, 26);
+            //
+            // IVCopyMenuItem
+            //
+            this.IVCopyMenuItem.Name = "IVCopyMenuItem";
+            this.IVCopyMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.IVCopyMenuItem.Text = "内容をコピー";
+            this.IVCopyMenuItem.Click += new System.EventHandler(this.IVCopyMenuItem_Click);
+            //
             // IVContBox
-            // 
+            //
             this.IVContBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.IVContBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
@@ -2219,6 +2237,7 @@
             this.SumTabPage3.ResumeLayout(false);
             this.SumTabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IVHistoryView)).EndInit();
+            this.IVHistoryMenuStrip.ResumeLayout(false);
             this.OpeTab.ResumeLayout(false);
             this.OpeInfoPanel.ResumeLayout(false);
             this.OpeInfoPanel.PerformLayout();
@@ -2399,6 +2418,8 @@
         protected internal System.Windows.Forms.TextBox SumPassBox;
         protected internal System.Windows.Forms.TextBox IVContBox;
         protected internal System.Windows.Forms.DataGridView IVHistoryView;
+        private System.Windows.Forms.ContextMenuStrip IVHistoryMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem IVCopyMenuItem;
         protected internal System.Windows.Forms.Label SumStaffLabel;
         protected internal System.Windows.Forms.Label IVStaffLabel;
         private System.Windows.Forms.Label label52;

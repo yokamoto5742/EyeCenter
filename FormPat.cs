@@ -19,6 +19,10 @@ namespace EyeCenter
         ControlSumPage _SumPage = new ControlSumPage();
         ControlIVPage _IVPage = new ControlIVPage();
 
+        // 手術歴・検査歴の横幅（設定ファイル EyeCenter.exe.config で変更可能。検査歴の 0 は画面右端まで自動調整）
+        readonly int _OpeHistoryWidth = AppConfig.GetInt("OpeHistoryViewWidth", 275);
+        readonly int _KensaHistoryWidth = AppConfig.GetInt("KensaHistoryViewWidth", 0);
+
         string _KensaDate = "";
 
         bool KensaEdited
@@ -175,6 +179,17 @@ namespace EyeCenter
 
         private void FormPat_Load(object sender, EventArgs e)
         {
+            // 問診入力・問診履歴の横幅を設定ファイル(EyeCenter.exe.config)から反映する
+            int ivContWidth = AppConfig.GetInt("IVContBoxWidth", this.IVContBox.Width);
+            int ivHistWidth = AppConfig.GetInt("IVHistoryViewWidth", this.IVHistoryView.Width);
+            this.IVContBox.Width = ivContWidth;
+            this.label53.Left = this.IVContBox.Left + ivContWidth + 8;
+            this.IVHistoryView.Left = this.IVContBox.Left + ivContWidth + 8;
+            this.IVHistoryView.Width = ivHistWidth;
+
+            // 手術歴・検査歴の横幅設定を初期表示に反映する
+            this.PtHistoryWide();
+
             if (!InnoProgram.Exists)
             {
                 this.InnoButton.Enabled = false;
@@ -3413,16 +3428,16 @@ namespace EyeCenter
                 OpeHistoryLabel.Location = new Point(3, 35);
                 OpeClearButton.Location = new Point(54, 29);
                 OpeHistoryView.Location = new Point(3, 50);
-                OpeHistoryView.Width = 275;
+                OpeHistoryView.Width = this._OpeHistoryWidth;
                 OpeHistoryLabel.Visible = true;
                 OpeClearButton.Visible = true;
                 OpeWideBox.Visible = true;
 
                 // 検査歴の表示する
-                KensaHistoryLabel.Location = new Point(281, 35);
-                KensaClearButton.Location = new Point(334, 29);
-                KensaHistoryView.Location = new Point(281, 50);
-                KensaHistoryView.Width = this.Width - 298;
+                KensaHistoryLabel.Location = new Point(this._OpeHistoryWidth + 6, 35);
+                KensaClearButton.Location = new Point(this._OpeHistoryWidth + 59, 29);
+                KensaHistoryView.Location = new Point(this._OpeHistoryWidth + 6, 50);
+                KensaHistoryView.Width = this._KensaHistoryWidth > 0 ? this._KensaHistoryWidth : this.Width - this._OpeHistoryWidth - 23;
                 KensaHistoryLabel.Visible = true;
                 KensaClearButton.Visible = true;
                 KensaHistoryView.Visible = true;
@@ -3736,6 +3751,19 @@ namespace EyeCenter
         private void IVHistoryView_Resize(object sender, EventArgs e)
         {
             this._IVPage.HistoryFormat();
+        }
+
+        private void IVCopyMenuItem_Click(object sender, EventArgs e)
+        {
+            if (IVHistoryView.SelectedRows.Count > 0)
+            {
+                string cont = IVHistoryView.SelectedRows[0].Cells["内容"].Value.ToString();
+
+                if (cont.Length > 0)
+                {
+                    Clipboard.SetText(cont);
+                }
+            }
         }
 
         private void KensaDate_ValueChanged(object sender, EventArgs e)

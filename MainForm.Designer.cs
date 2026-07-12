@@ -93,7 +93,7 @@
             // 
             // PrintButton
             // 
-            this.PrintButton.Location = new System.Drawing.Point(95, 92);
+            this.PrintButton.Location = new System.Drawing.Point(5, 148);
             this.PrintButton.Name = "PrintButton";
             this.PrintButton.Size = new System.Drawing.Size(85, 23);
             this.PrintButton.TabIndex = 5;

@@ -50,6 +50,11 @@ namespace EyeCenter
         {
             try
             {
+                // メイン画面のサイズを設定ファイル(EyeCenter.exe.config)から反映する
+                this.ClientSize = new Size(
+                    AppConfig.GetInt("MainFormWidth", this.ClientSize.Width),
+                    AppConfig.GetInt("MainFormHeight", this.ClientSize.Height));
+
                 LibSettings.Init();
                 EyeDict.Init();
                 FormControl.Init();
