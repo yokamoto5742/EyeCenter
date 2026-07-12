@@ -186,6 +186,7 @@ namespace EyeCenter
             this.label53.Left = this.IVContBox.Left + ivContWidth + 8;
             this.IVHistoryView.Left = this.IVContBox.Left + ivContWidth + 8;
             this.IVHistoryView.Width = ivHistWidth;
+            this.IVContBox.MaxLength = 1999;
 
             // èp—ğEŒŸ¸—ğ‚Ì‰¡•İ’è‚ğ‰Šú•\¦‚É”½‰f‚·‚é
             this.PtHistoryWide();
