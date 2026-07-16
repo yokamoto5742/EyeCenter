@@ -43,7 +43,7 @@
             // 
             // CanonButton
             // 
-            this.CanonButton.Location = new System.Drawing.Point(5, 120);
+            this.CanonButton.Location = new System.Drawing.Point(5, 92);
             this.CanonButton.Name = "CanonButton";
             this.CanonButton.Size = new System.Drawing.Size(85, 23);
             this.CanonButton.TabIndex = 16;
@@ -53,7 +53,7 @@
             // 
             // NidekButton
             // 
-            this.NidekButton.Location = new System.Drawing.Point(95, 120);
+            this.NidekButton.Location = new System.Drawing.Point(95, 92);
             this.NidekButton.Name = "NidekButton";
             this.NidekButton.Size = new System.Drawing.Size(85, 23);
             this.NidekButton.TabIndex = 15;
@@ -93,7 +93,7 @@
             // 
             // PrintButton
             // 
-            this.PrintButton.Location = new System.Drawing.Point(5, 148);
+            this.PrintButton.Location = new System.Drawing.Point(5, 120);
             this.PrintButton.Name = "PrintButton";
             this.PrintButton.Size = new System.Drawing.Size(85, 23);
             this.PrintButton.TabIndex = 5;
@@ -113,7 +113,7 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(95, 148);
+            this.ExitButton.Location = new System.Drawing.Point(95, 120);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(85, 23);
             this.ExitButton.TabIndex = 3;
@@ -145,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(185, 202);
+            this.ClientSize = new System.Drawing.Size(185, 174);
             this.Controls.Add(this.CanonButton);
             this.Controls.Add(this.NidekButton);
             this.Controls.Add(this.SummaryFindButton);
