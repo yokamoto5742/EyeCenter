@@ -199,7 +199,7 @@ namespace EyeCenter
         {
             foreach (Control c in this.Parent.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") && c.Text.Length > 0)
+                if (c is TextBox && c.Text.Length > 0)
                 {
                     if (LabelBroupDictR.ContainsKey(c.Name))
                     {
@@ -239,7 +239,7 @@ namespace EyeCenter
         {
             foreach (Control c in this.Controls)
             {
-                if (c.GetType().Name.Equals("Label"))
+                if (c is Label)
                 {
                     c.BackColor = Color.LightYellow;
                 }

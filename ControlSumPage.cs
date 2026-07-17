@@ -632,11 +632,11 @@ namespace EyeCenter
 
             foreach (Control c in FP.SumPanel1.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     c.Text = "";
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     ((CheckBox)c).Checked = false;
                 }
@@ -646,11 +646,11 @@ namespace EyeCenter
 
             foreach (Control c in FP.SumPanel3.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     c.Text = "";
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     ((CheckBox)c).Checked = false;
                 }
@@ -658,11 +658,11 @@ namespace EyeCenter
 
             foreach (Control c in FP.SumPanel4.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     c.Text = "";
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     ((CheckBox)c).Checked = false;
                 }
@@ -719,47 +719,28 @@ namespace EyeCenter
             FP.SumPassBox.Text = sum.Pass;
             FP.SumHistBox.Text = sum.Hist;
 
-            string value = "";
             string[] ss;
-            
+
             // SumPanel1
-            string[] cont = sum.Cont1.Split('\r', '\n');
-
-            foreach (string s in cont)
+            foreach (KeyValuePair<string, string> kv in ContData.Parse(sum.Cont1))
             {
-                if (s.Contains(","))
+                if (FP.SumPanel1.Controls.ContainsKey(kv.Key + "_C"))
                 {
-                    ss = s.Split(',');
-                    value = "";
+                    Control c = FP.SumPanel1.Controls[kv.Key + "_C"];
 
-                    for (int i = 1; i < ss.Length; i++)
+                    if (c is TextBox || c is ComboBox)
                     {
-                        if (value.Length > 0)
-                        {
-                            value += ",";
-                        }
-
-                        value += ss[i].Replace("<CR+LF>", "\r\n");
+                        c.Text = kv.Value;
                     }
-
-                    if (FP.SumPanel1.Controls.ContainsKey(ss[0] + "_C"))
+                    else if (c is CheckBox && kv.Value.Equals("1"))
                     {
-                        Control c = FP.SumPanel1.Controls[ss[0] + "_C"];
-
-                        if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
-                        {
-                            c.Text = value;
-                        }
-                        else if (c.GetType().Name.Equals("CheckBox") && value.Equals("1"))
-                        {
-                            ((CheckBox)c).Checked = true;
-                        }
+                        ((CheckBox)c).Checked = true;
                     }
                 }
             }
 
             // SumPanel2
-            cont = sum.Cont2.Split('\r', '\n');
+            string[] cont = sum.Cont2.Split('\r', '\n');
 
             string kensa_date = "";
             string kensa_code = "";
@@ -804,80 +785,36 @@ namespace EyeCenter
             }
 
             // SumPanel3
-            cont = sum.Cont3.Split('\r', '\n');
-
-            foreach (string s in cont)
+            foreach (KeyValuePair<string, string> kv in ContData.Parse(sum.Cont3))
             {
-                if (s.Contains(","))
+                if (FP.SumPanel3.Controls.ContainsKey(kv.Key + "_C"))
                 {
-                    ss = s.Split(',');
-                    value = "";
+                    Control c = FP.SumPanel3.Controls[kv.Key + "_C"];
 
-                    for (int i = 1; i < ss.Length; i++)
+                    if (c is TextBox || c is ComboBox)
                     {
-                        if (value.Length > 0)
-                        {
-                            value += ",";
-                        }
-
-                        value += ss[i].Replace("<CR+LF>", "\r\n");
+                        c.Text = kv.Value;
                     }
-
-                    if (FP.SumPanel3.Controls.ContainsKey(ss[0] + "_C"))
+                    else if (c is CheckBox && kv.Value.Equals("1"))
                     {
-                        Control c = FP.SumPanel3.Controls[ss[0] + "_C"];
-
-                        if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
-                        {
-                            c.Text = value;
-                        }
-                        else if (c.GetType().Name.Equals("CheckBox") && value.Equals("1"))
-                        {
-                            ((CheckBox)c).Checked = true;
-                        }
+                        ((CheckBox)c).Checked = true;
                     }
                 }
             }
 
             // SumPanel4
-            cont = sum.Cont4.Split('\r', '\n');
-
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-
-            foreach (string s in cont)
-            {
-                if (s.Contains(","))
-                {
-                    ss = s.Split(',');
-                    value = "";
-
-                    for (int i = 1; i < ss.Length; i++)
-                    {
-                        if (value.Length > 0)
-                        {
-                            value += ",";
-                        }
-
-                        value += ss[i].Replace("<CR+LF>", "\r\n");
-                    }
-
-                    if (!dict.ContainsKey(ss[0]))
-                    {
-                        dict.Add(ss[0], value);
-                    }
-                }
-            }
+            Dictionary<string, string> dict = ContData.Parse(sum.Cont4);
 
             foreach (Control c in FP.SumPanel4.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     if (dict.ContainsKey(c.Tag.ToString()))
                     {
                         c.Text = dict[c.Tag.ToString()];
                     }
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     if (dict.ContainsKey(c.Tag.ToString()) && dict[c.Tag.ToString()].Equals("1"))
                     {
@@ -920,29 +857,9 @@ namespace EyeCenter
             sum.Hist = FP.SumHistBox.Text;
             sum.Staff = LoginUser.Id;
 
+            sum.Cont1 = ContData.Build(FP.SumPanel1.Controls);
+
             string value = "";
-
-            foreach (Control c in FP.SumPanel1.Controls)
-            {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
-                {
-                    if (c.Text.Length > 0)
-                    {
-                        value += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>") + "\r\n";
-                    }
-                }
-                else if (c.GetType().Name.Equals("CheckBox"))
-                {
-                    if (((CheckBox)c).Checked)
-                    {
-                        value += c.Tag.ToString() + ",1\r\n";
-                    }
-                }
-            }
-
-            sum.Cont1 = value;
-
-            value = "";
             string code = "";
 
             foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem2"].Rows)
@@ -957,49 +874,8 @@ namespace EyeCenter
 
             sum.Cont2 = value;
 
-            value = "";
-
-            foreach (Control c in FP.SumPanel3.Controls)
-            {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
-                {
-                    if (c.Text.Length > 0)
-                    {
-                        value += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>") + "\r\n";
-                    }
-                }
-                else if (c.GetType().Name.Equals("CheckBox"))
-                {
-                    if (((CheckBox)c).Checked)
-                    {
-                        value += c.Tag.ToString() + ",1\r\n";
-                    }
-                }
-            }
-
-            sum.Cont3 = value;
-
-            value = "";
-
-            foreach (Control c in FP.SumPanel4.Controls)
-            {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
-                {
-                    if (c.Text.Length > 0)
-                    {
-                        value += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>") + "\r\n";
-                    }
-                }
-                else if (c.GetType().Name.Equals("CheckBox"))
-                {
-                    if (((CheckBox)c).Checked)
-                    {
-                        value += c.Tag.ToString() + ",1\r\n";
-                    }
-                }
-            }
-
-            sum.Cont4 = value;
+            sum.Cont3 = ContData.Build(FP.SumPanel3.Controls);
+            sum.Cont4 = ContData.Build(FP.SumPanel4.Controls);
 
             sum.Save();
 

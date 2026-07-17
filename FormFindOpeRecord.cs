@@ -339,9 +339,8 @@ namespace EyeCenter
                 }
             }
 
-            string value = "";
-            Dictionary<string, string> recordDict = new Dictionary<string, string>();
-            Dictionary<string, string> passDict = new Dictionary<string, string>();
+            Dictionary<string, string> recordDict;
+            Dictionary<string, string> passDict;
 
             foreach (DataGridViewRow d in OpeListView.Rows)
             {
@@ -369,48 +368,8 @@ namespace EyeCenter
                 record.DataList.Add(d.Cells["‘Šú"].Value.ToString());
                 record.DataList.Add(d.Cells["p‘O"].Value.ToString());
 
-                recordDict.Clear();
-                passDict.Clear();
-
-                foreach (string line in d.Cells["‹L˜^"].Value.ToString().Split('\r', '\n'))
-                {
-                    if (line.Split(',').Length >= 2)
-                    {
-                        value = "";
-
-                        for (int k = 1; k < line.Split(',').Length; k++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
-
-                            value += line.Split(',')[k];
-                        }
-
-                        recordDict.Add(line.Split(',')[0], value.Replace("<CR+LF>", "\r\n"));
-                    }
-                }
-
-                foreach (string line in d.Cells["Œo‰ß"].Value.ToString().Split('\r', '\n'))
-                {
-                    if (line.Split(',').Length >= 2)
-                    {
-                        value = "";
-
-                        for (int k = 1; k < line.Split(',').Length; k++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
-
-                            value += line.Split(',')[k];
-                        }
-
-                        passDict.Add(line.Split(',')[0], value.Replace("<CR+LF>", "\r\n"));
-                    }
-                }
+                recordDict = ContData.Parse(d.Cells["‹L˜^"].Value.ToString());
+                passDict = ContData.Parse(d.Cells["Œo‰ß"].Value.ToString());
 
                 foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
                 {

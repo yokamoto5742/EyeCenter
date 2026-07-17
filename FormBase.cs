@@ -41,7 +41,7 @@ namespace EyeCenter
 
                 foreach (Control c in this.Controls)
                 {
-                    if (c.GetType().Name.Equals("Label") || c.GetType().Name.Equals("Button"))
+                    if (c is Label || c is Button)
                     {
                         c.Select();
                         break;

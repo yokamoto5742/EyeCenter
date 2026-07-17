@@ -556,7 +556,7 @@ namespace EyeCenter
         {
             foreach (Control c in opeCalPanel.Controls)
             {
-                if (c.GetType().Name.Equals("Label") && c.Tag != null && c.Tag.ToString().Split(',').Length > 6)
+                if (c is Label && c.Tag != null && c.Tag.ToString().Split(',').Length > 6)
                 {
                     string bg_color = c.Tag.ToString().Split(',')[5];
                     string pt_ids = c.Tag.ToString().Split(',')[6];

@@ -41,18 +41,7 @@ namespace EyeCenter
                     WinAPI.SetForegroundWindow(hWnd);
 
                     // 受けたパラメータを送る
-                    string[] args = Environment.GetCommandLineArgs();
-                    string arg = "";
-
-                    for (int i = 0; i < args.Length; i++)
-                    {
-                        if (i > 0)
-                        {
-                            arg += " ";
-                        }
-
-                        arg += args[i];
-                    }
+                    string arg = string.Join(" ", Environment.GetCommandLineArgs());
 
                     WinAPI.COPYDATASTRUCT cds;
                     cds.dwData = new IntPtr(0);

@@ -145,7 +145,7 @@ namespace EyeCenter
         {
             foreach (Control c1 in this.Controls)
             {
-                if (c1.GetType().Name.Equals("TabControl"))
+                if (c1 is TabControl)
                 {
                     foreach (TabPage tp in ((TabControl)c1).TabPages)
                     {
@@ -187,7 +187,7 @@ namespace EyeCenter
 
             foreach (Control c in this.Controls)
             {
-                if (c.GetType().Name.Equals("TabControl"))
+                if (c is TabControl)
                 {
                     foreach (TabPage tp in ((TabControl)c).TabPages)
                     {

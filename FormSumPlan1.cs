@@ -119,7 +119,7 @@ namespace EyeCenter
 
             foreach (Control c in KensaPanel.Controls)
             {
-                if (c.GetType().Name.Equals("CheckBox") && ((CheckBox)c).Checked)
+                if (c is CheckBox && ((CheckBox)c).Checked)
                 {
                     if (FP.SumPanel2.Controls.ContainsKey(c.Name + "_L"))
                     {

@@ -243,29 +243,7 @@ namespace EyeCenter
                 }
             }
 
-            string cont = "";
-
-            foreach (Control c in this.Controls["KensaPanel"].Controls)
-            {
-                if ((c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox")) && c.Tag.ToString().Length > 0 && c.Text.Length > 0)
-                {
-                    if (cont.Length > 0)
-                    {
-                        cont += "\r\n";
-                    }
-
-                    cont += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>");
-                }
-                else if (c.GetType().Name.Equals("CheckBox") && ((CheckBox)c).Checked)
-                {
-                    if (cont.Length > 0)
-                    {
-                        cont += "\r\n";
-                    }
-
-                    cont += c.Tag.ToString() + ",1";
-                }
-            }
+            string cont = ContData.Build(this.Controls["KensaPanel"].Controls);
 
             if (this.PtId.Length > 0 && this.KensaDate.Length == 8)
             {

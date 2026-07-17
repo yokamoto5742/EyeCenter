@@ -89,6 +89,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="ContData.cs" />
     <Compile Include="SearchTask.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -432,7 +432,7 @@ namespace EyeCenter
 
                 foreach (Control c in this.Controls)
                 {
-                    if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                    if (c is TextBox || c is ComboBox)
                     {
                         EyeDoc.Item tmpItem = new EyeDoc.Item();
                         tmpItem.Kind = "コンタクト注文";
@@ -497,7 +497,7 @@ namespace EyeCenter
 
                 foreach (Control c in this.Controls)
                 {
-                    if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                    if (c is TextBox || c is ComboBox)
                     {
                         EyeDoc.Item tmpItem = new EyeDoc.Item();
                         tmpItem.Kind = "メガネ処方";
@@ -576,7 +576,7 @@ namespace EyeCenter
 
             foreach (Control c in this.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     if (kensaDict.ContainsKey(c.Tag.ToString()))
                     {
@@ -588,7 +588,7 @@ namespace EyeCenter
                         }
                     }
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     if (kensaDict.ContainsKey(c.Tag.ToString()))
                     {
@@ -628,11 +628,11 @@ namespace EyeCenter
 
             foreach (Control c in this.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     c.Text = "";
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     ((CheckBox)c).Checked = false;
                 }
@@ -683,7 +683,7 @@ namespace EyeCenter
                 {
                     for (int j = i + 1; j < this.Controls.Count; j++)
                     {
-                        if (this.Controls[j].GetType().Name.Equals("TextBox") || this.Controls[j].GetType().Name.Equals("ComboBox"))
+                        if (this.Controls[j] is TextBox || this.Controls[j] is ComboBox)
                         {
                             this.Controls[j].Select();
                             FocusedBox = this.Controls[j].Name;
@@ -707,7 +707,7 @@ namespace EyeCenter
                 {
                     for (int j = i - 1; j >= 0; j--)
                     {
-                        if (this.Controls[j].GetType().Name.Equals("TextBox") || this.Controls[j].GetType().Name.Equals("ComboBox"))
+                        if (this.Controls[j] is TextBox || this.Controls[j] is ComboBox)
                         {
                             this.Controls[j].Select();
                             FocusedBox = this.Controls[j].Name;

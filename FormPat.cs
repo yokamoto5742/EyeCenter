@@ -971,7 +971,7 @@ namespace EyeCenter
             {
                 foreach (Control c in PassPanel.Controls)
                 {
-                    if (c.GetType().Name.Equals("Label") && c.Name.StartsWith(r["Name"].ToString() + "_"))
+                    if (c is Label && c.Name.StartsWith(r["Name"].ToString() + "_"))
                     {
                         Label tmpLabel = (Label)c;
 
@@ -1151,7 +1151,7 @@ namespace EyeCenter
             {
                 foreach (Control c in p.Controls)
                 {
-                    if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                    if (c is TextBox || c is ComboBox)
                     {
                         c.Text = "";
                     }
@@ -1180,7 +1180,7 @@ namespace EyeCenter
         {
             foreach (Control c in PassPanel.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     c.Text = "";
                 }
@@ -1237,14 +1237,7 @@ namespace EyeCenter
         /// </summary>
         private void InDateChange()
         {
-            if (InOutBox.Text.Equals("わかば") || InOutBox.Text.Equals("さくら") || InOutBox.Text.Equals("あやめ"))
-            {
-                InDateTimePicker.Enabled = true;
-            }
-            else
-            {
-                InDateTimePicker.Enabled = false;
-            }
+            InDateTimePicker.Enabled = InOutBox.Text.Equals("わかば") || InOutBox.Text.Equals("さくら") || InOutBox.Text.Equals("あやめ");
         }
 
         /// <summary>
@@ -1256,33 +1249,9 @@ namespace EyeCenter
             InRoomBox.Items.Clear();
             InRoomBox.Items.Add("");
 
-            if (InOutBox.Text.Equals("外来"))
+            foreach (DataRow r in EyeDict.EyeSet.Tables["InRoom"].Select("InOut = '" + InOutBox.Text + "'"))
             {
-                foreach (DataRow r in EyeDict.EyeSet.Tables["InRoom"].Select("InOut = '外来'"))
-                {
-                    InRoomBox.Items.Add(r["Value"].ToString());
-                }
-            }
-            else if (InOutBox.Text.Equals("わかば"))
-            {
-                foreach (DataRow r in EyeDict.EyeSet.Tables["InRoom"].Select("InOut = 'わかば'"))
-                {
-                    InRoomBox.Items.Add(r["Value"].ToString());
-                }
-            }
-            else if (InOutBox.Text.Equals("さくら"))
-            {
-                foreach (DataRow r in EyeDict.EyeSet.Tables["InRoom"].Select("InOut = 'さくら'"))
-                {
-                    InRoomBox.Items.Add(r["Value"].ToString());
-                }
-            }
-            else if (InOutBox.Text.Equals("あやめ"))
-            {
-                foreach (DataRow r in EyeDict.EyeSet.Tables["InRoom"].Select("InOut = 'あやめ'"))
-                {
-                    InRoomBox.Items.Add(r["Value"].ToString());
-                }
+                InRoomBox.Items.Add(r["Value"].ToString());
             }
         }
 
@@ -1440,7 +1409,7 @@ namespace EyeCenter
             tmpTable.Rows.Clear();
 
             List<EyeOpe> tmpList = EyeOpe.GetListByPatDates(this.Pat.Id, "", "");
-            Dictionary<string, string> tmpRecDict = new Dictionary<string, string>();
+            Dictionary<string, string> tmpRecDict;
 
             foreach (EyeOpe tmpOpe in tmpList)
             {
@@ -1509,29 +1478,7 @@ namespace EyeCenter
 
                 r["備考"] = tmpOpe.Comment;
 
-                tmpRecDict.Clear();
-
-                foreach (string line in tmpOpe.OpeRecord.Split('\r', '\n'))
-                {
-                    string[] s = line.Split(',');
-
-                    if (s.Length >= 2)
-                    {
-                        string value = "";
-
-                        for (int j = 1; j < s.Length; j++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
-
-                            value += s[j];
-                        }
-
-                        tmpRecDict.Add(s[0], value);
-                    }
-                }
+                tmpRecDict = ContData.Parse(tmpOpe.OpeRecord);
 
                 foreach (DataRow tmpRow in EyeDict.EyeSet.Tables["OpeHistory"].Rows)
                 {
@@ -1720,29 +1667,7 @@ namespace EyeCenter
                     tmpDict.Add("110L", "");
                     tmpDict.Add("109B", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // 遠見視力（右）データ作成
                     if (tmpDict["108R"].Equals("1"))
@@ -1813,29 +1738,7 @@ namespace EyeCenter
                     tmpDict.Add("303L", "");
                     tmpDict.Add("304L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // 眼圧（右）データ作成
                     tmpRow["TensionAvg_R"] = tmpDict["304R"];
@@ -1852,29 +1755,7 @@ namespace EyeCenter
                     tmpDict.Add("501R", "");
                     tmpDict.Add("501L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // GATデータ作成
                     tmpRow["GAT_R"] = tmpDict["501R"];
@@ -1887,29 +1768,7 @@ namespace EyeCenter
                     tmpDict.Add("701R", "");
                     tmpDict.Add("701L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // 綿糸法データ作成
                     tmpRow["Menshihou_R"] = tmpDict["701R"];
@@ -1924,29 +1783,7 @@ namespace EyeCenter
                     tmpDict.Add("801L", "");
                     tmpDict.Add("802L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // Mチャートデータ作成
                     tmpRow["MChartTate_R"] = tmpDict["801R"];
@@ -1969,29 +1806,7 @@ namespace EyeCenter
                     tmpDict.Add("904L", "");
                     tmpDict.Add("905L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // コントラスト（右）データ作成
                     tmpRow["ContrastA_R"] = tmpDict["901R"];
@@ -2014,29 +1829,7 @@ namespace EyeCenter
                     tmpDict.Add("1110R", "");
                     tmpDict.Add("1110L", "");
 
-                    string tmpValue = "";
-
-                    foreach (string line in tmpKensa.Cont.Split('\r', '\n'))
-                    {
-                        string[] s = line.Split(',');
-
-                        if (tmpDict.ContainsKey(s[0]))
-                        {
-                            tmpValue = "";
-
-                            for (int i = 1; i < s.Length; i++)
-                            {
-                                if (tmpValue.Length > 0)
-                                {
-                                    tmpValue += ",";
-                                }
-
-                                tmpValue += s[i].Replace("<CR+LF>", "\r\n");
-                            }
-
-                            tmpDict[s[0]] = tmpValue;
-                        }
-                    }
+                    ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // 網膜厚データ作成
                     tmpRow["Moumakukou_R"] = tmpDict["1110R"];
@@ -2188,15 +1981,8 @@ namespace EyeCenter
             this.InTimeBox.Text = ope.InTime;
             this.InTermBox.Text = ope.InTerm;
 
-            if (ope.EyeR.Equals("1"))
-            {
-                this.EyeBoxR.Checked = true;
-            }
-
-            if (ope.EyeL.Equals("1"))
-            {
-                this.EyeBoxL.Checked = true;
-            }
+            this.EyeBoxR.Checked = ope.EyeR.Equals("1");
+            this.EyeBoxL.Checked = ope.EyeL.Equals("1");
 
             this.HeightBox.Text = ope.Height;
             this.WeightBox.Text = ope.Weight;
@@ -2205,35 +1991,12 @@ namespace EyeCenter
             this.PastBox.Text = ope.Past;
             this.CommentBox.Text = ope.Comment;
 
-            if (ope.AllCheck.Equals("1"))
-            {
-                this.AllCheckBox.Checked = true;
-            }
-
-            if (ope.Explain.Equals("1"))
-            {
-                this.ExplainBox.Checked = true;
-            }
-
-            if (ope.EyeDrop.Equals("1"))
-            {
-                this.EyeDropBox.Checked = true;
-            }
-
-            if (ope.Agree.Equals("1"))
-            {
-                this.AgreeBox.Checked = true;
-            }
-
-            if (ope.PreCheck.Equals("1"))
-            {
-                this.PreCheckBox.Checked = true;
-            }
-
-            if (ope.EarlierOK.Equals("1"))
-            {
-                this.EarlierOKBox.Checked = true;
-            }
+            this.AllCheckBox.Checked = ope.AllCheck.Equals("1");
+            this.ExplainBox.Checked = ope.Explain.Equals("1");
+            this.EyeDropBox.Checked = ope.EyeDrop.Equals("1");
+            this.AgreeBox.Checked = ope.Agree.Equals("1");
+            this.PreCheckBox.Checked = ope.PreCheck.Equals("1");
+            this.EarlierOKBox.Checked = ope.EarlierOK.Equals("1");
 
             // 身長・体重の値から、体表面積・ビスダイン溶液・ブドウ糖液の量を計算する。
             this.BodyCalc();
@@ -2245,48 +2008,20 @@ namespace EyeCenter
         /// <param name="record"></param>
         private void RecordShow(EyeOpeRecord record)
         {
-            string[] conts = record.Cont.Split('\r', '\n');
-            Dictionary<string, string> recordDict = new Dictionary<string, string>();
-
-            string value = "";
-
-            foreach (string s in conts)
-            {
-                string[] ss = s.Split(',');
-
-                if (ss.Length >= 2)
-                {
-                    if (!recordDict.ContainsKey(ss[0]))
-                    {
-                        value = "";
-
-                        for (int i = 1; i < ss.Length; i++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
-
-                            value += ss[i];
-                        }
-
-                        recordDict.Add(ss[0], value.Replace("<CR+LF>", "\r\n"));
-                    }
-                }
-            }
+            Dictionary<string, string> recordDict = ContData.Parse(record.Cont);
 
             foreach (TabPage p in RecordTabControl.TabPages)
             {
                 foreach (Control c in p.Controls)
                 {
-                    if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                    if (c is TextBox || c is ComboBox)
                     {
                         if (recordDict.ContainsKey(c.Tag.ToString()))
                         {
                             c.Text = recordDict[c.Tag.ToString()];
                         }
                     }
-                    else if (c.GetType().Name.Equals("CheckBox"))
+                    else if (c is CheckBox)
                     {
                         if (recordDict.ContainsKey(c.Tag.ToString()))
                         {
@@ -2296,14 +2031,7 @@ namespace EyeCenter
                 }
             }
 
-            if (record.Status.Equals("1"))
-            {
-                RecordStatusBox.Checked = true;
-            }
-            else
-            {
-                RecordStatusBox.Checked = false;
-            }
+            RecordStatusBox.Checked = record.Status.Equals("1");
 
             if (Dict.StaffDict.ContainsKey(record.Staff))
             {
@@ -2320,14 +2048,7 @@ namespace EyeCenter
             PreContBox.Text = doctor.PreCont;
             DoContBox.Text = doctor.DoCont;
 
-            if (doctor.Status.Equals("1"))
-            {
-                DoctorStatusBox.Checked = true;
-            }
-            else
-            {
-                DoctorStatusBox.Checked = false;
-            }
+            DoctorStatusBox.Checked = doctor.Status.Equals("1");
 
             if (Dict.StaffDict.ContainsKey(doctor.Staff))
             {
@@ -2341,39 +2062,11 @@ namespace EyeCenter
         /// <param name="pass"></param>
         private void PassShow(EyeOpePass pass)
         {
-            string[] conts = pass.Cont.Split('\r', '\n');
-            Dictionary<string, string> passDict = new Dictionary<string, string>();
-
-            string value = "";
-
-            foreach (string s in conts)
-            {
-                string[] ss = s.Split(',');
-
-                if (ss.Length >= 2)
-                {
-                    if (!passDict.ContainsKey(ss[0]))
-                    {
-                        value = "";
-
-                        for (int i = 1; i < ss.Length; i++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
-
-                            value += ss[i];
-                        }
-
-                        passDict.Add(ss[0], value.Replace("<CR+LF>", "\r\n"));
-                    }
-                }
-            }
+            Dictionary<string, string> passDict = ContData.Parse(pass.Cont);
 
             foreach (Control c in PassPanel.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     if (passDict.ContainsKey(c.Tag.ToString()))
                     {
@@ -2608,7 +2301,7 @@ namespace EyeCenter
 
             foreach (Control c in this.RecordTabControl.TabPages[0].Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "術前検査";
@@ -2616,7 +2309,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.ItemList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "術前検査";
@@ -2637,7 +2330,7 @@ namespace EyeCenter
 
             foreach (Control c in this.RecordTabControl.TabPages[1].Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "術前アナムネ";
@@ -2645,7 +2338,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.ItemList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "術前アナムネ";
@@ -2666,7 +2359,7 @@ namespace EyeCenter
 
             foreach (Control c in this.RecordTabControl.TabPages[2].Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "共通記録";
@@ -2674,7 +2367,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.ItemList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "共通記録";
@@ -2719,7 +2412,7 @@ namespace EyeCenter
 
             foreach (Control c in this.SumPanel1.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリメイン";
@@ -2727,7 +2420,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.SumList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリメイン";
@@ -2748,7 +2441,7 @@ namespace EyeCenter
 
             foreach (Control c in this.SumPanel3.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリ入院管理";
@@ -2756,7 +2449,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.SumList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリ入院管理";
@@ -2777,7 +2470,7 @@ namespace EyeCenter
 
             foreach (Control c in this.SumPanel4.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリ経過";
@@ -2785,7 +2478,7 @@ namespace EyeCenter
                     tmpItem.Value = c.Text;
                     tmpDoc.SumList.Add(tmpItem);
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     EyeDoc.Item tmpItem = new EyeDoc.Item();
                     tmpItem.Kind = "サマリ経過";
@@ -2824,7 +2517,7 @@ namespace EyeCenter
 
             foreach (Control c in this.SumPanel2.Controls)
             {
-                if (c.GetType().Name.Equals("Label"))
+                if (c is Label)
                 {
                     if (c.Name.EndsWith("_D"))
                     {
@@ -3140,15 +2833,8 @@ namespace EyeCenter
                 ope.InTerm = this.InTermBox.Text;
             }
 
-            if (this.EyeBoxR.Checked)
-            {
-                ope.EyeR = "1";
-            }
-
-            if (this.EyeBoxL.Checked)
-            {
-                ope.EyeL = "1";
-            }
+            ope.EyeR = this.EyeBoxR.Checked ? "1" : "0";
+            ope.EyeL = this.EyeBoxL.Checked ? "1" : "0";
 
             ope.Height = this.HeightBox.Text;
             ope.Weight = this.WeightBox.Text;
@@ -3157,35 +2843,12 @@ namespace EyeCenter
             ope.Past = this.PastBox.Text;
             ope.Comment = this.CommentBox.Text;
 
-            if (this.AllCheckBox.Checked)
-            {
-                ope.AllCheck = "1";
-            }
-
-            if (this.ExplainBox.Checked)
-            {
-                ope.Explain = "1";
-            }
-
-            if (this.EyeDropBox.Checked)
-            {
-                ope.EyeDrop = "1";
-            }
-
-            if (this.AgreeBox.Checked)
-            {
-                ope.Agree = "1";
-            }
-
-            if (this.PreCheckBox.Checked)
-            {
-                ope.PreCheck = "1";
-            }
-
-            if (this.EarlierOKBox.Checked)
-            {
-                ope.EarlierOK = "1";
-            }
+            ope.AllCheck = this.AllCheckBox.Checked ? "1" : "0";
+            ope.Explain = this.ExplainBox.Checked ? "1" : "0";
+            ope.EyeDrop = this.EyeDropBox.Checked ? "1" : "0";
+            ope.Agree = this.AgreeBox.Checked ? "1" : "0";
+            ope.PreCheck = this.PreCheckBox.Checked ? "1" : "0";
+            ope.EarlierOK = this.EarlierOKBox.Checked ? "1" : "0";
 
             ope.Staff = LoginUser.Id;
             ope.Status = "1";
@@ -3216,44 +2879,9 @@ namespace EyeCenter
 
             ope.Id = this.OpeIdBox.Text;
 
-            string cont = "";
-
-            foreach (TabPage p in RecordTabControl.TabPages)
-            {
-                foreach (Control c in p.Controls)
-                {
-                    if ((c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox")) && c.Text.Length > 0 && c.Tag.ToString().Length > 0)
-                    {
-                        if (cont.Length > 0)
-                        {
-                            cont += "\r\n";
-                        }
-
-                        cont += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>");
-                    }
-                    else if (c.GetType().Name.Equals("CheckBox") && ((CheckBox)c).Checked)
-                    {
-                        if (cont.Length > 0)
-                        {
-                            cont += "\r\n";
-                        }
-
-                        cont += c.Tag.ToString() + ",1";
-                    }
-                }
-            }
-
-            ope.Cont = cont;
+            ope.Cont = ContData.Build(RecordTabControl.TabPages);
             ope.Staff = LoginUser.Id;
-
-            if (RecordStatusBox.Checked)
-            {
-                ope.Status = "1";
-            }
-            else
-            {
-                ope.Status = "2";
-            }
+            ope.Status = RecordStatusBox.Checked ? "1" : "2";
 
             ope.Save();
 
@@ -3284,14 +2912,7 @@ namespace EyeCenter
             ope.DoCont = DoContBox.Text;
             ope.Staff = LoginUser.Id;
 
-            if (DoctorStatusBox.Checked)
-            {
-                ope.Status = "1";
-            }
-            else
-            {
-                ope.Status = "2";
-            }
+            ope.Status = DoctorStatusBox.Checked ? "1" : "2";
 
             ope.Save();
 
@@ -3319,22 +2940,7 @@ namespace EyeCenter
 
             ope.Id = this.OpeIdBox.Text;
 
-            string cont = "";
-
-            foreach (Control c in PassPanel.Controls)
-            {
-                if ((c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox")) && c.Text.Length > 0 && c.Tag.ToString().Length > 0)
-                {
-                    if (cont.Length > 0)
-                    {
-                        cont += "\r\n";
-                    }
-
-                    cont += c.Tag.ToString() + "," + c.Text.Replace("\r\n", "<CR+LF>");
-                }
-            }
-
-            ope.Cont = cont;
+            ope.Cont = ContData.Build(PassPanel.Controls);
             ope.Staff = LoginUser.Id;
             ope.Status = "1";
 
@@ -3647,14 +3253,14 @@ namespace EyeCenter
 
                         foreach (Control c in tp.Controls["KensaPanel"].Controls)
                         {
-                            if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                            if (c is TextBox || c is ComboBox)
                             {
                                 if (kensa_dict.ContainsKey(c.Tag.ToString()))
                                 {
                                     c.Text = kensa_dict[c.Tag.ToString()];
                                 }
                             }
-                            else if (c.GetType().Name.Equals("CheckBox"))
+                            else if (c is CheckBox)
                             {
                                 if (kensa_dict.ContainsKey(c.Tag.ToString()) && kensa_dict[c.Tag.ToString()].Equals("1"))
                                 {

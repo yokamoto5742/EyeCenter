@@ -127,7 +127,7 @@ namespace EyeCenter
 
             foreach (Control c in this.Controls)
             {
-                if (c.GetType().Name.Equals("Label"))
+                if (c is Label)
                 {
                     if (c.BackColor == Color.LightPink)
                     {
@@ -361,7 +361,7 @@ namespace EyeCenter
 
                     foreach (Control c in tmpPanel.Controls)
                     {
-                        if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                        if (c is TextBox || c is ComboBox)
                         {
                             if (kensaDict.ContainsKey(c.Tag.ToString()))
                             {
@@ -373,7 +373,7 @@ namespace EyeCenter
                                 }
                             }
                         }
-                        else if (c.GetType().Name.Equals("CheckBox"))
+                        else if (c is CheckBox)
                         {
                             if (kensaDict.ContainsKey(c.Tag.ToString()))
                             {
@@ -816,14 +816,14 @@ namespace EyeCenter
 
             foreach (Control c in tmpPanel.Controls)
             {
-                if (c.GetType().Name.Equals("TextBox") || c.GetType().Name.Equals("ComboBox"))
+                if (c is TextBox || c is ComboBox)
                 {
                     if (c.Text.Length > 0)
                     {
                         kensaDict.Add(c.Tag.ToString(), c.Text);
                     }
                 }
-                else if (c.GetType().Name.Equals("CheckBox"))
+                else if (c is CheckBox)
                 {
                     if (((CheckBox)c).Checked)
                     {
