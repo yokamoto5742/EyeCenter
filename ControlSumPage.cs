@@ -60,9 +60,6 @@ namespace EyeCenter
             int pos_x = 5;
             int pos_y = 5;
 
-            int c_width = 100;
-            int c_height = 20;
-
             foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
             {
                 if (r["Label"].ToString().Length > 0)
@@ -76,8 +73,7 @@ namespace EyeCenter
                     FP.SumPanel1.Controls.Add(tmpLabel);
                 }
 
-                c_width = 100;
-                c_height = 20;
+                Size c_size = DynamicControl.GetSize(r, 100, 20);
 
                 if (r["Type"].ToString().Equals("TextBox"))
                 {
@@ -85,32 +81,10 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     if (r["Multiline"].ToString().Equals("1"))
                     {
@@ -125,18 +99,7 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
                     if (r["Item"].ToString().Length > 0)
@@ -147,18 +110,7 @@ namespace EyeCenter
                         }
                     }
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     FP.SumPanel1.Controls.Add(tmpBox);
                 }
@@ -168,24 +120,14 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
+                    tmpBox.Size = c_size;
                     tmpBox.Text = r["Text"].ToString();
                     tmpBox.Tag = r["Code"].ToString();
 
                     FP.SumPanel1.Controls.Add(tmpBox);
                 }
 
-                pos_y += c_height + 2;
+                pos_y += c_size.Height + 2;
             }
 
             int pos_x1 = 5;
@@ -202,84 +144,59 @@ namespace EyeCenter
             {
                 if (r["Label"].ToString().Length > 0)
                 {
-                    if (r["Line"].ToString().Equals("1"))
+                    // Line 1 は左列、Line 2 は右列に配置する（座標以外は同一処理）
+                    bool line1 = r["Line"].ToString().Equals("1");
+
+                    if (!line1 && !r["Line"].ToString().Equals("2"))
                     {
-                        Label tmpLabel1 = new Label();
-                        tmpLabel1.Name = r["Code"].ToString() + "_L";
-                        tmpLabel1.AutoSize = true;
-                        tmpLabel1.Text = r["Label"].ToString();
-                        tmpLabel1.Location = new Point(pos_x1, pos_y1 + 2);
+                        continue;
+                    }
 
-                        FP.SumPanel2.Controls.Add(tmpLabel1);
+                    int x = line1 ? pos_x1 : pos_x2;
+                    int y = line1 ? pos_y1 : pos_y2;
 
-                        Label tmpLabel2 = new Label();
-                        tmpLabel2.Name = r["Code"].ToString() + "_D";
-                        tmpLabel2.BackColor = Color.LightYellow;
-                        tmpLabel2.Location = new Point(pos_x1 + 75, pos_y1);
-                        tmpLabel2.Size = size_d;
-                        tmpLabel2.TextAlign = ContentAlignment.MiddleCenter;
-                        tmpLabel2.DoubleClick += new EventHandler(Label2_DoubleClick);
+                    Label tmpLabel1 = new Label();
+                    tmpLabel1.Name = r["Code"].ToString() + "_L";
+                    tmpLabel1.AutoSize = true;
+                    tmpLabel1.Text = r["Label"].ToString();
+                    tmpLabel1.Location = new Point(x, y + 2);
 
-                        FP.SumPanel2.Controls.Add(tmpLabel2);
+                    FP.SumPanel2.Controls.Add(tmpLabel1);
 
-                        Label tmpLabel3 = new Label();
-                        tmpLabel3.Name = r["Code"].ToString() + "_S";
-                        tmpLabel3.BackColor = Color.LightYellow;
-                        tmpLabel3.Location = new Point(pos_x1 + 153, pos_y1);
-                        tmpLabel3.Size = size_s;
-                        tmpLabel3.TextAlign = ContentAlignment.MiddleCenter;
-                        tmpLabel3.DoubleClick += new EventHandler(Label2_DoubleClick);
+                    Label tmpLabel2 = new Label();
+                    tmpLabel2.Name = r["Code"].ToString() + "_D";
+                    tmpLabel2.BackColor = Color.LightYellow;
+                    tmpLabel2.Location = new Point(x + 75, y);
+                    tmpLabel2.Size = size_d;
+                    tmpLabel2.TextAlign = ContentAlignment.MiddleCenter;
+                    tmpLabel2.DoubleClick += new EventHandler(Label2_DoubleClick);
 
-                        FP.SumPanel2.Controls.Add(tmpLabel3);
+                    FP.SumPanel2.Controls.Add(tmpLabel2);
 
-                        Label tmpLabel4 = new Label();
-                        tmpLabel4.Name = r["Code"].ToString() + "_C";
-                        tmpLabel4.Location = new Point(pos_x1 + 153, pos_y1);
-                        tmpLabel4.Size = size_c;
-                        tmpLabel4.Visible = false;
+                    Label tmpLabel3 = new Label();
+                    tmpLabel3.Name = r["Code"].ToString() + "_S";
+                    tmpLabel3.BackColor = Color.LightYellow;
+                    tmpLabel3.Location = new Point(x + 153, y);
+                    tmpLabel3.Size = size_s;
+                    tmpLabel3.TextAlign = ContentAlignment.MiddleCenter;
+                    tmpLabel3.DoubleClick += new EventHandler(Label2_DoubleClick);
 
-                        FP.SumPanel2.Controls.Add(tmpLabel4);
+                    FP.SumPanel2.Controls.Add(tmpLabel3);
 
+                    Label tmpLabel4 = new Label();
+                    tmpLabel4.Name = r["Code"].ToString() + "_C";
+                    tmpLabel4.Location = new Point(x + 153, y);
+                    tmpLabel4.Size = size_c;
+                    tmpLabel4.Visible = false;
+
+                    FP.SumPanel2.Controls.Add(tmpLabel4);
+
+                    if (line1)
+                    {
                         pos_y1 += 22;
                     }
-                    else if (r["Line"].ToString().Equals("2"))
+                    else
                     {
-                        Label tmpLabel1 = new Label();
-                        tmpLabel1.Name = r["Code"].ToString() + "_L";
-                        tmpLabel1.AutoSize = true;
-                        tmpLabel1.Text = r["Label"].ToString();
-                        tmpLabel1.Location = new Point(pos_x2, pos_y2 + 2);
-
-                        FP.SumPanel2.Controls.Add(tmpLabel1);
-
-                        Label tmpLabel2 = new Label();
-                        tmpLabel2.Name = r["Code"].ToString() + "_D";
-                        tmpLabel2.BackColor = Color.LightYellow;
-                        tmpLabel2.Location = new Point(pos_x2 + 75, pos_y2);
-                        tmpLabel2.Size = size_d;
-                        tmpLabel2.TextAlign = ContentAlignment.MiddleCenter;
-                        tmpLabel2.DoubleClick += new EventHandler(Label2_DoubleClick);
-
-                        FP.SumPanel2.Controls.Add(tmpLabel2);
-
-                        Label tmpLabel3 = new Label();
-                        tmpLabel3.Name = r["Code"].ToString() + "_S";
-                        tmpLabel3.BackColor = Color.LightYellow;
-                        tmpLabel3.Location = new Point(pos_x2 + 153, pos_y2);
-                        tmpLabel3.Size = size_s;
-                        tmpLabel3.TextAlign = ContentAlignment.MiddleCenter;
-                        tmpLabel3.DoubleClick += new EventHandler(Label2_DoubleClick);
-
-                        FP.SumPanel2.Controls.Add(tmpLabel3);
-
-                        Label tmpLabel4 = new Label();
-                        tmpLabel4.Name = r["Code"].ToString() + "_C";
-                        tmpLabel4.Location = new Point(pos_x2 + 153, pos_y2);
-                        tmpLabel4.Size = size_c;
-                        tmpLabel4.Visible = false;
-
-                        FP.SumPanel2.Controls.Add(tmpLabel4);
-
                         pos_y2 += 22;
                     }
                 }
@@ -287,9 +204,6 @@ namespace EyeCenter
 
             pos_x = 5;
             pos_y = 5;
-
-            c_width = 100;
-            c_height = 20;
 
             foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem3"].Rows)
             {
@@ -304,8 +218,7 @@ namespace EyeCenter
                     FP.SumPanel3.Controls.Add(tmpLabel);
                 }
 
-                c_width = 100;
-                c_height = 20;
+                Size c_size = DynamicControl.GetSize(r, 100, 20);
 
                 if (r["Type"].ToString().Equals("TextBox"))
                 {
@@ -313,32 +226,10 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     if (r["Multiline"].ToString().Equals("1"))
                     {
@@ -358,18 +249,7 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
                     if (r["Item"].ToString().Length > 0)
@@ -380,18 +260,7 @@ namespace EyeCenter
                         }
                     }
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     FP.SumPanel3.Controls.Add(tmpBox);
                 }
@@ -401,33 +270,19 @@ namespace EyeCenter
                     tmpBox.Name = r["Code"].ToString() + "_C";
                     tmpBox.Location = new Point(pos_x + 80, pos_y);
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
+                    tmpBox.Size = c_size;
                     tmpBox.Text = r["Text"].ToString();
                     tmpBox.Tag = r["Code"].ToString();
 
                     FP.SumPanel3.Controls.Add(tmpBox);
                 }
 
-                pos_y += c_height + 2;
+                pos_y += c_size.Height + 2;
             }
-
-            c_width = 100;
-            c_height = 20;
 
             foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem4"].Rows)
             {
-                c_width = 100;
-                c_height = 20;
+                Size c_size = DynamicControl.GetSize(r, 100, 20);
 
                 if (r["Type"].ToString().Equals("Label"))
                 {
@@ -445,32 +300,10 @@ namespace EyeCenter
                     tmpBox.Name = r["Name"].ToString();
                     tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     if (r["Multiline"].ToString().Equals("1"))
                     {
@@ -485,18 +318,7 @@ namespace EyeCenter
                     tmpBox.Name = r["Name"].ToString();
                     tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
-//                    tmpBox.Text = r["Text"].ToString();
+                    tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
 
                     if (r["Item"].ToString().Length > 0)
@@ -507,18 +329,7 @@ namespace EyeCenter
                         }
                     }
 
-                    if (r["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (r["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else if (r["Ime"].ToString().Equals("Disable"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Disable;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(r["Ime"].ToString(), ImeMode.NoControl);
 
                     FP.SumPanel4.Controls.Add(tmpBox);
                 }
@@ -528,17 +339,7 @@ namespace EyeCenter
                     tmpBox.Name = r["Name"].ToString();
                     tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
-                    if (r["Width"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Width"].ToString(), out c_width);
-                    }
-
-                    if (r["Height"].ToString().Length > 0)
-                    {
-                        int.TryParse(r["Height"].ToString(), out c_height);
-                    }
-
-                    tmpBox.Size = new Size(c_width, c_height);
+                    tmpBox.Size = c_size;
                     tmpBox.Text = r["Text"].ToString();
                     tmpBox.Tag = r["Code"].ToString();
 

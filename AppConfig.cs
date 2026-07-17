@@ -22,5 +22,20 @@ namespace EyeCenter
 
             return def;
         }
+
+        /// <summary>
+        /// appSettings の値を string で取得する。未設定・空欄の場合は def を返す。
+        /// </summary>
+        internal static string GetString(string key, string def)
+        {
+            string s = ConfigurationManager.AppSettings[key];
+
+            if (!string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
+
+            return def;
+        }
     }
 }

@@ -179,7 +179,19 @@ namespace EyeCenter
 
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            if (LoginUser.Id.Equals("519") || LoginUser.Id.Equals("363") || LoginUser.Id.Equals("305") || LoginUser.Id.Equals("752") || LoginUser.Id.Equals("1034"))
+            // エクスポート許可ユーザーは設定ファイル(EyeCenter.exe.config)の ExportAllowedUsers で変更可能
+            bool allowed = false;
+
+            foreach (string id in AppConfig.GetString("ExportAllowedUsers", "519,363,305,752,1034").Split(','))
+            {
+                if (id.Trim().Equals(LoginUser.Id))
+                {
+                    allowed = true;
+                    break;
+                }
+            }
+
+            if (allowed)
             {
                 FormExport fe = new FormExport();
                 fe.ShowDialog();

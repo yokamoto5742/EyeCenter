@@ -135,31 +135,9 @@ namespace EyeCenter
                         tmpBox.Height = int.Parse(tmpRow["Height"].ToString());
                     }
 
-                    if (tmpRow["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (tmpRow["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else
-                    {
-                        tmpBox.ImeMode = ImeMode.NoControl;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(tmpRow["Ime"].ToString(), ImeMode.NoControl);
 
-                    if (tmpRow["Align"].ToString().Equals("Right"))
-                    {
-                        tmpBox.TextAlign = HorizontalAlignment.Right;
-                    }
-                    else if (tmpRow["Align"].ToString().Equals("Center"))
-                    {
-                        tmpBox.TextAlign = HorizontalAlignment.Center;
-                    }
-                    else
-                    {
-                        tmpBox.TextAlign = HorizontalAlignment.Left;
-                    }
+                    tmpBox.TextAlign = DynamicControl.GetTextAlign(tmpRow["Align"].ToString(), HorizontalAlignment.Left);
 
                     if (tmpRow["Multiline"].ToString().Equals("1"))
                     {
@@ -219,18 +197,7 @@ namespace EyeCenter
                         tmpBox.Height = int.Parse(tmpRow["Height"].ToString());
                     }
 
-                    if (tmpRow["Ime"].ToString().Equals("Hiragana"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Hiragana;
-                    }
-                    else if (tmpRow["Ime"].ToString().Equals("Off"))
-                    {
-                        tmpBox.ImeMode = ImeMode.Off;
-                    }
-                    else
-                    {
-                        tmpBox.ImeMode = ImeMode.NoControl;
-                    }
+                    tmpBox.ImeMode = DynamicControl.GetImeMode(tmpRow["Ime"].ToString(), ImeMode.NoControl);
 
                     foreach (string s in tmpRow["Item"].ToString().Split(','))
                     {

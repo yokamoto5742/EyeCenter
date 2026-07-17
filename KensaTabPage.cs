@@ -266,7 +266,6 @@ namespace EyeCenter
                 }
 
                 P_FormPat.PtKensaHistoryShow();
-//                EyeDict.FormPat_KensaHistoryShow(tmpKensa.PtId);
             }
         }
 
@@ -306,7 +305,6 @@ namespace EyeCenter
                 this.KensaClear();
 
                 P_FormPat.PtKensaHistoryShow();
-//                EyeDict.FormPat_KensaHistoryShow(this.PtId);
             }
         }
 
