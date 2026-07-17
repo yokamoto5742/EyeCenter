@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EyeCenter</RootNamespace>
-    <AssemblyName>EyeCenter</AssemblyName>
+    <AssemblyName>EyeData</AssemblyName>
     <ApplicationIcon>ai1.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -307,6 +307,8 @@
     <None Include="docs\BUILD_REQUIREMENTS.md" />
     <None Include="docs\CHANGELOG.md" />
     <None Include="docs\LICENSE" />
+    <None Include="docs\MIGRATION_PLAN.md" />
+    <None Include="docs\PRINT_MIGRATION.md" />
     <None Include="EyeDataSettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
