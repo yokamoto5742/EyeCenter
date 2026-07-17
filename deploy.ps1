@@ -28,4 +28,11 @@ foreach ($file in $files) {
     Write-Host "コピー: $($file.Name)"
 }
 
+# 本番機用の設定ファイル（本番機では EyeData.exe.config をこれで置き換える）
+$prodConfig = Join-Path $PSScriptRoot "EyeData.exe.config.production"
+if (Test-Path $prodConfig) {
+    Copy-Item -Path $prodConfig -Destination $destDir -Force
+    Write-Host "コピー: EyeData.exe.config.production"
+}
+
 Write-Host "完了: $($files.Count) ファイルを $destDir へ配置しました。（$Configuration）"

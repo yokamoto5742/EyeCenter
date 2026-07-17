@@ -14,6 +14,19 @@ namespace EyeCenter
         [STAThread]
         static void Main()
         {
+            try
+            {
+                MainBody();
+            }
+            catch (Exception ex)
+            {
+                // Application.Run 前の例外は既定では何も表示されずに終了するため、必ず表示する
+                MessageBox.Show(ex.ToString(), "起動エラー");
+            }
+        }
+
+        static void MainBody()
+        {
             // すでに起動しているか
             bool proc = false;
             Process[] procs = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);

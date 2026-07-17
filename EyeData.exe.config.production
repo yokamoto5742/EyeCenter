@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  本番機用の設定ファイル。
+  本番機に配置するときは、このファイルを EyeData.exe.config にリネームして置き換えること。
+  （開発機用の EyeData.exe.config は Oracle.DataAccess を開発機のODAC 4.122 に
+  　リダイレクトしているため、Oracle 11.2 クライアントの本番機では動作しない）
+  あわせて本番機のフォルダから Oracle.DataAccess.dll（開発機用 4.122）を削除すること。
+-->
+<configuration>
+    <appSettings>
+        <!-- 画面サイズ設定（ピクセル単位）。値が空または未記載の場合は既定値を使用する -->
+        <!-- メイン画面のサイズ -->
+        <add key="MainFormWidth" value="" />
+        <add key="MainFormHeight" value="" />
+        <!-- 患者台帳 問診タブ: 問診入力の横幅（既定値 350） -->
+        <add key="IVContBoxWidth" value="" />
+        <!-- 患者台帳 問診タブ: 問診履歴の横幅（既定値 342） -->
+        <add key="IVHistoryViewWidth" value="" />
+        <!-- 患者台帳: 手術歴の横幅（既定値 275） -->
+        <add key="OpeHistoryViewWidth" value="" />
+        <!-- 患者台帳: 検査歴の横幅（既定値は画面右端まで自動調整） -->
+        <add key="KensaHistoryViewWidth" value="" />
+        <!-- 手術検索・サマリ検索・検査検索の取得件数上限（既定値 10000） -->
+        <add key="FindRowLimit" value="" />
+        <!-- DBコマンドのタイムアウト秒数（既定値 60） -->
+        <add key="DbCommandTimeout" value="" />
+    </appSettings>
+    <startup>
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.8" />
+    </startup>
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Oracle.DataAccess" publicKeyToken="89b483f429c47342" culture="neutral" />
+                <!-- 本番機にインストール済みの Oracle 11.2 クライアント（GAC の 2.112 系）に解決させる。
+                     2.112.1.0 より新しいパッチ版がGACにある場合は Oracle のパブリッシャーポリシーが自動で解決する -->
+                <bindingRedirect oldVersion="0.0.0.0-4.122.21.1" newVersion="2.112.1.0" />
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+</configuration>

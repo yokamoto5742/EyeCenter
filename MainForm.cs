@@ -68,6 +68,7 @@ namespace EyeCenter
                 // この時点でログインされていなければ終了
                 if (LoginUser.Status == LoginUser.STATUS.NONE)
                 {
+                    MessageBox.Show("ログインされていないため終了します", "EyeCenter");
                     this.Dispose();
                 }
             }
