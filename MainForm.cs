@@ -56,6 +56,10 @@ namespace EyeCenter
                     AppConfig.GetInt("MainFormHeight", this.ClientSize.Height));
 
                 LibSettings.Init();
+
+                // DBコマンドのタイムアウト秒数を設定ファイル(EyeCenter.exe.config)から反映する（既定値 60秒）
+                DB.SetCommandTimeout(AppConfig.GetInt("DbCommandTimeout", 60));
+
                 EyeDict.Init();
                 FormControl.Init();
 

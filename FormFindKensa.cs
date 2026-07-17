@@ -64,7 +64,21 @@ namespace EyeCenter
                 }
             }
 
-            List<EyeKensa> list = EyeKensa.LoadByKensasDates(kensa_id_list, start_date, end_date, true);
+            int limit = AppConfig.GetInt("FindRowLimit", 10000);
+
+            List<EyeKensa> list = SearchTask.Run("検査結果を検索しています...",
+                t => EyeKensa.LoadByKensasDates(kensa_id_list, start_date, end_date, true, limit, t.EyeDb, t.PatDb));
+
+            // 中止・エラー時は表示中の一覧を維持する
+            if (list == null)
+            {
+                return;
+            }
+
+            if (list.Count >= limit)
+            {
+                MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間や検査の種類を絞って再検索してください。");
+            }
 
             // 患者ID, 検査日, 検査ID でソート
             list.Sort((x, y) =>

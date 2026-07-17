@@ -100,10 +100,30 @@ namespace EyeCenter
                 return;
             }
 
+            // コントロールの値はワーカースレッドから参照しないよう先に取り出しておく
+            string diag = SumDiagBox.Text;
+            string kind1 = SumKindBox1.Text;
+            string kind2 = SumKindBox2.Text;
+            string kind3 = SumKindBox3.Text;
+
+            int limit = AppConfig.GetInt("FindRowLimit", 10000);
+
+            List<EyeSummary> list = SearchTask.Run("サマリーを検索しています...",
+                t => EyeSummary.Find(diag, kind1, kind2, kind3, limit, t.EyeDb, t.PatDb));
+
+            // 中止・エラー時は表示中の一覧を維持する
+            if (list == null)
+            {
+                return;
+            }
+
+            if (list.Count >= limit)
+            {
+                MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n条件を絞って再検索してください。");
+            }
+
             DataTable table = DSet.Tables["サマリ"];
             table.Clear();
-
-            List<EyeSummary> list = EyeSummary.Find(SumDiagBox.Text, SumKindBox1.Text, SumKindBox2.Text, SumKindBox3.Text);
 
             foreach (EyeSummary sum in list)
             {

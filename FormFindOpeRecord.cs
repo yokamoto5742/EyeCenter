@@ -110,7 +110,32 @@ namespace EyeCenter
             string start_date = StartDate.Value.ToString("yyyyMMdd");
             string end_date = EndDate.Value.ToString("yyyyMMdd");
 
-            List<EyeOpe> opeList = EyeOpe.GetList(start_date, end_date, DiagBox.Text, OpeBox.Text, DoctorBox.Text, RecordBox11.Text, RecordBox12.Text.Split(' ')[0], RecordBox13.Text, RecordBox21.Text, RecordBox22.Text.Split(' ')[0], RecordBox23.Text);
+            // コントロールの値はワーカースレッドから参照しないよう先に取り出しておく
+            string diag = DiagBox.Text;
+            string ope = OpeBox.Text;
+            string doctor = DoctorBox.Text;
+            string record11 = RecordBox11.Text;
+            string record12 = RecordBox12.Text.Split(' ')[0];
+            string record13 = RecordBox13.Text;
+            string record21 = RecordBox21.Text;
+            string record22 = RecordBox22.Text.Split(' ')[0];
+            string record23 = RecordBox23.Text;
+
+            int limit = AppConfig.GetInt("FindRowLimit", 10000);
+
+            List<EyeOpe> opeList = SearchTask.Run("手術記録を検索しています...",
+                t => EyeOpe.GetList(start_date, end_date, diag, ope, doctor, record11, record12, record13, record21, record22, record23, limit, t.EyeDb, t.PatDb));
+
+            // 中止・エラー時は表示中の一覧を維持する
+            if (opeList == null)
+            {
+                return;
+            }
+
+            if (opeList.Count >= limit)
+            {
+                MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間や条件を絞って再検索してください。");
+            }
 
             DataTable tmpTable = dSet.Tables["手術履歴"];
             tmpTable.Clear();
