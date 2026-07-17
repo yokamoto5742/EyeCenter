@@ -19,6 +19,10 @@
     <Reference Include="EyeData">
       <HintPath>..\bin\x86\Debug\EyeData.exe</HintPath>
     </Reference>
+    <Reference Include="MedicalLibrary">
+      <HintPath>..\bin\x86\Debug\MedicalLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
 

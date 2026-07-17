@@ -143,9 +143,20 @@ namespace EyeCenter
 
             SaveExclusion(key, excluded);
 
+            RemoveExcludedColumns(data, excluded);
+
+            return true;
+        }
+
+        /// <summary>
+        /// excluded に含まれる列名（ColumnNames の表示名）を data から取り除く。
+        /// 削除によるインデックスずれを避けるため逆順に処理する。
+        /// </summary>
+        static void RemoveExcludedColumns(TableData data, List<string> excluded)
+        {
             if (excluded.Count == 0)
             {
-                return true;
+                return;
             }
 
             List<string> all_names = ColumnNames(data);
@@ -170,8 +181,6 @@ namespace EyeCenter
                     }
                 }
             }
-
-            return true;
         }
 
         /// <summary>

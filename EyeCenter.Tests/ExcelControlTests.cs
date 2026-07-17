@@ -101,6 +101,41 @@ namespace EyeCenter.Tests
         }
 
         [TestMethod]
+        public void BuildBarcodeValue_各項目をPadLeftして36桁に組み立てる()
+        {
+            // 患者ID9桁 + 文書コード5桁 + 診療科3桁(固定007) + 入力者ID5桁 + 作成日8桁 + 作成時刻6桁
+            string value = (string)Invoke(null, "buildBarcodeValue", "1", "39911", "519", "20260705", "123456");
+
+            Assert.AreEqual(36, value.Length);
+            Assert.AreEqual("000000001" + "39911" + "007" + "00519" + "20260705" + "123456", value);
+        }
+
+        [TestMethod]
+        public void BuildBarcodeValue_患者IDが9桁ちょうどならそのまま先頭に入る()
+        {
+            string value = (string)Invoke(null, "buildBarcodeValue", "123456789", "39911", "519", "20260705", "123456");
+
+            Assert.AreEqual(36, value.Length);
+            Assert.IsTrue(value.StartsWith("123456789"));
+        }
+
+        [TestMethod]
+        public void BuildBarcodeValue_患者IDが9桁超だと36桁を超え取り違え防止のため後段でスキップ対象になる()
+        {
+            string value = (string)Invoke(null, "buildBarcodeValue", "1234567890", "39911", "519", "20260705", "123456");
+
+            Assert.AreNotEqual(36, value.Length, "9桁超の患者IDは36桁からはみ出すこと");
+        }
+
+        [TestMethod]
+        public void InsertBarcode_36桁数字以外はシートに触れず何もしない()
+        {
+            // sheet=null でも、長さ・数字チェックで早期returnすればNullReferenceExceptionにならないはず
+            Invoke(new ExcelControl(), "insertBarcode", null, "12345");
+            Invoke(new ExcelControl(), "insertBarcode", null, "abcdefghijklmnopqrstuvwxyzabcdefghij" /* 36文字だが数字以外 */);
+        }
+
+        [TestMethod]
         public void LoadSettings_INIが無ければ既定値のまま()
         {
             string iniPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EyeDataSettings.ini");

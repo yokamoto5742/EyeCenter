@@ -1,6 +1,6 @@
-# EyeCenter
+# EyeData — 眼科医療データ管理アプリケーション
 
-眼科クリニック向けの診療記録・患者管理業務アプリケーション。患者台帳、検査記録、手術記録、予約管理、診療サマリーを一元管理する Windows デスクトップアプリケーション。
+眼科の検査データ・患者管理業務アプリケーション。患者台帳、検査記録、手術記録、予約管理、診療サマリーを一元管理する Windows デスクトップアプリケーション。
 
 ## 主な機能
 
@@ -15,9 +15,9 @@
 
 ### ビルド環境
 
-- **Windows** 10 以上（仮想環境での開発可能）
+- **Windows** 11（仮想環境での開発可能）
 - **.NET Framework 4.8** ターゲティングパック
-- **Visual Studio 2022 Community** または **MSBuild** 相当
+- **Visual Studio 2026 Community** または **MSBuild** 相当
 - **MedicalLibrary プロジェクト** — このリポジトリの親ディレクトリにある隣接プロジェクト `MedicalLibrary` の DLL 出力物
 - **Interop.Excel.dll** — Excel COM ライブラリの相互運用アセンブリ
 
@@ -36,13 +36,13 @@
 ### 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/yokamoto5742/EyeCenter
 cd EyeCenter
 ```
 
 ### 2. 依存 DLL の配置
 
-EyeCenter は `MedicalLibrary.dll` と `Interop.Excel.dll` を外部参照で使用します。これらを以下のフォルダに配置してください:
+EyeData は `MedicalLibrary.dll` と `Interop.Excel.dll` を外部参照で使用します。これらを以下のフォルダに配置してください:
 
 ```
 C:\Shinseikai\EyeData\
@@ -50,7 +50,7 @@ C:\Shinseikai\EyeData\
   └── Interop.Excel.dll         (社内共有から取得)
 ```
 
-MedicalLibrary のビルド方法は隣接プロジェクトのドキュメントを参照してください。
+MedicalLibrary のビルド方法はMedicalLibrary プロジェクトのドキュメントを参照してください。
 
 ### 3. ビルド
 
@@ -297,11 +297,3 @@ dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj
 ## ライセンス
 
 このプロジェクトのライセンスは `docs/LICENSE` を参照してください。
-
-## 関連ドキュメント
-
-- **docs/BUILD_REQUIREMENTS.md** — ビルド環境チェックリスト
-- **docs/CHANGELOG.md** — 変更履歴
-- **docs/MIGRATION_PLAN.md** — アーキテクチャマイグレーション計画
-- **docs/PRINT_MIGRATION.md** — 帳票出力ライブラリ移行ガイド
-- **CLAUDE.md** — 開発者向け AI ガイドライン（文字コード、フォーム構成、ビルド方法など）

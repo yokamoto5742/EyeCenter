@@ -140,9 +140,7 @@ namespace EyeCenter
             exWorksheet.Cells[8, 2] = doc.SaveDate;
             exWorksheet.Cells[9, 2] = doc.SaveTime;
 
-            // 36桁バーコード値（患者ID9桁 + 文書コード5桁 + 診療科3桁 + 入力者ID5桁 + 作成日8桁 + 作成時刻6桁）
-            string barcodeValue = doc.PtId.PadLeft(9, '0') + documentCode.PadLeft(5, '0') + DeptCode
-                + doc.UserId.PadLeft(5, '0') + doc.SaveDate + doc.SaveTime;
+            string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, doc.SaveDate, doc.SaveTime);
 
             exWorksheet.Cells[10, 2] = barcodeValue;
 
@@ -359,6 +357,15 @@ namespace EyeCenter
             catch (IOException)
             {
             }
+        }
+
+        /// <summary>
+        /// 36桁バーコード値を組み立てる（患者ID9桁 + 文書コード5桁 + 診療科3桁 + 入力者ID5桁 + 作成日8桁 + 作成時刻6桁）。
+        /// </summary>
+        private static string buildBarcodeValue(string ptId, string documentCode, string userId, string saveDate, string saveTime)
+        {
+            return ptId.PadLeft(9, '0') + documentCode.PadLeft(5, '0') + DeptCode
+                + userId.PadLeft(5, '0') + saveDate + saveTime;
         }
 
         private void insertBarcode(Excel._Worksheet sheet, string barcodeText)

@@ -110,5 +110,70 @@ namespace EyeCenter.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void Draw_空文字列は開始コードと停止コードのみでtrueを返す()
+        {
+            Bitmap bmp;
+            bool result = Draw(Barcode128.CODE.C, "", out bmp);
+
+            using (bmp)
+            {
+                Assert.IsTrue(result);
+                Assert.IsTrue(CountBlackPixels(bmp, 40) > 0, "開始・停止コードの黒バーは描画されること");
+            }
+        }
+
+        [TestMethod]
+        public void Draw_CodeCで2桁は最小データとして描画する()
+        {
+            Bitmap bmp;
+            bool result = Draw(Barcode128.CODE.C, "12", out bmp);
+
+            using (bmp)
+            {
+                Assert.IsTrue(result);
+                Assert.IsTrue(CountBlackPixels(bmp, 40) > 0);
+            }
+        }
+
+        [TestMethod]
+        public void Draw_CodeCで奇数桁は最後の1桁を無視して描画する()
+        {
+            Bitmap bmpOdd;
+            Bitmap bmpEven;
+            Draw(Barcode128.CODE.C, "123", out bmpOdd);
+            Draw(Barcode128.CODE.C, "12", out bmpEven);
+
+            using (bmpOdd)
+            using (bmpEven)
+            {
+                Assert.AreEqual(bmpEven.Width, bmpOdd.Width, "末尾の1桁は無視されるため描画幅は変わらない");
+
+                for (int x = 0; x < bmpEven.Width; x++)
+                {
+                    Assert.AreEqual(bmpEven.GetPixel(x, 40).ToArgb(), bmpOdd.GetPixel(x, 40).ToArgb(),
+                        "x=" + x + " のピクセルが一致すること");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Draw_CodeCでテーブル端の00と99も描画できる()
+        {
+            Bitmap bmp00;
+            Bitmap bmp99;
+            bool result00 = Draw(Barcode128.CODE.C, "00", out bmp00);
+            bool result99 = Draw(Barcode128.CODE.C, "99", out bmp99);
+
+            using (bmp00)
+            using (bmp99)
+            {
+                Assert.IsTrue(result00);
+                Assert.IsTrue(result99);
+                Assert.IsTrue(CountBlackPixels(bmp00, 40) > 0);
+                Assert.IsTrue(CountBlackPixels(bmp99, 40) > 0);
+            }
+        }
     }
 }
