@@ -2420,6 +2420,17 @@ namespace EyeCenter
 
         private void ExcelOpen(string file_name)
         {
+            // exe と同じフォルダに同名のテンプレートがあれば優先する（拡張子違いも許容）
+            string baseName = Path.GetFileNameWithoutExtension(file_name);
+            if (baseName.Length > 0)
+            {
+                string[] localFiles = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, baseName + ".xls*");
+                if (localFiles.Length > 0)
+                {
+                    file_name = localFiles[0];
+                }
+            }
+
             EyeDoc tmpDoc = new EyeDoc(this.Pat.Id);
 
             tmpDoc.FileName = file_name;

@@ -8,8 +8,8 @@
 | 2 | .NET Framework 4.8 ターゲティングパック | ✅ インストール済み |
 | 3 | Platform=x86、`EyeCenter.slnx` を使用 | ✅ 確認済み（旧`.sln`は階層が古く、現在のリポジトリ構成と一致しないため使用不可） |
 | 4 | 隣接プロジェクト `MedicalLibrary` のソース（`..\MedicalLibrary`） | ✅ 存在するが未ビルド |
-| 5 | `C:\Shinseikai\MedicalLibrary.dll` を配置 | ❌ 現在未配置。MedicalLibraryをビルドし、その出力DLLを手動配置する運用 |
-| 6 | `C:\macs\utility\Interop.Excel.dll` を配置 | ❌ 現在未配置。社内共有等から取得して配置する運用 |
+| 5 | `C:\Shinseikai\EyeData\MedicalLibrary.dll` を配置 | ✅ 配置済み。MedicalLibraryをビルドし、その出力DLLを手動配置する運用 |
+| 6 | `C:\Shinseikai\EyeData\Interop.Excel.dll` を配置 | ✅ 配置済み。社内共有等から取得して配置する運用 |
 
 `EyeCenter.csproj` はこの2つのDLLを `<Reference HintPath>` で参照しており（`<ProjectReference>` ではない）、ソリューションをビルドしても自動生成・自動コピーはされない。5・6が揃わない限り、`msbuild EyeCenter.slnx /p:Configuration=Debug /p:Platform=x86` は参照解決エラーで失敗する。
 
@@ -23,6 +23,12 @@
 | 10 | 外部機器EXE（`CanonRKF1.exe`, `NidekARK1.exe`、`Launcher.Start()`経由）、OpeOrder起動（`Launcher.OpeOrder()`） | 環境依存・未確認。実体はリポジトリ外 |
 
 7・8が揃うまでは、ビルドが通っても実際のログイン・患者検索等のフロー動作確認はできない。
+
+## 配置（デプロイ）
+
+- 実行環境は `C:\Shinseikai\EyeData` に一本化。exe・依存DLL・`EyeDataSettings.ini`・Excelテンプレート（オペ録.xlsm 等）を同フォルダに置く。
+- ビルド成果物の配置はリポジトリルートの `deploy.ps1` で行う: `.\deploy.ps1`（Release、`-Configuration Debug` で Debug）。追加コピーのみで、配置先の Excelテンプレート・外部EXE（`CanonRKF1.exe` 等）は削除しない。
+- Excelテンプレートのパスは DB の `OpeExcel` テーブルにフルパスで登録されているが、アプリは exe と同じフォルダに同じベース名の `.xls*` があればそちらを優先して開く（`FormPat.ExcelOpen`）。
 
 ## 補足
 

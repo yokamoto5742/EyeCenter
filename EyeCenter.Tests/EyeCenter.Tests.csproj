@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <!-- 本体は事前に msbuild EyeCenter.sln /p:Configuration=Debug /p:Platform=x86 でビルドしておくこと -->
-    <Reference Include="EyeCenter">
-      <HintPath>..\bin\x86\Debug\EyeCenter.exe</HintPath>
+    <Reference Include="EyeData">
+      <HintPath>..\bin\x86\Debug\EyeData.exe</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
   </ItemGroup>
