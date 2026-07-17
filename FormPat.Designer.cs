@@ -2099,8 +2099,7 @@
             this.KensaWideBox.CheckedChanged += new System.EventHandler(this.KensaWideBox_CheckedChanged);
             // 
             // RsvButton
-            // 
-            this.RsvButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            //
             this.RsvButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
             this.RsvButton.Location = new System.Drawing.Point(570, 4);
