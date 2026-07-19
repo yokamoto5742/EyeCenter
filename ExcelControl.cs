@@ -86,10 +86,12 @@ namespace EyeCenter
             }
 
             exApp = new Excel.Application();
-            exApp.Visible = true;
 
             // 自動処理中はテンプレートのマクロを起動させない
             exApp.EnableEvents = false;
+
+            // 生成が完了するまで非表示・描画停止のまま処理する（最後に表示する）
+            exApp.ScreenUpdating = false;
 
             exWorkbook = (Excel._Workbook)(exApp.Workbooks.Open(doc.FileName,
                 Missing.Value, Missing.Value, Missing.Value, Missing.Value,
@@ -99,8 +101,8 @@ namespace EyeCenter
 
             exWorksheet = (Excel._Worksheet)(exWorkbook.Sheets[CommonSheetName]);
 
-            // セル書込み・シート切替・バーコード挿入の途中経過を画面に見せない
-            exApp.ScreenUpdating = false;
+            // セル書込み中の逐次再計算を止める（保存前に自動計算へ戻す）
+            exApp.Calculation = Excel.XlCalculation.xlCalculationManual;
 
             // 処理後に元へ戻すため、開いた時点のアクティブシート名を控える
             Excel._Worksheet startSheet = (Excel._Worksheet)(exWorkbook.ActiveSheet);
@@ -129,76 +131,29 @@ namespace EyeCenter
                 Marshal.ReleaseComObject(ws);
             }
 
-            // 共通情報シート B1〜B10
-            exWorksheet.Cells[1, 2] = doc.PtId;
-            exWorksheet.Cells[2, 2] = doc.Pat.Kana;
-            exWorksheet.Cells[3, 2] = doc.Pat.Name;
-            exWorksheet.Cells[4, 2] = doc.Pat.SexNameShort;
-            exWorksheet.Cells[5, 2] = DeptCode;
-            exWorksheet.Cells[6, 2] = DeptName;
-            exWorksheet.Cells[7, 2] = doc.UserId.PadLeft(5, '0');
-            exWorksheet.Cells[8, 2] = doc.SaveDate;
-            exWorksheet.Cells[9, 2] = doc.SaveTime;
-
             string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, doc.SaveDate, doc.SaveTime);
 
-            exWorksheet.Cells[10, 2] = barcodeValue;
+            // 共通情報シート B1〜B10（セル単位の COM 呼び出しを避けるため一括代入する）
+            object[,] commonData = new object[10, 1];
+            commonData[0, 0] = doc.PtId;
+            commonData[1, 0] = doc.Pat.Kana;
+            commonData[2, 0] = doc.Pat.Name;
+            commonData[3, 0] = doc.Pat.SexNameShort;
+            commonData[4, 0] = DeptCode;
+            commonData[5, 0] = DeptName;
+            commonData[6, 0] = doc.UserId.PadLeft(5, '0');
+            commonData[7, 0] = doc.SaveDate;
+            commonData[8, 0] = doc.SaveTime;
+            commonData[9, 0] = barcodeValue;
+
+            writeRange(1, 2, commonData);
 
             // 27行目以降の各リスト（従来の EyeDoc.ExcelOpen と同じ列配置）
-            int row = 27;
-
-            foreach (EyeDoc.Item item in doc.ItemList)
-            {
-                exWorksheet.Cells[row, 1] = item.Kind;
-                exWorksheet.Cells[row, 2] = item.Name;
-                exWorksheet.Cells[row, 3] = item.Value;
-
-                row++;
-            }
-
-            row = 27;
-
-            foreach (EyeDoc.Item item in doc.ContactList)
-            {
-                exWorksheet.Cells[row, 5] = item.Kind;
-                exWorksheet.Cells[row, 6] = item.Name;
-                exWorksheet.Cells[row, 7] = item.Value;
-
-                row++;
-            }
-
-            row = 27;
-
-            foreach (EyeDoc.Item item in doc.PatInfoList)
-            {
-                exWorksheet.Cells[row, 9] = item.Kind;
-                exWorksheet.Cells[row, 10] = item.Name;
-                exWorksheet.Cells[row, 11] = item.Value;
-
-                row++;
-            }
-
-            row = 27;
-
-            foreach (EyeDoc.Item item in doc.SumList)
-            {
-                exWorksheet.Cells[row, 13] = item.Kind;
-                exWorksheet.Cells[row, 14] = item.Name;
-                exWorksheet.Cells[row, 15] = item.Value;
-
-                row++;
-            }
-
-            row = 27;
-
-            foreach (EyeDoc.Item item in doc.AllergyList)
-            {
-                exWorksheet.Cells[row, 17] = item.Kind;
-                exWorksheet.Cells[row, 18] = item.Name;
-                exWorksheet.Cells[row, 19] = item.Value;
-
-                row++;
-            }
+            writeItemList(doc.ItemList, 1);
+            writeItemList(doc.ContactList, 5);
+            writeItemList(doc.PatInfoList, 9);
+            writeItemList(doc.SumList, 13);
+            writeItemList(doc.AllergyList, 17);
 
             // バーコード画像の挿入対象シート（INI 指定が空なら共通情報以外の全シート）
             List<string> targetSheetNames = new List<string>();
@@ -226,6 +181,9 @@ namespace EyeCenter
 
             Marshal.ReleaseComObject(sheets);
 
+            // 自動計算へ戻し、保存前に一度だけ再計算させる
+            exApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
+
             // 別名（患者ID_日時_テンプレート名）で TEMP へ保存する。
             // 52 = xlOpenXMLWorkbookMacroEnabled（この Interop.Excel の XlFileFormat には定義がないため数値指定）
             string saveName = Environment.GetEnvironmentVariable("TEMP") + "\\"
@@ -242,6 +200,46 @@ namespace EyeCenter
 
             exApp.EnableEvents = true;
             exApp.ScreenUpdating = true;
+            exApp.Visible = true;
+        }
+
+        /// <summary>
+        /// 2次元配列を startRow, startColumn 起点の範囲へ一括代入する。
+        /// </summary>
+        private void writeRange(int startRow, int startColumn, object[,] data)
+        {
+            Excel.Range start = (Excel.Range)(exWorksheet.Cells[startRow, startColumn]);
+            Excel.Range end = (Excel.Range)(exWorksheet.Cells[
+                startRow + data.GetLength(0) - 1, startColumn + data.GetLength(1) - 1]);
+            Excel.Range range = exWorksheet.get_Range(start, end);
+
+            range.Value2 = data;
+
+            Marshal.ReleaseComObject(range);
+            Marshal.ReleaseComObject(end);
+            Marshal.ReleaseComObject(start);
+        }
+
+        /// <summary>
+        /// EyeDoc.Item のリストを 27 行目起点で Kind・Name・Value の3列に一括書き込みする。
+        /// </summary>
+        private void writeItemList(List<EyeDoc.Item> list, int startColumn)
+        {
+            if (list.Count == 0)
+            {
+                return;
+            }
+
+            object[,] data = new object[list.Count, 3];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                data[i, 0] = list[i].Kind;
+                data[i, 1] = list[i].Name;
+                data[i, 2] = list[i].Value;
+            }
+
+            writeRange(27, startColumn, data);
         }
 
         /// <summary>
@@ -263,6 +261,17 @@ namespace EyeCenter
 
             if (exApp != null)
             {
+                // 非表示のまま処理しているため、途中で失敗しても Excel を隠れたまま残さない
+                try
+                {
+                    exApp.EnableEvents = true;
+                    exApp.ScreenUpdating = true;
+                    exApp.Visible = true;
+                }
+                catch
+                {
+                }
+
                 Marshal.ReleaseComObject(exApp);
                 exApp = null;
             }

@@ -79,7 +79,7 @@ msbuild EyeCenter.sln /p:Configuration=Debug /p:Platform=x86
 .\deploy.ps1
 ```
 
-配置スクリプトは `EyeData.exe`、DLL、`.exe.config`、`.ini` ファイルを `C:\Shinseikai\EyeData\` にコピーします。本番環境用設定がある場合は、`EyeData.exe.config.production` も同時に配置されます。
+配置スクリプトは `EyeData.exe`、DLL、`.exe.config`、`.ini` ファイルを `C:\Shinseikai\EyeData\` にコピーします。
 
 ## 使用方法
 
@@ -120,8 +120,6 @@ EyeData.exe -u <USER_ID> -p <PATIENT_ID>
 
 **EyeDataSettings.ini** — アプリケーション実行時の環境設定（リポジトリに含まれる）
 
-**EyeData.exe.config.production** — 本番環境用設定（必要に応じて `EyeData.exe.config` に置き換える）
-
 ## プロジェクト構造
 
 ```
@@ -144,7 +142,6 @@ EyeCenter/
 ├── App.config                    # ビルド設定（画面サイズ、DB タイムアウト等）
 ├── EyeDataSettings.ini           # アプリケーション設定
 ├── deploy.ps1                    # デプロイスクリプト
-├── EyeData.exe.config.production # 本番環境設定
 │
 ├── EyeCenter.csproj              # プロジェクトファイル（x86 プラットフォーム指定）
 ├── EyeCenter.slnx                # ビルド用 Solution ファイル
@@ -236,7 +233,7 @@ dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj
 
 - **Oracle 医療 DB** — 患者・検査・手術・予約情報の読み書き
 - **ネットワーク共有** — `Pat.csv` などの患者マスタデータ
-- **外部機器 EXE** — キャプチャ装置ドライバ（`CanonRKF1.exe` など）、手術スケジューラ（`OpeOrder.exe`）
+- **外部機器 EXE** — キャプチャ装置ドライバ（`CanonRKF1.exe` など）
 
 これらは環境依存のため、ローカルでの開発では整備されていない可能性があります。詳細は隣接プロジェクト `MedicalLibrary` のドキュメントを参照してください。
 
@@ -296,4 +293,8 @@ dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj
 
 ## ライセンス
 
-このプロジェクトのライセンスは `docs/LICENSE` を参照してください。
+このプロジェクトのライセンス情報については、 [LICENSE](docs/LICENSE) を参照してください。
+
+## 更新履歴
+
+更新履歴は [CHANGELOG.md](docs/CHANGELOG.md) を参照してください。
