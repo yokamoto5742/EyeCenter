@@ -14,6 +14,11 @@ namespace EyeCenter
         [STAThread]
         static void Main()
         {
+            // Oracle.DataAccess は厳密名のため、config のリダイレクト先とパッチバージョンが
+            // 一致しないと読み込めない（本番機の 2.112 系はパッチ版が環境ごとに異なる）。
+            // 解決失敗時は exe と同じフォルダの DLL をバージョン不問で読み込む。
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveOracleAssembly;
+
             try
             {
                 MainBody();
@@ -23,6 +28,17 @@ namespace EyeCenter
                 // Application.Run 前の例外は既定では何も表示されずに終了するため、必ず表示する
                 MessageBox.Show(ex.ToString(), "起動エラー");
             }
+        }
+
+        static System.Reflection.Assembly ResolveOracleAssembly(object sender, ResolveEventArgs args)
+        {
+            if (new System.Reflection.AssemblyName(args.Name).Name != "Oracle.DataAccess")
+            {
+                return null;
+            }
+
+            string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Oracle.DataAccess.dll");
+            return System.IO.File.Exists(path) ? System.Reflection.Assembly.LoadFrom(path) : null;
         }
 
         static void MainBody()

@@ -4,7 +4,10 @@
   本番機に配置するときは、このファイルを EyeData.exe.config にリネームして置き換えること。
   （開発機用の EyeData.exe.config は Oracle.DataAccess を開発機のODAC 4.122 に
   　リダイレクトしているため、Oracle 11.2 クライアントの本番機では動作しない）
-  あわせて本番機のフォルダから Oracle.DataAccess.dll（開発機用 4.122）を削除すること。
+  あわせて本番機のフォルダの Oracle.DataAccess.dll は、削除する（GACの2.112系に解決させる）か、
+  本番用（2.112系）の DLL に置き換えること。開発機用 4.122 のままだと起動しない。
+  ※パッチバージョン（2.112.1.2 等）が下記リダイレクト先と一致しなくても、
+  　exe が同フォルダの DLL をバージョン不問で読み込むため動作する。
 -->
 <configuration>
     <appSettings>
