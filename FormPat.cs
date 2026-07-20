@@ -223,22 +223,17 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// 元のサイズ（横1280 or 1024, 縦最大）に戻す。
+        /// 元のサイズに戻す。
+        /// 横幅・高さは設定ファイル(EyeCenter.exe.config)の PatFormWidth / PatFormHeight で変更可能。
+        /// 未設定時は従来どおり（横1280 or 1024, 縦最大）。
         /// </summary>
         public void OrgSize()
         {
-            this.Height = Screen.PrimaryScreen.WorkingArea.Height;
+            this.Height = AppConfig.GetInt("PatFormHeight", Screen.PrimaryScreen.WorkingArea.Height);
 
-            if (Screen.PrimaryScreen.WorkingArea.Width >= 1280)
-            {
-                this.Width = 1280;
-                this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - 1280) / 2, 0);
-            }
-            else
-            {
-                this.Width = 1024;
-                this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - 1024) / 2, 0);
-            }
+            int defWidth = Screen.PrimaryScreen.WorkingArea.Width >= 1280 ? 1280 : 1024;
+            this.Width = AppConfig.GetInt("PatFormWidth", defWidth);
+            this.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2, 0);
         }
 
         private void FormPat_Shown(object sender, EventArgs e)
