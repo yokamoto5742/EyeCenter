@@ -179,12 +179,15 @@
     </Compile>
     <Compile Include="FormPat.Ope.cs">
       <DependentUpon>FormPat.cs</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormPat.Kensa.cs">
       <DependentUpon>FormPat.cs</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormPat.Excel.cs">
       <DependentUpon>FormPat.cs</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormSelection.cs">
       <SubType>Form</SubType>

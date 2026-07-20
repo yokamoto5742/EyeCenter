@@ -262,7 +262,7 @@ namespace EyeCenter
 
                 InPrint3 tmpPrint = List3[counter3];
 
-                // 診療支援課・岡本様からの依頼により、患者カナを取得・印刷 2014/07/22
+                // 患者カナを取得・印刷 2014/07/22
 //                e.Graphics.DrawString(tmpPrint.BaseList[0] + "号室　　　" + tmpPrint.BaseList[1] + "　　" + tmpPrint.BaseList[2] + "(" + PatIn.GetPatIn(tmpPrint.BaseList[1]).Kana + ")様　　　　" + PrintDate.Value.ToString("M月d日"), f12, Brushes.Black, StartX3 + 50, 30);
                 e.Graphics.DrawString(tmpPrint.BaseList[0] + "号室　　　" + tmpPrint.BaseList[1] + "　　" + tmpPrint.BaseList[2] + "(" + tmpPrint.BaseList[3] + ")様　　　　" + PrintDate.Value.ToString("M月d日"), f12, Brushes.Black, StartX3 + 50, 30);
 

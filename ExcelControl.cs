@@ -133,18 +133,20 @@ namespace EyeCenter
 
             string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, doc.SaveDate, doc.SaveTime);
 
-            // 共通情報シート B1〜B10（セル単位の COM 呼び出しを避けるため一括代入する）
-            object[,] commonData = new object[10, 1];
+            // 共通情報シート B1〜B12（セル単位の COM 呼び出しを避けるため一括代入する）
+            object[,] commonData = new object[12, 1];
             commonData[0, 0] = doc.PtId;
             commonData[1, 0] = doc.Pat.Kana;
             commonData[2, 0] = doc.Pat.Name;
             commonData[3, 0] = doc.Pat.SexNameShort;
-            commonData[4, 0] = DeptCode;
-            commonData[5, 0] = DeptName;
-            commonData[6, 0] = doc.UserId.PadLeft(5, '0');
-            commonData[7, 0] = doc.SaveDate;
-            commonData[8, 0] = doc.SaveTime;
-            commonData[9, 0] = barcodeValue;
+            commonData[4, 0] = doc.Pat.BirthString;
+            commonData[5, 0] = doc.Pat.Age;
+            commonData[6, 0] = DeptCode;
+            commonData[7, 0] = DeptName;
+            commonData[8, 0] = doc.UserId.PadLeft(5, '0');
+            commonData[9, 0] = doc.SaveDate;
+            commonData[10, 0] = doc.SaveTime;
+            commonData[11, 0] = barcodeValue;
 
             writeRange(1, 2, commonData);
 
