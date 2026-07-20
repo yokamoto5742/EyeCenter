@@ -156,20 +156,7 @@ namespace EyeCenter
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            if (FormControl.FormPat_Count > 0)
-            {
-                if (MessageBox.Show("患者画面が開かれています。終了してもよろしいですか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    this.Dispose();
-                }
-            }
-            else
-            {
-                if (MessageBox.Show("終了しますか？", "確認", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    this.Dispose();
-                }
-            }
+            this.Dispose();
         }
 
         private void PrintButton_Click(object sender, EventArgs e)

@@ -875,10 +875,19 @@ namespace EyeCenter
 
                     foreach (DataRow tmpRow in EyeDict.EyeSet.Tables["OpeHistory"].Rows)
                     {
+                        string colText = tmpRow["Text"].ToString();
+
+                        // 保険術式・実施病名・手術理由は表示しない
+                        if (colText.Equals("保険術式") || colText.Equals("実施病名") || colText.Equals("手術理由"))
+                        {
+                            OpeHistoryView.Columns[colText].Visible = false;
+                            continue;
+                        }
+
                         if (tmpRow["Width"].ToString().Length > 0 && int.TryParse(tmpRow["Width"].ToString(), out width))
                         {
-                            OpeHistoryView.Columns[tmpRow["Text"].ToString()].Visible = true;
-                            OpeHistoryView.Columns[tmpRow["Text"].ToString()].Width = width;
+                            OpeHistoryView.Columns[colText].Visible = true;
+                            OpeHistoryView.Columns[colText].Width = width;
                         }
                     }
                 }
@@ -1552,6 +1561,8 @@ namespace EyeCenter
                 // 検査歴の表示位置を変更する
                 KensaHistoryLabel.Location = new Point(3, 35);
                 KensaClearButton.Location = new Point(60, 29);
+                ReloadButton.Location = new Point(151, 29);
+                KensaWideBox.Location = new Point(227, 33);
                 KensaHistoryView.Location = new Point(3, 50);
                 KensaHistoryView.Width = this.Width - 20;
                 KensaHistoryLabel.Visible = true;
@@ -1588,8 +1599,11 @@ namespace EyeCenter
                 OpeWideBox.Visible = true;
 
                 // 検査歴の表示する
+                // 再読込ボタン・表示幅チェックも手術歴の横幅に合わせて右へずらす（重なり防止）
                 KensaHistoryLabel.Location = new Point(this._OpeHistoryWidth + 6, 35);
                 KensaClearButton.Location = new Point(this._OpeHistoryWidth + 59, 29);
+                ReloadButton.Location = new Point(this._OpeHistoryWidth + 150, 29);
+                KensaWideBox.Location = new Point(this._OpeHistoryWidth + 226, 33);
                 KensaHistoryView.Location = new Point(this._OpeHistoryWidth + 6, 50);
                 KensaHistoryView.Width = this._KensaHistoryWidth > 0 ? this._KensaHistoryWidth : this.Width - this._OpeHistoryWidth - 23;
                 KensaHistoryLabel.Visible = true;
