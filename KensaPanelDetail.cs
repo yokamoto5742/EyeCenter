@@ -378,18 +378,9 @@ namespace EyeCenter
             {
                 EyeDoc tmpDoc = new EyeDoc(this.PtId);
 
-                // コンタクト注文シートの種類が増え、タブも増えたため対応 2015/04/06, sakane
-                foreach (DataRow contactRow in EyeDict.EyeSet.Tables["ContactOrderButton"].Rows)
-                {
-                    if (this.KensaId.Equals(contactRow["KensaID"].ToString()))
-                    {
-                        tmpDoc.FileName = contactRow["File"].ToString();
-                        break;
-                    }
-                }
-
-                // コンタクト注文シートの種類が増え、タブも増えたため上記に変更 2015/04/06, sakane
-                // tmpDoc.FileName = EyeDict.EyeSet.Tables["ContactOrderButton"].Rows[0]["File"].ToString();
+                // テンプレートファイル名は EyeDataSettings.ini に一本化。
+                // ボタン表示名でシード用／パナコム用を判別する。
+                tmpDoc.FileName = ExcelControl.GetContactOrderFileName(((Button)sender).Text);
 
                 EyeDoc.Item item_date = new EyeDoc.Item();
                 item_date.Kind = "コンタクト注文";
@@ -409,7 +400,21 @@ namespace EyeCenter
                     }
                 }
 
-                tmpDoc.ExcelOpen();
+                // 共通情報シート（B1～B12と27行目以降のリスト）を書き込み、バーコードなしで別名保存する
+                ExcelControl excelControl = new ExcelControl();
+
+                try
+                {
+                    excelControl.MakeSimpleDocument(tmpDoc, true);
+                }
+                catch (Exception ex)
+                {
+                    LibUtility.Except(ex);
+                }
+                finally
+                {
+                    excelControl.ReleaseExcel();
+                }
             }
         }
 
@@ -454,27 +459,24 @@ namespace EyeCenter
             {
                 EyeDoc tmpDoc = new EyeDoc(this.PtId);
 
-                tmpDoc.FileName = EyeDict.EyeSet.Tables["GlassPrescButton"].Rows[0]["File"].ToString();
+                // テンプレートファイル名は EyeDataSettings.ini に一本化
+                tmpDoc.FileName = ExcelControl.GetGlassPrescriptionFileName();
 
-                EyeDoc.Item item_date = new EyeDoc.Item();
-                item_date.Kind = "メガネ処方";
-                item_date.Name = "処方日";
-                item_date.Value = DateTimeAgent.DateFormat(this.KensaDate, DateTimeAgent.DateFormatKind.LONG);
-                tmpDoc.ItemList.Add(item_date);
+                // 共通情報シートは B1～B12 のみ書き込み、バーコードなしで別名保存する
+                ExcelControl excelControl = new ExcelControl();
 
-                foreach (Control c in this.Controls)
+                try
                 {
-                    if (c is TextBox || c is ComboBox)
-                    {
-                        EyeDoc.Item tmpItem = new EyeDoc.Item();
-                        tmpItem.Kind = "メガネ処方";
-                        tmpItem.Name = c.Name;
-                        tmpItem.Value = c.Text;
-                        tmpDoc.ItemList.Add(tmpItem);
-                    }
+                    excelControl.MakeSimpleDocument(tmpDoc, false);
                 }
-
-                tmpDoc.ExcelOpen();
+                catch (Exception ex)
+                {
+                    LibUtility.Except(ex);
+                }
+                finally
+                {
+                    excelControl.ReleaseExcel();
+                }
             }
         }
 

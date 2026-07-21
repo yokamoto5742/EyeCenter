@@ -11,8 +11,9 @@ using MedicalLibrary.Agent;
 namespace EyeCenter
 {
     /// <summary>
-    /// オペ録・眼科申し送り書のExcelテンプレートを開き、共通情報シートへの書き込み・
-    /// バーコード画像の生成と挿入・別名保存を行う。（EyeAgree の ExcelControl を移植）
+    /// Excelテンプレートを開き、共通情報シートへの書き込み・別名保存を行う。
+    /// オペ録・眼科申し送り書はバーコード画像の生成と挿入も行い、
+    /// コンタクトレンズ注文書・眼鏡処方はバーコードなしで出力する。（EyeAgree の ExcelControl を移植）
     /// </summary>
     class ExcelControl
     {
@@ -60,6 +61,12 @@ namespace EyeCenter
 
         string surgicalNursingRecordSheets = "";
 
+        // バーコードなし帳票のテンプレートファイル名の既定値。
+        // EyeDataSettings.ini の [DOCUMENT_SETTINGS] で上書きできる。
+        const string DefaultContactOrderSeedFile = "コンタクトレンズ注文書(シード).xlsx";
+        const string DefaultContactOrderPanacomFile = "コンタクトレンズ注文書(パナコム).xlsx";
+        const string DefaultGlassPrescriptionFile = "眼鏡処方.xlsx";
+
         /// <summary>
         /// テンプレートを開いて共通情報シートに書き込み、バーコード画像を挿入して
         /// TEMP へ「患者ID_日時_テンプレート名」の別名で保存する。
@@ -86,13 +93,33 @@ namespace EyeCenter
             }
             else
             {
-                // バーコード対象外のテンプレート（同意書・眼鏡処方・コンタクトレンズ注文書など）は従来の処理のまま開く。
+                // バーコード対象外のテンプレート（同意書など）は従来の処理のまま開く。
                 // Application は EyeDoc.ExcelOpen 内部で管理され取得できないため、ROT経由で前面化する。
                 doc.ExcelOpen();
                 bringLatestExcelToFront();
                 return;
             }
 
+            createDocument(doc, documentCode, targetSheets, true, true);
+        }
+
+        /// <summary>
+        /// バーコードを付与せず、共通情報シートへの書き込みと TEMP への別名保存のみ行う
+        /// （コンタクトレンズ注文書・眼鏡処方用）。writeLists が false の場合は
+        /// B1〜B12 のみ書き込み、27行目以降の各リストは出力しない。
+        /// 呼び出し側で例外を処理し、finally で ReleaseExcel を呼ぶこと。
+        /// </summary>
+        public void MakeSimpleDocument(EyeDoc doc, bool writeLists)
+        {
+            createDocument(doc, "", "", false, writeLists);
+        }
+
+        /// <summary>
+        /// テンプレートを開いて共通情報シートに書き込み、TEMP へ別名保存して表示する共通処理。
+        /// useBarcode が true の場合のみバーコード値の組み立てと画像挿入を行う。
+        /// </summary>
+        private void createDocument(EyeDoc doc, string documentCode, string targetSheets, bool useBarcode, bool writeLists)
+        {
             if (!File.Exists(doc.FileName))
             {
                 return;
@@ -144,7 +171,9 @@ namespace EyeCenter
                 Marshal.ReleaseComObject(ws);
             }
 
-            string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, getOpeDate(doc), doc.SaveTime);
+            string barcodeValue = useBarcode
+                ? buildBarcodeValue(doc.PtId, documentCode, doc.UserId, getOpeDate(doc), doc.SaveTime)
+                : "";
 
             // 共通情報シート B1〜B12（セル単位の COM 呼び出しを避けるため一括代入する）
             object[,] commonData = new object[12, 1];
@@ -164,34 +193,40 @@ namespace EyeCenter
             writeRange(1, 2, commonData);
 
             // 27行目以降の各リスト（従来の EyeDoc.ExcelOpen と同じ列配置）
-            writeItemList(doc.ItemList, 1);
-            writeItemList(doc.ContactList, 5);
-            writeItemList(doc.PatInfoList, 9);
-            writeItemList(doc.SumList, 13);
-            writeItemList(doc.AllergyList, 17);
-
-            // バーコード画像の挿入対象シート（INI 指定が空なら共通情報以外の全シート）
-            List<string> targetSheetNames = new List<string>();
-
-            foreach (string s in targetSheets.Split(','))
+            if (writeLists)
             {
-                if (s.Trim().Length > 0)
-                {
-                    targetSheetNames.Add(s.Trim());
-                }
+                writeItemList(doc.ItemList, 1);
+                writeItemList(doc.ContactList, 5);
+                writeItemList(doc.PatInfoList, 9);
+                writeItemList(doc.SumList, 13);
+                writeItemList(doc.AllergyList, 17);
             }
 
-            for (int i = 1; i <= sheetCount; i++)
+            if (useBarcode)
             {
-                Excel._Worksheet ws = (Excel._Worksheet)(sheets[i]);
+                // バーコード画像の挿入対象シート（INI 指定が空なら共通情報以外の全シート）
+                List<string> targetSheetNames = new List<string>();
 
-                if (!ws.Name.Equals(CommonSheetName)
-                    && (targetSheetNames.Count == 0 || targetSheetNames.Contains(ws.Name)))
+                foreach (string s in targetSheets.Split(','))
                 {
-                    insertBarcode(ws, barcodeValue);
+                    if (s.Trim().Length > 0)
+                    {
+                        targetSheetNames.Add(s.Trim());
+                    }
                 }
 
-                Marshal.ReleaseComObject(ws);
+                for (int i = 1; i <= sheetCount; i++)
+                {
+                    Excel._Worksheet ws = (Excel._Worksheet)(sheets[i]);
+
+                    if (!ws.Name.Equals(CommonSheetName)
+                        && (targetSheetNames.Count == 0 || targetSheetNames.Contains(ws.Name)))
+                    {
+                        insertBarcode(ws, barcodeValue);
+                    }
+
+                    Marshal.ReleaseComObject(ws);
+                }
             }
 
             Marshal.ReleaseComObject(sheets);
@@ -200,11 +235,15 @@ namespace EyeCenter
             exApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
 
             // 別名（患者ID_日時_テンプレート名）で TEMP へ保存する。
-            // 52 = xlOpenXMLWorkbookMacroEnabled（この Interop.Excel の XlFileFormat には定義がないため数値指定）
+            // 52 = xlOpenXMLWorkbookMacroEnabled / 51 = xlOpenXMLWorkbook
+            // （この Interop.Excel の XlFileFormat には定義がないため数値指定）。
+            // テンプレートの拡張子と形式を一致させないと保存時に警告・失敗が発生する。
+            int fileFormat = Path.GetExtension(doc.FileName).Equals(".xlsm", StringComparison.OrdinalIgnoreCase) ? 52 : 51;
+
             string saveName = Environment.GetEnvironmentVariable("TEMP") + "\\"
                 + doc.PtId + "_" + doc.SaveDate + doc.SaveTime + "_" + Path.GetFileName(doc.FileName);
 
-            exWorkbook.SaveAs(saveName, 52, Missing.Value, Missing.Value, Missing.Value,
+            exWorkbook.SaveAs(saveName, fileFormat, Missing.Value, Missing.Value, Missing.Value,
                 Missing.Value, Excel.XlSaveAsAccessMode.xlExclusive, Missing.Value,
                 Missing.Value, Missing.Value, Missing.Value, Missing.Value);
 
@@ -430,6 +469,66 @@ namespace EyeCenter
             catch (IOException)
             {
             }
+        }
+
+        /// <summary>
+        /// コンタクトレンズ注文書テンプレートのフルパスを返す。
+        /// ボタン表示名に「パナコム」を含むかどうかでシード用／パナコム用を切り替える。
+        /// </summary>
+        public static string GetContactOrderFileName(string buttonText)
+        {
+            if (buttonText.Contains("パナコム"))
+            {
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    readIniValue("CONTACT_ORDER_PANACOM_FILE", DefaultContactOrderPanacomFile));
+            }
+
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                readIniValue("CONTACT_ORDER_SEED_FILE", DefaultContactOrderSeedFile));
+        }
+
+        /// <summary>
+        /// 眼鏡処方テンプレートのフルパスを返す。
+        /// </summary>
+        public static string GetGlassPrescriptionFileName()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                readIniValue("GLASS_PRESCRIPTION_FILE", DefaultGlassPrescriptionFile));
+        }
+
+        /// <summary>
+        /// EyeDataSettings.ini から指定キーの値を読み取る。
+        /// ファイルが無い・読めない・キーが無い場合は既定値を返す。
+        /// </summary>
+        private static string readIniValue(string key, string defaultValue)
+        {
+            try
+            {
+                string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EyeDataSettings.ini");
+
+                if (File.Exists(configPath))
+                {
+                    foreach (string line in File.ReadAllLines(configPath, Encoding.Default))
+                    {
+                        if (string.IsNullOrWhiteSpace(line) || line.StartsWith(";"))
+                        {
+                            continue;
+                        }
+
+                        string[] parts = line.Split('=');
+
+                        if (parts.Length == 2 && parts[0].Trim() == key && parts[1].Trim().Length > 0)
+                        {
+                            return parts[1].Trim();
+                        }
+                    }
+                }
+            }
+            catch (IOException)
+            {
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
