@@ -31,6 +31,17 @@ namespace EyeCenter
         const string DeptCode = "007";
         const string DeptName = "眼科";
 
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsIconic(IntPtr hWnd);
+
+        const int SW_RESTORE = 9;
+
         // バーコード画像の解像度設定。既定値は EyeDataSettings.ini の
         // [BARCODE_SETTINGS] で上書きできる。1モジュール=barcodeLineWidth px。
         float barcodeLineWidth = 3f;
@@ -75,8 +86,10 @@ namespace EyeCenter
             }
             else
             {
-                // バーコード対象外のテンプレート（同意書など）は従来の処理のまま開く
+                // バーコード対象外のテンプレート（同意書・眼鏡処方・コンタクトレンズ注文書など）は従来の処理のまま開く。
+                // Application は EyeDoc.ExcelOpen 内部で管理され取得できないため、ROT経由で前面化する。
                 doc.ExcelOpen();
+                bringLatestExcelToFront();
                 return;
             }
 
@@ -131,7 +144,7 @@ namespace EyeCenter
                 Marshal.ReleaseComObject(ws);
             }
 
-            string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, doc.SaveDate, doc.SaveTime);
+            string barcodeValue = buildBarcodeValue(doc.PtId, documentCode, doc.UserId, getOpeDate(doc), doc.SaveTime);
 
             // 共通情報シート B1〜B12（セル単位の COM 呼び出しを避けるため一括代入する）
             object[,] commonData = new object[12, 1];
@@ -269,6 +282,7 @@ namespace EyeCenter
                     exApp.EnableEvents = true;
                     exApp.ScreenUpdating = true;
                     exApp.Visible = true;
+                    bringToFront(exApp);
                 }
                 catch
                 {
@@ -276,6 +290,54 @@ namespace EyeCenter
 
                 Marshal.ReleaseComObject(exApp);
                 exApp = null;
+            }
+        }
+
+        /// <summary>
+        /// Excel の Application ウィンドウを最前面に表示する。Visible=true だけでは
+        /// 別プロセスのウィンドウとして背面に隠れることがあるため、明示的に前面化する。
+        /// 失敗しても生成処理自体には影響しないよう例外は握りつぶす。
+        /// </summary>
+        private static void bringToFront(Excel.Application app)
+        {
+            try
+            {
+                IntPtr hWnd = new IntPtr(app.Hwnd);
+
+                if (IsIconic(hWnd))
+                {
+                    ShowWindow(hWnd, SW_RESTORE);
+                }
+
+                SetForegroundWindow(hWnd);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// EyeDoc.ExcelOpen が内部で開いた Excel の Application を ROT（Running Object Table）
+        /// 経由で取得し、前面化する。取得できない場合は何もしない。
+        /// </summary>
+        private static void bringLatestExcelToFront()
+        {
+            object app = null;
+
+            try
+            {
+                app = Marshal.GetActiveObject("Excel.Application");
+                bringToFront((Excel.Application)app);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                if (app != null)
+                {
+                    Marshal.ReleaseComObject(app);
+                }
             }
         }
 
@@ -371,7 +433,31 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// 36桁バーコード値を組み立てる（患者ID9桁 + 文書コード5桁 + 診療科3桁 + 入力者ID5桁 + 作成日8桁 + 作成時刻6桁）。
+        /// ItemList の手術基本情報から手術日を yyyyMMdd の8桁で取り出す。
+        /// 取得できない場合は作成日（doc.SaveDate）へフォールバックする。
+        /// </summary>
+        private static string getOpeDate(EyeDoc doc)
+        {
+            foreach (EyeDoc.Item item in doc.ItemList)
+            {
+                if (item.Kind == "手術基本情報" && item.Name == "手術日")
+                {
+                    DateTime d;
+
+                    if (DateTime.TryParse(item.Value, out d))
+                    {
+                        return d.ToString("yyyyMMdd");
+                    }
+
+                    break;
+                }
+            }
+
+            return doc.SaveDate;
+        }
+
+        /// <summary>
+        /// 36桁バーコード値を組み立てる（患者ID9桁 + 文書コード5桁 + 診療科3桁 + 入力者ID5桁 + 手術日8桁 + 作成時刻6桁）。
         /// </summary>
         private static string buildBarcodeValue(string ptId, string documentCode, string userId, string saveDate, string saveTime)
         {
