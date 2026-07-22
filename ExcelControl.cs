@@ -66,6 +66,8 @@ namespace EyeCenter
         const string DefaultContactOrderSeedFile = "コンタクトレンズ注文書(シード).xlsx";
         const string DefaultContactOrderPanacomFile = "コンタクトレンズ注文書(パナコム).xlsx";
         const string DefaultGlassPrescriptionFile = "眼鏡処方.xlsx";
+        const string DefaultNsFile = "眼科申し送り書.xlsm";
+        const string DefaultRecordFile = "オペ録.xlsm";
 
         /// <summary>
         /// テンプレートを開いて共通情報シートに書き込み、バーコード画像を挿入して
@@ -494,6 +496,24 @@ namespace EyeCenter
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 readIniValue("GLASS_PRESCRIPTION_FILE", DefaultGlassPrescriptionFile));
+        }
+
+        /// <summary>
+        /// 眼科申し送り書テンプレートのフルパスを返す。
+        /// </summary>
+        public static string GetNsFileName()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                readIniValue("NS_FILE", DefaultNsFile));
+        }
+
+        /// <summary>
+        /// オペ録テンプレートのフルパスを返す。
+        /// </summary>
+        public static string GetRecordFileName()
+        {
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                readIniValue("RECORD_FILE", DefaultRecordFile));
         }
 
         /// <summary>

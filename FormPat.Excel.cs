@@ -36,7 +36,7 @@ namespace EyeCenter
         /// <param name="e"></param>
         private void NsPrintButton_Click(object sender, EventArgs e)
         {
-            this.ExcelOpen(EyeDict.EyeSet.Tables["OpeExcel"].Rows[0]["Ns"].ToString());
+            this.ExcelOpen(ExcelControl.GetNsFileName());
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace EyeCenter
         /// <param name="e"></param>
         private void RecordPrintButton_Click(object sender, EventArgs e)
         {
-            this.ExcelOpen(EyeDict.EyeSet.Tables["OpeExcel"].Rows[0]["Record"].ToString());
+            this.ExcelOpen(ExcelControl.GetRecordFileName());
         }
 
         /// <summary>
