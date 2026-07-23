@@ -177,11 +177,11 @@ namespace EyeCenter
                 ? buildBarcodeValue(doc.PtId, documentCode, doc.UserId, getOpeDate(doc), doc.SaveTime)
                 : "";
 
-            // コンタクトレンズ注文書（シード・パナコム）のみ B12・B13 に住所・電話番号を出力する
-            bool isContactOrder = !useBarcode && writeLists;
+            // コンタクトレンズ注文書（シード・パナコム）・眼鏡処方は B12・B13 に住所・電話番号を出力する
+            bool writesAddrTel = !useBarcode;
 
-            // 共通情報シート B1〜B12（コンタクトレンズ注文書は B13 まで。セル単位の COM 呼び出しを避けるため一括代入する）
-            object[,] commonData = new object[isContactOrder ? 13 : 12, 1];
+            // 共通情報シート B1〜B12（コンタクトレンズ注文書・眼鏡処方は B13 まで。セル単位の COM 呼び出しを避けるため一括代入する）
+            object[,] commonData = new object[writesAddrTel ? 13 : 12, 1];
             commonData[0, 0] = doc.PtId;
             commonData[1, 0] = doc.Pat.Kana;
             commonData[2, 0] = doc.Pat.Name;
@@ -194,7 +194,7 @@ namespace EyeCenter
             commonData[9, 0] = doc.SaveDate;
             commonData[10, 0] = doc.SaveTime;
 
-            if (isContactOrder)
+            if (writesAddrTel)
             {
                 commonData[11, 0] = doc.Pat.Addr;
                 commonData[12, 0] = doc.Pat.Tel;
