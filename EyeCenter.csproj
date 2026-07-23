@@ -321,11 +321,8 @@
     <None Include=".claude\rules\response-style.md" />
     <None Include=".claude\settings.local.json" />
     <None Include="App.config" />
-    <None Include="docs\BUILD_REQUIREMENTS.md" />
     <None Include="docs\CHANGELOG.md" />
     <None Include="docs\LICENSE" />
-    <None Include="docs\MIGRATION_PLAN.md" />
-    <None Include="docs\PRINT_MIGRATION.md" />
     <None Include="EyeDataSettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

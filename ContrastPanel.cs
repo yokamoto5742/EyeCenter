@@ -13,8 +13,8 @@ namespace EyeCenter
     class ContrastPanel : Panel
     {
         /// <summary>
-        /// ƒOƒ‹[ƒv–¼i‰EA, ¶B ‚È‚Çj‚²‚Æ‚Ìƒ‰ƒxƒ‹‚ÌƒŠƒXƒg‚Ì«‘B
-        /// ƒOƒ‹[ƒv–¼‚ğƒL[‚Æ‚µ‚ÄA‚»‚ê‚ÉŠ‘®‚·‚éƒ‰ƒxƒ‹‚ÌƒŠƒXƒg‚ªæ“¾‚Å‚«‚éB
+        /// ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½iï¿½EA, ï¿½ï¿½B ï¿½È‚Çjï¿½ï¿½ï¿½Æ‚Ìƒï¿½ï¿½xï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Ìï¿½ï¿½ï¿½ï¿½B
+        /// ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½Æ‚ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½éƒ‰ï¿½xï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½æ“¾ï¿½Å‚ï¿½ï¿½ï¿½B
         /// </summary>
         Dictionary<string, List<Label>> LabelBroupDictR = new Dictionary<string, List<Label>>();
         Dictionary<string, List<Label>> LabelBroupDictL = new Dictionary<string, List<Label>>();
@@ -41,7 +41,7 @@ namespace EyeCenter
                 tmpLabel.Tag = r["KensaItemName"].ToString() + "," + r["Value"].ToString();
                 tmpLabel.Click += new EventHandler(Label_Click);
 
-                // ƒ‰ƒxƒ‹‚ğƒOƒ‹[ƒv•ÊƒŠƒXƒg‚É“o˜^‚·‚éB
+                // ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½vï¿½Êƒï¿½ï¿½Xï¿½gï¿½É“oï¿½^ï¿½ï¿½ï¿½ï¿½B
                 if (r["Side"].ToString().Equals("R"))
                 {
                     if (LabelBroupDictR.ContainsKey(r["KensaItemName"].ToString()))
@@ -75,13 +75,13 @@ namespace EyeCenter
             PictureBox picBox = new PictureBox();
             picBox.Name = "PicBox";
 
-            if (AppFile.FilePath(@"EyeCenter\Contrast.jpg").Length > 0)
+            if (AppFile.FilePath(@"EyeData\Contrast.jpg").Length > 0)
+            {
+                picBox.BackgroundImage = Image.FromFile(AppFile.FilePath(@"EyeData\Contrast.jpg"));
+            }
+            else if (AppFile.FilePath(@"EyeCenter\Contrast.jpg").Length > 0)
             {
                 picBox.BackgroundImage = Image.FromFile(AppFile.FilePath(@"EyeCenter\Contrast.jpg"));
-            }
-            else if (AppFile.FilePath(@"EyeImage\Contrast.jpg").Length > 0)
-            {
-                picBox.BackgroundImage = Image.FromFile(AppFile.FilePath(@"EyeImage\Contrast.jpg"));
             }
 
             picBox.BackgroundImageLayout = ImageLayout.Zoom;
@@ -134,7 +134,7 @@ namespace EyeCenter
 
             this.DrawLine();
 
-            // ’l‚ª•ÏX‚³‚ê‚½‚çeƒpƒlƒ‹‚Ì Edited = true ‚ğƒZƒbƒg‚·‚é
+            // ï¿½lï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½ï¿½eï¿½pï¿½lï¿½ï¿½ï¿½ï¿½ Edited = true ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
             Control c = this.Parent;
 
             while (c != null)
