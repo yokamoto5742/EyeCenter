@@ -73,6 +73,26 @@ namespace EyeCenter
                 {
                     this.SaveRsv(saveFileDialog1.FileName);
                 }
+                else if (Kensa2Button.Checked)
+                {
+                    this.SaveKensa2(saveFileDialog1.FileName);
+                }
+                else if (InterviewButton.Checked)
+                {
+                    this.SaveInterview(saveFileDialog1.FileName);
+                }
+                else if (OpeDoctorButton.Checked)
+                {
+                    this.SaveOpeDoctor(saveFileDialog1.FileName);
+                }
+                else if (OpePassButton.Checked)
+                {
+                    this.SaveOpePass(saveFileDialog1.FileName);
+                }
+                else if (OpeRsvButton.Checked)
+                {
+                    this.SaveOpeRsv(saveFileDialog1.FileName);
+                }
                 else
                 {
                     this.SaveSummary(saveFileDialog1.FileName);
@@ -710,7 +730,7 @@ namespace EyeCenter
 
         /// <summary>
         /// 患者基本情報をCSVに書き出す（現行カルテベンダーによる患者マスタ移行のバックアップ用）。
-        /// EYE_KENSA・EYE_OPE・EYE_SUMMARY に登場する全 PATIENT_ID を対象に、
+        /// EYE_KENSA・EYE_OPE・EYE_SUMMARY・EYE_KENSA2・EYE_INTERVIEW に登場する全 PATIENT_ID を対象に、
         /// 患者マスタ（PatBase）から基本情報を取得して出力する。
         /// </summary>
         void SavePat(string file_name)
@@ -744,7 +764,8 @@ namespace EyeCenter
                     {
                         // ＥＹＥ系全テーブルの患者ＩＤの和集合を、前ページの最終ＩＤより後ろから PAGE_SIZE 件ずつ取得する
                         string cmd = "select * from (select PATIENT_ID from " +
-                            " (select PATIENT_ID from EYE_KENSA union select PATIENT_ID from EYE_OPE union select PATIENT_ID from EYE_SUMMARY)";
+                            " (select PATIENT_ID from EYE_KENSA union select PATIENT_ID from EYE_OPE union select PATIENT_ID from EYE_SUMMARY" +
+                            " union select PATIENT_ID from EYE_KENSA2 union select PATIENT_ID from EYE_INTERVIEW)";
 
                         if (last_pt.Length > 0)
                         {
@@ -942,6 +963,349 @@ namespace EyeCenter
                 }
 
                 this.WriteManifest(file_name, "手術予約（EYE_OPE）", total);
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 検査連番データ（EYE_KENSA2）をCSVに書き出す。
+        /// 件数が多いため主キー順のページング処理でロードし、ストリームに逐次書き込む。
+        /// EYE_KENSA と同様に PDF_SAVE 系の列（編集ロック用フラグ）は出力しない。
+        /// </summary>
+        void SaveKensa2(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
+                {
+                    List<string> title_list = new List<string>() { "PATIENT_ID", "KENSA_ID", "KENSA_NAME", "KENSA_DATE", "KENSA_SEQ", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME" };
+
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
+                    {
+                        header_list.Add(CsvCell(title_list[i]));
+                    }
+                    writer.WriteLine(string.Join(",", header_list));
+
+                    string last_pt = "";
+                    string last_kensa = "";
+                    string last_date = "";
+                    string last_seq = "";
+
+                    while (true)
+                    {
+                        // 前ページの最終キー（４列複合）より後ろのキー順で PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select * from EYE_KENSA2 ";
+
+                        if (last_pt.Length > 0)
+                        {
+                            cmd += " where PATIENT_ID > " + last_pt +
+                                " or (PATIENT_ID = " + last_pt + " and KENSA_ID > " + last_kensa + ")" +
+                                " or (PATIENT_ID = " + last_pt + " and KENSA_ID = " + last_kensa + " and KENSA_DATE > " + last_date + ")" +
+                                " or (PATIENT_ID = " + last_pt + " and KENSA_ID = " + last_kensa + " and KENSA_DATE = " + last_date + " and KENSA_SEQ > " + last_seq + ")";
+                        }
+
+                        cmd += " order by PATIENT_ID, KENSA_ID, KENSA_DATE, KENSA_SEQ) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            last_pt = tmp.GetDataString("PATIENT_ID");
+                            last_kensa = tmp.GetDataString("KENSA_ID");
+                            last_date = tmp.GetDataString("KENSA_DATE");
+                            last_seq = tmp.GetDataString("KENSA_SEQ");
+
+                            string kensa_name = "";
+
+                            if (EyeKensaMaster.Dict.ContainsKey(last_kensa))
+                            {
+                                kensa_name = EyeKensaMaster.Dict[last_kensa].Name;
+                            }
+
+                            List<string> cells = new List<string>();
+                            cells.Add(CsvCell(last_pt));
+                            cells.Add(CsvCell(last_kensa));
+                            cells.Add(CsvCell(kensa_name));
+                            cells.Add(CsvCell(last_date));
+                            cells.Add(CsvCell(last_seq));
+                            cells.Add(CsvCell(tmp.GetDataString("CONT")));
+                            cells.Add(CsvCell(tmp.GetDataString("STAFF")));
+                            cells.Add(CsvCell(tmp.GetDataString("SAVE_DATE")));
+                            cells.Add(CsvCell(tmp.GetDataString("SAVE_TIME")));
+                            writer.WriteLine(string.Join(",", cells));
+                        }
+
+                        total += page_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.WriteManifest(file_name, "検査連番（EYE_KENSA2）", total);
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 単一数値キー（ID）でページングしながら、指定列をそのままCSVに書き出す共通処理。
+        /// 論理削除行（STATUS=0）も含めて全件出力する（移行時に取捨選択できるようにするため）。
+        /// </summary>
+        void SaveByIdTable(string file_name, string table_name, string target, List<string> title_list)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
+                {
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
+                    {
+                        header_list.Add(CsvCell(title_list[i]));
+                    }
+                    writer.WriteLine(string.Join(",", header_list));
+
+                    string last_id = "";
+
+                    while (true)
+                    {
+                        // 前ページの最終ＩＤより後ろのＩＤ順で PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select * from " + table_name + " ";
+
+                        if (last_id.Length > 0)
+                        {
+                            cmd += " where ID > " + last_id;
+                        }
+
+                        cmd += " order by ID) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            last_id = tmp.GetDataString("ID");
+
+                            List<string> cells = new List<string>();
+
+                            foreach (string col in title_list)
+                            {
+                                cells.Add(CsvCell(tmp.GetDataString(col)));
+                            }
+
+                            writer.WriteLine(string.Join(",", cells));
+                        }
+
+                        total += page_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.WriteManifest(file_name, target, total);
+
+                MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                MessageBox.Show(err);
+            }
+            finally
+            {
+                if (!this.IsDisposed)
+                {
+                    this.Text = title;
+                    ExeButton.Enabled = true;
+                    CloseButton.Enabled = true;
+                    this.Cursor = Cursors.Default;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 問診記録（EYE_INTERVIEW）をCSVに書き出す。PDF_SAVE列（編集ロック用フラグ）は出力しない。
+        /// </summary>
+        void SaveInterview(string file_name)
+        {
+            this.SaveByIdTable(file_name, "EYE_INTERVIEW", "問診（EYE_INTERVIEW）",
+                new List<string>() { "ID", "PATIENT_ID", "IV_DATE", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "STATUS" });
+        }
+
+        /// <summary>
+        /// 手術の医師記載事項（EYE_OPE_DOCTOR）をCSVに書き出す。ID は EYE_OPE.ID（手術ID）と同一。
+        /// </summary>
+        void SaveOpeDoctor(string file_name)
+        {
+            this.SaveByIdTable(file_name, "EYE_OPE_DOCTOR", "手術医師記載（EYE_OPE_DOCTOR）",
+                new List<string>() { "ID", "PRE_CONT", "DO_CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "STATUS" });
+        }
+
+        /// <summary>
+        /// 手術の看護申し送り事項（EYE_OPE_PASS）をCSVに書き出す。ID は EYE_OPE.ID（手術ID）と同一。
+        /// </summary>
+        void SaveOpePass(string file_name)
+        {
+            this.SaveByIdTable(file_name, "EYE_OPE_PASS", "手術申し送り（EYE_OPE_PASS）",
+                new List<string>() { "ID", "CONT", "STAFF", "SAVE_DATE", "SAVE_TIME", "STATUS" });
+        }
+
+        /// <summary>
+        /// 手術予約枠のスケジュール設定（EYE_OPE_RSV）をCSVに書き出す。
+        /// ID列を持たないため (OPE_DATE, OPE_WAKU, OPE_KIND) の複合キーでページングする。
+        /// OPE_WAKU のみ文字列型のため比較値を引用符で囲む。
+        /// </summary>
+        void SaveOpeRsv(string file_name)
+        {
+            const int PAGE_SIZE = 5000;
+
+            string title = this.Text;
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                ExeButton.Enabled = false;
+                CloseButton.Enabled = false;
+
+                int total = 0;
+
+                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(file_name, false, this.GetSelectedEncoding()))
+                {
+                    List<string> title_list = new List<string>() { "OPE_DATE", "OPE_WAKU", "OPE_KIND", "RSV_KIND", "COMT" };
+
+                    List<string> header_list = new List<string>();
+                    for (int i = 0; i < title_list.Count; i++)
+                    {
+                        header_list.Add(CsvCell(title_list[i]));
+                    }
+                    writer.WriteLine(string.Join(",", header_list));
+
+                    string last_date = "";
+                    string last_waku = "";
+                    string last_kind = "";
+
+                    while (true)
+                    {
+                        // 前ページの最終キー（３列複合）より後ろのキー順で PAGE_SIZE 件だけ取得する
+                        string cmd = "select * from (select * from EYE_OPE_RSV ";
+
+                        if (last_date.Length > 0)
+                        {
+                            cmd += " where OPE_DATE > " + last_date +
+                                " or (OPE_DATE = " + last_date + " and OPE_WAKU > '" + last_waku + "')" +
+                                " or (OPE_DATE = " + last_date + " and OPE_WAKU = '" + last_waku + "' and OPE_KIND > " + last_kind + ")";
+                        }
+
+                        cmd += " order by OPE_DATE, OPE_WAKU, OPE_KIND) where ROWNUM <= " + PAGE_SIZE;
+
+                        List<StdClass> page_list = StdClass.GetList(DB.Db2, cmd);
+
+                        foreach (StdClass tmp in page_list)
+                        {
+                            last_date = tmp.GetDataString("OPE_DATE");
+                            last_waku = tmp.GetDataString("OPE_WAKU");
+                            last_kind = tmp.GetDataString("OPE_KIND");
+
+                            List<string> cells = new List<string>();
+
+                            foreach (string col in title_list)
+                            {
+                                cells.Add(CsvCell(tmp.GetDataString(col)));
+                            }
+
+                            writer.WriteLine(string.Join(",", cells));
+                        }
+
+                        total += page_list.Count;
+
+                        this.Text = title + " " + total.ToString("#,0") + "件";
+                        Application.DoEvents();
+
+                        if (this.IsDisposed)
+                        {
+                            return;
+                        }
+
+                        if (page_list.Count < PAGE_SIZE)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                this.WriteManifest(file_name, "手術予約枠（EYE_OPE_RSV）", total);
 
                 MessageBox.Show("エクスポートが完了しました（" + total.ToString("#,0") + "件）");
             }

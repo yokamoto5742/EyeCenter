@@ -37,12 +37,17 @@
             this.KensaButton = new System.Windows.Forms.RadioButton();
             this.PatButton = new System.Windows.Forms.RadioButton();
             this.RsvButton = new System.Windows.Forms.RadioButton();
+            this.Kensa2Button = new System.Windows.Forms.RadioButton();
+            this.InterviewButton = new System.Windows.Forms.RadioButton();
+            this.OpeDoctorButton = new System.Windows.Forms.RadioButton();
+            this.OpePassButton = new System.Windows.Forms.RadioButton();
+            this.OpeRsvButton = new System.Windows.Forms.RadioButton();
             this.Utf8Check = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // ExeButton
             // 
-            this.ExeButton.Location = new System.Drawing.Point(65, 238);
+            this.ExeButton.Location = new System.Drawing.Point(65, 348);
             this.ExeButton.Name = "ExeButton";
             this.ExeButton.Size = new System.Drawing.Size(75, 23);
             this.ExeButton.TabIndex = 0;
@@ -78,7 +83,7 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(146, 238);
+            this.CloseButton.Location = new System.Drawing.Point(146, 348);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
             this.CloseButton.TabIndex = 3;
@@ -119,10 +124,65 @@
             this.RsvButton.Text = "手術予約（EYE_OPE）";
             this.RsvButton.UseVisualStyleBackColor = true;
             //
+            // Kensa2Button
+            //
+            this.Kensa2Button.AutoSize = true;
+            this.Kensa2Button.Location = new System.Drawing.Point(65, 145);
+            this.Kensa2Button.Name = "Kensa2Button";
+            this.Kensa2Button.Size = new System.Drawing.Size(151, 16);
+            this.Kensa2Button.TabIndex = 8;
+            this.Kensa2Button.TabStop = true;
+            this.Kensa2Button.Text = "検査連番（EYE_KENSA2）";
+            this.Kensa2Button.UseVisualStyleBackColor = true;
+            //
+            // InterviewButton
+            //
+            this.InterviewButton.AutoSize = true;
+            this.InterviewButton.Location = new System.Drawing.Point(65, 167);
+            this.InterviewButton.Name = "InterviewButton";
+            this.InterviewButton.Size = new System.Drawing.Size(151, 16);
+            this.InterviewButton.TabIndex = 9;
+            this.InterviewButton.TabStop = true;
+            this.InterviewButton.Text = "問診（EYE_INTERVIEW）";
+            this.InterviewButton.UseVisualStyleBackColor = true;
+            //
+            // OpeDoctorButton
+            //
+            this.OpeDoctorButton.AutoSize = true;
+            this.OpeDoctorButton.Location = new System.Drawing.Point(65, 189);
+            this.OpeDoctorButton.Name = "OpeDoctorButton";
+            this.OpeDoctorButton.Size = new System.Drawing.Size(191, 16);
+            this.OpeDoctorButton.TabIndex = 10;
+            this.OpeDoctorButton.TabStop = true;
+            this.OpeDoctorButton.Text = "手術医師記載（EYE_OPE_DOCTOR）";
+            this.OpeDoctorButton.UseVisualStyleBackColor = true;
+            //
+            // OpePassButton
+            //
+            this.OpePassButton.AutoSize = true;
+            this.OpePassButton.Location = new System.Drawing.Point(65, 211);
+            this.OpePassButton.Name = "OpePassButton";
+            this.OpePassButton.Size = new System.Drawing.Size(181, 16);
+            this.OpePassButton.TabIndex = 11;
+            this.OpePassButton.TabStop = true;
+            this.OpePassButton.Text = "手術申し送り（EYE_OPE_PASS）";
+            this.OpePassButton.UseVisualStyleBackColor = true;
+            //
+            // OpeRsvButton
+            //
+            this.OpeRsvButton.AutoSize = true;
+            this.OpeRsvButton.Location = new System.Drawing.Point(65, 233);
+            this.OpeRsvButton.Name = "OpeRsvButton";
+            this.OpeRsvButton.Size = new System.Drawing.Size(171, 16);
+            this.OpeRsvButton.TabIndex = 12;
+            this.OpeRsvButton.TabStop = true;
+            this.OpeRsvButton.Text = "手術予約枠（EYE_OPE_RSV）";
+            this.OpeRsvButton.UseVisualStyleBackColor = true;
+            //
             // Utf8Check
             //
             this.Utf8Check.AutoSize = true;
-            this.Utf8Check.Location = new System.Drawing.Point(65, 160);
+            this.Utf8Check.Location = new System.Drawing.Point(65, 270);
             this.Utf8Check.Name = "Utf8Check";
             this.Utf8Check.Size = new System.Drawing.Size(151, 16);
             this.Utf8Check.TabIndex = 7;
@@ -133,8 +193,13 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(292, 383);
             this.Controls.Add(this.Utf8Check);
+            this.Controls.Add(this.OpeRsvButton);
+            this.Controls.Add(this.OpePassButton);
+            this.Controls.Add(this.OpeDoctorButton);
+            this.Controls.Add(this.InterviewButton);
+            this.Controls.Add(this.Kensa2Button);
             this.Controls.Add(this.RsvButton);
             this.Controls.Add(this.PatButton);
             this.Controls.Add(this.KensaButton);
@@ -160,6 +225,11 @@
         private System.Windows.Forms.RadioButton KensaButton;
         private System.Windows.Forms.RadioButton PatButton;
         private System.Windows.Forms.RadioButton RsvButton;
+        private System.Windows.Forms.RadioButton Kensa2Button;
+        private System.Windows.Forms.RadioButton InterviewButton;
+        private System.Windows.Forms.RadioButton OpeDoctorButton;
+        private System.Windows.Forms.RadioButton OpePassButton;
+        private System.Windows.Forms.RadioButton OpeRsvButton;
         private System.Windows.Forms.CheckBox Utf8Check;
     }
 }
