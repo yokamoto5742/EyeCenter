@@ -113,6 +113,8 @@ EyeData.exe -u <USER_ID> -p <PATIENT_ID>
 | `MainFormHeight` | (画面サイズ) | メイン画面の高さ（ピクセル） |
 | `IVContBoxWidth` | 350 | 患者台帳・問診入力パネルの幅 |
 | `IVHistoryViewWidth` | 342 | 患者台帳・問診履歴パネルの幅 |
+| `OpeInfoPanelWidth` / `OpeInfoPanelHeight` | 550 / 255 | 患者台帳・手術タブ「手術基本情報」画面のサイズ |
+| `OpeRecordPanelWidth` / `OpeRecordPanelHeight` | 550 / 285 | 患者台帳・手術タブ「手術記録」画面のサイズ |
 | `OpeHistoryViewWidth` | 275 | 患者台帳・手術歴パネルの幅 |
 | `KensaHistoryViewWidth` | (自動調整) | 患者台帳・検査歴パネルの幅 |
 | `FindRowLimit` | 10000 | 検索（手術/サマリー/検査）取得件数上限 |

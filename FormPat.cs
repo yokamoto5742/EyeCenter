@@ -188,6 +188,18 @@ namespace EyeCenter
             this.IVHistoryView.Width = ivHistWidth;
             this.IVContBox.MaxLength = 1999;
 
+            // 手術基本情報・手術記録画面の横幅・高さを設定ファイル(EyeCenter.exe.config)から反映する
+            this.OpeInfoPanel.Width = AppConfig.GetInt("OpeInfoPanelWidth", this.OpeInfoPanel.Width);
+            this.OpeInfoPanel.Height = AppConfig.GetInt("OpeInfoPanelHeight", this.OpeInfoPanel.Height);
+            this.OpeDoctorPanel.Left = this.OpeInfoPanel.Right + 1;
+
+            this.OpeRecordPanel.Top = this.OpeInfoPanel.Bottom - 1;
+            this.OpeRecordPanel.Width = AppConfig.GetInt("OpeRecordPanelWidth", this.OpeRecordPanel.Width);
+            this.OpeRecordPanel.Height = AppConfig.GetInt("OpeRecordPanelHeight", this.OpeRecordPanel.Height);
+            this.RecordTabControl.Width = this.OpeRecordPanel.Width - 10;
+            this.OpePassPanel.Left = this.OpeRecordPanel.Right + 1;
+            this.OpePassPanel.Top = this.OpeRecordPanel.Top;
+
             // 手術歴・検査歴の横幅設定を初期表示に反映する
             this.PtHistoryWide();
 
