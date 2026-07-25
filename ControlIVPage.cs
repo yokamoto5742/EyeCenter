@@ -120,10 +120,10 @@ namespace EyeCenter
                 FP.IVHistoryView.Columns["ì˙ït"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 FP.IVHistoryView.Columns["éûçè"].Width = 45;
                 FP.IVHistoryView.Columns["éûçè"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                FP.IVHistoryView.Columns["ì‡óe"].Width = FP.IVHistoryView.Width - 230;
                 FP.IVHistoryView.Columns["STAFF"].Visible = false;
                 FP.IVHistoryView.Columns["ì¸óÕé“"].Width = 70;
                 FP.IVHistoryView.Columns["ì¸óÕé“"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                FP.IVHistoryView.Columns["ì‡óe"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 FP.IVHistoryView.Columns["SAVE_DATE"].Visible = false;
                 FP.IVHistoryView.Columns["SAVE_TIME"].Visible = false;
                 FP.IVHistoryView.Columns["STATUS"].Visible = false;
