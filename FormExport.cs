@@ -93,6 +93,10 @@ namespace EyeCenter
                 {
                     this.SaveOpeRsv(saveFileDialog1.FileName);
                 }
+                else if (SchemaButton.Checked)
+                {
+                    this.SaveSchema(saveFileDialog1.FileName);
+                }
                 else
                 {
                     this.SaveSummary(saveFileDialog1.FileName);

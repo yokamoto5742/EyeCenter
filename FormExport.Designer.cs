@@ -42,12 +42,13 @@
             this.OpeDoctorButton = new System.Windows.Forms.RadioButton();
             this.OpePassButton = new System.Windows.Forms.RadioButton();
             this.OpeRsvButton = new System.Windows.Forms.RadioButton();
+            this.SchemaButton = new System.Windows.Forms.RadioButton();
             this.Utf8Check = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // ExeButton
             // 
-            this.ExeButton.Location = new System.Drawing.Point(65, 348);
+            this.ExeButton.Location = new System.Drawing.Point(65, 370);
             this.ExeButton.Name = "ExeButton";
             this.ExeButton.Size = new System.Drawing.Size(75, 23);
             this.ExeButton.TabIndex = 0;
@@ -83,7 +84,7 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(146, 348);
+            this.CloseButton.Location = new System.Drawing.Point(146, 370);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
             this.CloseButton.TabIndex = 3;
@@ -179,10 +180,21 @@
             this.OpeRsvButton.Text = "手術予約枠（EYE_OPE_RSV）";
             this.OpeRsvButton.UseVisualStyleBackColor = true;
             //
+            // SchemaButton
+            //
+            this.SchemaButton.AutoSize = true;
+            this.SchemaButton.Location = new System.Drawing.Point(65, 255);
+            this.SchemaButton.Name = "SchemaButton";
+            this.SchemaButton.Size = new System.Drawing.Size(171, 16);
+            this.SchemaButton.TabIndex = 13;
+            this.SchemaButton.TabStop = true;
+            this.SchemaButton.Text = "スキーマ定義（EYE_*）";
+            this.SchemaButton.UseVisualStyleBackColor = true;
+            //
             // Utf8Check
             //
             this.Utf8Check.AutoSize = true;
-            this.Utf8Check.Location = new System.Drawing.Point(65, 270);
+            this.Utf8Check.Location = new System.Drawing.Point(65, 292);
             this.Utf8Check.Name = "Utf8Check";
             this.Utf8Check.Size = new System.Drawing.Size(151, 16);
             this.Utf8Check.TabIndex = 7;
@@ -193,8 +205,9 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 383);
+            this.ClientSize = new System.Drawing.Size(292, 405);
             this.Controls.Add(this.Utf8Check);
+            this.Controls.Add(this.SchemaButton);
             this.Controls.Add(this.OpeRsvButton);
             this.Controls.Add(this.OpePassButton);
             this.Controls.Add(this.OpeDoctorButton);
@@ -230,6 +243,7 @@
         private System.Windows.Forms.RadioButton OpeDoctorButton;
         private System.Windows.Forms.RadioButton OpePassButton;
         private System.Windows.Forms.RadioButton OpeRsvButton;
+        private System.Windows.Forms.RadioButton SchemaButton;
         private System.Windows.Forms.CheckBox Utf8Check;
     }
 }

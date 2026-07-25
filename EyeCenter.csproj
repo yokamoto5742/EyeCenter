@@ -121,6 +121,9 @@
     <Compile Include="FormExport.Designer.cs">
       <DependentUpon>FormExport.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormExport.Schema.cs">
+      <DependentUpon>FormExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormFindSummary.cs">
       <SubType>Form</SubType>
     </Compile>
