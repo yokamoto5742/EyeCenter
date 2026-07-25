@@ -293,7 +293,7 @@ namespace EyeCenter
                 {
                     Label tmpLabel = new Label();
                     tmpLabel.Name = r["Name"].ToString();
-                    tmpLabel.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
+                    tmpLabel.Location = new Point(DynamicControl.ResolveX(r["X"].ToString()), int.Parse(r["Y"].ToString()));
                     tmpLabel.AutoSize = true;
                     tmpLabel.Text = r["Text"].ToString();
 
@@ -303,7 +303,7 @@ namespace EyeCenter
                 {
                     TextBox tmpBox = new TextBox();
                     tmpBox.Name = r["Name"].ToString();
-                    tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
+                    tmpBox.Location = new Point(DynamicControl.ResolveX(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
                     tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
@@ -321,7 +321,7 @@ namespace EyeCenter
                 {
                     ComboBox tmpBox = new ComboBox();
                     tmpBox.Name = r["Name"].ToString();
-                    tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
+                    tmpBox.Location = new Point(DynamicControl.ResolveX(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
                     tmpBox.Size = c_size;
                     tmpBox.Tag = r["Code"].ToString();
@@ -342,7 +342,7 @@ namespace EyeCenter
                 {
                     CheckBox tmpBox = new CheckBox();
                     tmpBox.Name = r["Name"].ToString();
-                    tmpBox.Location = new Point(int.Parse(r["X"].ToString()), int.Parse(r["Y"].ToString()));
+                    tmpBox.Location = new Point(DynamicControl.ResolveX(r["X"].ToString()), int.Parse(r["Y"].ToString()));
 
                     tmpBox.Size = c_size;
                     tmpBox.Text = r["Text"].ToString();

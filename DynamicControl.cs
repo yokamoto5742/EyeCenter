@@ -2,6 +2,7 @@
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using MedicalLibrary.Agent;
 
 namespace EyeCenter
 {
@@ -109,6 +110,35 @@ namespace EyeCenter
             }
 
             return w == 0 && h == 0;
+        }
+
+        /// <summary>
+        /// X 列の値を X 座標に変換する。数値はそのまま使い、それ以外は SumCol4 テーブルの列キー
+        /// （L / V1 / V2 / S / C / Ax）として解決する。解決できない値は 0 とする。
+        /// </summary>
+        internal static int ResolveX(string x)
+        {
+            int v = 0;
+
+            if (int.TryParse(x, out v))
+            {
+                return v;
+            }
+
+            DataTable t = EyeDict.EyeSet.Tables["SumCol4"];
+
+            if (t != null)
+            {
+                foreach (DataRow r in t.Rows)
+                {
+                    if (r["Key"].ToString().Equals(x, StringComparison.CurrentCultureIgnoreCase) && int.TryParse(r["X"].ToString(), out v))
+                    {
+                        return v;
+                    }
+                }
+            }
+
+            return 0;
         }
 
         /// <summary>
