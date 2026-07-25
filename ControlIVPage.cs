@@ -118,13 +118,15 @@ namespace EyeCenter
                 FP.IVHistoryView.Columns["IV_DATE"].Visible = false;
                 FP.IVHistoryView.Columns["日付"].Width = 70;
                 FP.IVHistoryView.Columns["日付"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                FP.IVHistoryView.Columns["日付"].DisplayIndex = 2;
                 FP.IVHistoryView.Columns["時刻"].Width = 45;
                 FP.IVHistoryView.Columns["時刻"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                FP.IVHistoryView.Columns["時刻"].DisplayIndex = 3;
                 FP.IVHistoryView.Columns["STAFF"].Visible = false;
                 FP.IVHistoryView.Columns["入力者"].Width = 70;
                 FP.IVHistoryView.Columns["入力者"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                FP.IVHistoryView.Columns["入力者"].DisplayIndex = 2;
-                FP.IVHistoryView.Columns["内容"].DisplayIndex = 3;
+                FP.IVHistoryView.Columns["入力者"].DisplayIndex = 1;
+                FP.IVHistoryView.Columns["内容"].DisplayIndex = 0;
                 FP.IVHistoryView.Columns["内容"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 FP.IVHistoryView.Columns["SAVE_DATE"].Visible = false;
                 FP.IVHistoryView.Columns["SAVE_TIME"].Visible = false;
