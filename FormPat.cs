@@ -19,7 +19,7 @@ namespace EyeCenter
         ControlSumPage _SumPage = new ControlSumPage();
         ControlIVPage _IVPage = new ControlIVPage();
 
-        // ï¿½ï¿½pï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½iï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½ EyeCenter.exe.config ï¿½Å•ÏXï¿½Â”\ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0 ï¿½Í‰ï¿½Ê‰Eï¿½[ï¿½Ü‚Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½j
+        // èp—ğEŒŸ¸—ğ‚Ì‰¡•iİ’èƒtƒ@ƒCƒ‹ EyeCenter.exe.config ‚Å•ÏX‰Â”\BŒŸ¸—ğ‚Ì 0 ‚Í‰æ–Ê‰E’[‚Ü‚Å©“®’²®j
         readonly int _OpeHistoryWidth = AppConfig.GetInt("OpeHistoryViewWidth", 275);
         readonly int _KensaHistoryWidth = AppConfig.GetInt("KensaHistoryViewWidth", 0);
 
@@ -45,17 +45,17 @@ namespace EyeCenter
         Dictionary<string, string> outcomeDict = new Dictionary<string,string>();
 
         /// <summary>
-        /// ï¿½oï¿½ß‹Lï¿½^ï¿½Ìƒeï¿½Lï¿½Xï¿½gï¿½iï¿½pï¿½O, 6M ï¿½ï¿½ï¿½jï¿½ÆƒRï¿½ï¿½ï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½iPre, M6 ï¿½ï¿½ï¿½jï¿½Ì‘Î‰ï¿½
+        /// Œo‰ß‹L˜^‚ÌƒeƒLƒXƒgip‘O, 6M “™j‚ÆƒRƒ“ƒgƒ[ƒ‹–¼iPre, M6 “™j‚Ì‘Î‰
         /// </summary>
         Dictionary<string, string> passDict = new Dictionary<string, string>();
 
         /// <summary>
-        /// ï¿½|ï¿½bï¿½vï¿½Aï¿½bï¿½vï¿½wï¿½ï¿½ï¿½vï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½[ï¿½ï¿½ï¿½`ï¿½bï¿½vï¿½B
+        /// ƒ|ƒbƒvƒAƒbƒvƒwƒ‹ƒv‚ğ•\¦‚·‚éƒc[ƒ‹ƒ`ƒbƒvB
         /// </summary>
         ToolTip passTip;
 
         /// <summary>
-        /// ï¿½ï¿½Ê•ÒWï¿½ï¿½ï¿½[ï¿½h
+        /// ‰æ–Ê•ÒWƒ‚[ƒh
         /// </summary>
         public enum Mode : int
         {
@@ -64,7 +64,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½^ï¿½uï¿½ï¿½ï¿½
+        /// ƒ^ƒuí•Ê
         /// </summary>
         public enum Tab : int
         {
@@ -91,7 +91,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½Ò‚Ì‹Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ê‡ï¿½B
+        /// ŠY“–Š³Ò‚Ì‹L˜^‚ğŠJ‚­ê‡B
         /// </summary>
         /// <param name="pt_id"></param>
         /// <param name="mode"></param>
@@ -106,7 +106,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½ê‡ï¿½B
+        /// Šù‘¶‹L˜^‚ğŠJ‚­ê‡B
         /// </summary>
         /// <param name="record_id"></param>
         public void ShowByRecord(string record_id)
@@ -120,7 +120,7 @@ namespace EyeCenter
                 this.PatSet(PatBase.Load(tmpOpe.PtId));
             }
 
-            // record_id ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // record_id ‚ª¦‚·s‚ğ‘I‘ğ‚·‚é
             foreach (DataGridViewRow r in OpeHistoryView.Rows)
             {
                 if (r.Cells["ID"].Value.ToString().Equals(record_id))
@@ -134,7 +134,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½\ï¿½ï¿½ï¿½Vï¿½Kï¿½ï¿½ï¿½Íiï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½Vï¿½Kï¿½ì¬ï¿½jï¿½ï¿½ï¿½ï¿½ê‡ï¿½B
+        /// —\–ñ‚ğV‹K“ü—Íièp‹L˜^‚ğV‹Kì¬j‚·‚éê‡B
         /// </summary>
         /// <param name="ope_kind"></param>
         /// <param name="ope_date"></param>
@@ -179,7 +179,7 @@ namespace EyeCenter
 
         private void FormPat_Load(object sender, EventArgs e)
         {
-            // ï¿½ï¿½fï¿½ï¿½ï¿½ÍEï¿½ï¿½fï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½(EyeCenter.exe.config)ï¿½ï¿½ï¿½ç”½ï¿½fï¿½ï¿½ï¿½ï¿½
+            // –âf“ü—ÍE–âf—š—ğ‚Ì‰¡•‚ğİ’èƒtƒ@ƒCƒ‹(EyeCenter.exe.config)‚©‚ç”½‰f‚·‚é
             int ivContWidth = AppConfig.GetInt("IVContBoxWidth", this.IVContBox.Width);
             int ivHistWidth = AppConfig.GetInt("IVHistoryViewWidth", this.IVHistoryView.Width);
             this.IVContBox.Width = ivContWidth;
@@ -188,13 +188,13 @@ namespace EyeCenter
             this.IVHistoryView.Width = ivHistWidth;
             this.IVContBox.MaxLength = 1999;
 
-            // ï¿½ï¿½pï¿½ï¿½ï¿½ğ—“‚Ì‰ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½(EyeCenter.exe.config)ï¿½ï¿½ï¿½ç”½ï¿½fï¿½ï¿½ï¿½ï¿½
+            // èp—š—ğ—“‚Ì‰¡•E‚‚³‚ğİ’èƒtƒ@ƒCƒ‹(EyeCenter.exe.config)‚©‚ç”½‰f‚·‚é
             int sumHistWidth = AppConfig.GetInt("SumHistBoxWidth", this.SumHistBox.Width);
             this.SumHistBox.Width = sumHistWidth;
             this.SumHistBox.Height = AppConfig.GetInt("SumHistBoxHeight", this.SumHistBox.Height);
             this.SumPanel4.Left = this.SumHistBox.Left + sumHistWidth + 8;
 
-            // ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½Eï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½Ê‚Ì‰ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½tï¿½@ï¿½Cï¿½ï¿½(EyeCenter.exe.config)ï¿½ï¿½ï¿½ç”½ï¿½fï¿½ï¿½ï¿½ï¿½
+            // èpŠî–{î•ñEèp‹L˜^‰æ–Ê‚Ì‰¡•E‚‚³‚ğİ’èƒtƒ@ƒCƒ‹(EyeCenter.exe.config)‚©‚ç”½‰f‚·‚é
             this.OpeInfoPanel.Width = AppConfig.GetInt("OpeInfoPanelWidth", this.OpeInfoPanel.Width);
             this.OpeInfoPanel.Height = AppConfig.GetInt("OpeInfoPanelHeight", this.OpeInfoPanel.Height);
             this.OpeDoctorPanel.Left = this.OpeInfoPanel.Right + 1;
@@ -206,7 +206,7 @@ namespace EyeCenter
             this.OpePassPanel.Left = this.OpeRecordPanel.Right + 1;
             this.OpePassPanel.Top = this.OpeRecordPanel.Top;
 
-            // ï¿½ï¿½pï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½İ’ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½É”ï¿½ï¿½fï¿½ï¿½ï¿½ï¿½
+            // èp—ğEŒŸ¸—ğ‚Ì‰¡•İ’è‚ğ‰Šú•\¦‚É”½‰f‚·‚é
             this.PtHistoryWide();
 
             if (!InnoProgram.Exists)
@@ -215,14 +215,14 @@ namespace EyeCenter
             }
 
             outcomeDict.Add("0", "");
-            outcomeDict.Add("1", "ï¿½ï¿½ï¿½ï¿½");
-            outcomeDict.Add("2", "ï¿½ï¿½ï¿½S");
-            outcomeDict.Add("3", "ï¿½ï¿½ï¿½~");
-            outcomeDict.Add("4", "ï¿½]ï¿½ï¿½");
-            outcomeDict.Add("5", "ï¿½yï¿½ï¿½");
-            outcomeDict.Add("6", "ï¿½]ï¿½@");
-            outcomeDict.Add("7", "ï¿½êï¿½Ş‰@");
-            outcomeDict.Add("8", "ï¿½sï¿½ï¿½");
+            outcomeDict.Add("1", "¡–ü");
+            outcomeDict.Add("2", "€–S");
+            outcomeDict.Add("3", "’†~");
+            outcomeDict.Add("4", "“]ˆã");
+            outcomeDict.Add("5", "Œy‰õ");
+            outcomeDict.Add("6", "“]‰@");
+            outcomeDict.Add("7", "ˆê‘Ş‰@");
+            outcomeDict.Add("8", "•s•Ï");
 
             passTip = new ToolTip();
             passTip.ShowAlways = true;
@@ -241,9 +241,9 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Yï¿½É–ß‚ï¿½ï¿½B
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Íİ’ï¿½tï¿½@ï¿½Cï¿½ï¿½(EyeCenter.exe.config)ï¿½ï¿½ PatFormWidth / PatFormHeight ï¿½Å•ÏXï¿½Â”\ï¿½B
-        /// ï¿½ï¿½ï¿½İ’èï¿½Í]ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½iï¿½ï¿½1280 or 1024, ï¿½cï¿½Å‘ï¿½jï¿½B
+        /// Œ³‚ÌƒTƒCƒY‚É–ß‚·B
+        /// ‰¡•E‚‚³‚Íİ’èƒtƒ@ƒCƒ‹(EyeCenter.exe.config)‚Ì PatFormWidth / PatFormHeight ‚Å•ÏX‰Â”\B
+        /// –¢İ’è‚Í]—ˆ‚Ç‚¨‚èi‰¡1280 or 1024, cÅ‘åjB
         /// </summary>
         public void OrgSize()
         {
@@ -271,39 +271,39 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// dSet ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½B
-        /// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ÈŠOï¿½Å‚Ígï¿½pï¿½ï¿½ï¿½È‚ï¿½ï¿½B
+        /// dSet ‰Šú‰»Bèp—š—ğƒe[ƒuƒ‹‚ÌƒJƒ‰ƒ€‚ğì¬‚·‚éB
+        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^ˆÈŠO‚Å‚Íg—p‚µ‚È‚¢B
         /// </summary>
         private void DSetInit()
         {
-            DataTable tmpTable = dSet.Tables.Add("ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½");
+            DataTable tmpTable = dSet.Tables.Add("èp—š—ğ");
             tmpTable.Columns.Add("ID");
             tmpTable.Columns.Add("OPE_DATE");
-            tmpTable.Columns.Add("ï¿½ï¿½pï¿½ï¿½");
+            tmpTable.Columns.Add("èp“ú");
             tmpTable.Columns.Add("OPE_TIME");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½ï¿½");
+            tmpTable.Columns.Add("");
             tmpTable.Columns.Add("OPE_KIND");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½pï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½p");
-            tmpTable.Columns.Add("ï¿½ï¿½t");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½aï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½O");
-            tmpTable.Columns.Add("ï¿½Nï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½ï¿½");
-            tmpTable.Columns.Add("ï¿½ÖŠï¿½");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½l");
+            tmpTable.Columns.Add("í•Ê");
+            tmpTable.Columns.Add("èpº");
+            tmpTable.Columns.Add("èp");
+            tmpTable.Columns.Add("ˆãt");
+            tmpTable.Columns.Add("–ƒŒ");
+            tmpTable.Columns.Add("•a–¼");
+            tmpTable.Columns.Add("“üŠO");
+            tmpTable.Columns.Add("”N—î");
+            tmpTable.Columns.Add("Šá");
+            tmpTable.Columns.Add("Š´õ");
+            tmpTable.Columns.Add("‹ÖŠõ");
+            tmpTable.Columns.Add("”õl");
 
             foreach (DataRow r in EyeDict.EyeSet.Tables["OpeHistory"].Rows)
             {
                 tmpTable.Columns.Add(r["Text"].ToString());
             }
 
-            tmpTable = dSet.Tables.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+            tmpTable = dSet.Tables.Add("ŒŸ¸—ğ");
             tmpTable.Columns.Add("KENSA_DATE");
-            tmpTable.Columns.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+            tmpTable.Columns.Add("ŒŸ¸“ú");
 
             foreach (DataRow tmpRow in EyeDict.EyeSet.Tables["KensaPage"].Rows)
             {
@@ -352,13 +352,13 @@ namespace EyeCenter
             tmpTable.Columns.Add("MChartTate_L");
             tmpTable.Columns.Add("MChartYoko_L");
 
-            // ï¿½Ô–ï¿½ï¿½ï¿½
+            // –Ô–ŒŒú
             tmpTable.Columns.Add("Moumakukou_R");
             tmpTable.Columns.Add("Moumakukou_L");
         }
 
         /// <summary>
-        /// ï¿½^ï¿½uï¿½Ø‚ï¿½Ö‚ï¿½
+        /// ƒ^ƒuØ‚è‘Ö‚¦
         /// </summary>
         /// <param name="t"></param>
         private void TabChange(Tab t)
@@ -380,7 +380,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// èpŠî–{î•ñ‚ğ‰Šú‰»B
         /// </summary>
         private void OpeInit()
         {
@@ -411,7 +411,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½eï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ Value ï¿½ï¿½ÅƒRï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½Ìï¿½ï¿½Ú‚ï¿½ï¿½ï¿½è’¼ï¿½ï¿½ï¿½iï¿½æ“ªï¿½Í‹ó—“jï¿½B
+        /// «‘ƒe[ƒuƒ‹‚Ì Value —ñ‚ÅƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ì€–Ú‚ğì‚è’¼‚·iæ“ª‚Í‹ó—“jB
         /// </summary>
         void FillCombo(ComboBox box, string tableName)
         {
@@ -425,7 +425,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½Sï¿½Ì‚ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½B
+        /// èp‹L˜^‘S‘Ì‚ğƒNƒŠƒAB
         /// </summary>
         private void AllOpeClear()
         {
@@ -436,7 +436,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½×‚Ä‚ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½B
+        /// èpŠî–{î•ñ‚Ì‚·‚×‚Ä‚ğƒNƒŠƒAB
         /// </summary>
         private void OpeClear()
         {
@@ -448,8 +448,8 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½Ì“ï¿½ï¿½eï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½B
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÊEï¿½ï¿½ï¿½ï¿½ï¿½ÍƒNï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½È‚ï¿½ï¿½B
+        /// èpŠî–{î•ñ‚Ì“à—e‚ğƒNƒŠƒAB
+        /// ‚½‚¾‚µí•ÊE‚ÍƒNƒŠƒA‚µ‚È‚¢B
         /// </summary>
         private void OpeClear_Wo_KindDateTime()
         {
@@ -488,7 +488,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½^ï¿½uï¿½Ì“ï¿½ï¿½eï¿½Nï¿½ï¿½ï¿½A
+        /// èp‹L˜^ƒ^ƒu‚Ì“à—eƒNƒŠƒA
         /// </summary>
         private void RecordClear()
         {
@@ -508,7 +508,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½tï¿½Lï¿½^ï¿½Ì“ï¿½ï¿½eï¿½Nï¿½ï¿½ï¿½A
+        /// ˆãt‹L˜^‚Ì“à—eƒNƒŠƒA
         /// </summary>
         private void DoctorClear()
         {
@@ -519,7 +519,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½oï¿½ß‹Lï¿½^ï¿½pï¿½lï¿½ï¿½ï¿½Ì“ï¿½ï¿½eï¿½Nï¿½ï¿½ï¿½A
+        /// Œo‰ß‹L˜^ƒpƒlƒ‹‚Ì“à—eƒNƒŠƒA
         /// </summary>
         private void PassClear()
         {
@@ -545,8 +545,8 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½ï¿½Æï¿½Ê‚É‰ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½Ô˜gï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½B
-        /// ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½lï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½B
+        /// èp“ú‚Æí•Ê‚É‰‚¶‚ÄŠÔ˜gƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ğ•ÏX‚·‚éB
+        /// Å‰‚©‚ç“ü‚Á‚Ä‚¢‚é’l‚ÍÁ‹‚µ‚È‚¢B
         /// </summary>
         private void OpeTimeBoxChange()
         {
@@ -567,7 +567,7 @@ namespace EyeCenter
                 }
             }
 
-            // ï¿½oï¿½ß‹Lï¿½^ï¿½pï¿½lï¿½ï¿½ï¿½Ì“ï¿½ï¿½tï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½B
+            // Œo‰ß‹L˜^ƒpƒlƒ‹‚Ì“ú•t‚ğ•ÏX‚·‚éB
             this.PassPanelControlDateChange();
         }
 
@@ -578,15 +578,15 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½Oï¿½Ì•ÏXï¿½É‰ï¿½ï¿½ï¿½ï¿½Ä“ï¿½ï¿½@ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½B
+        /// “üŠO‚Ì•ÏX‚É‰‚¶‚Ä“ü‰@“úƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ğ•ÏX‚·‚éB
         /// </summary>
         private void InDateChange()
         {
-            InDateTimePicker.Enabled = InOutBox.Text.Equals("ï¿½í‚©ï¿½ï¿½") || InOutBox.Text.Equals("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½") || InOutBox.Text.Equals("ï¿½ï¿½ï¿½ï¿½ï¿½");
+            InDateTimePicker.Enabled = InOutBox.Text.Equals("‚í‚©‚Î") || InOutBox.Text.Equals("‚³‚­‚ç") || InOutBox.Text.Equals("‚ ‚â‚ß");
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½Oï¿½Ì•ÏXï¿½É‰ï¿½ï¿½ï¿½ï¿½Ä•aï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½{ï¿½{ï¿½bï¿½Nï¿½Xï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½B
+        /// “üŠO‚Ì•ÏX‚É‰‚¶‚Ä•aºƒRƒ“ƒ{ƒ{ƒbƒNƒX‚ğ•ÏX‚·‚éB
         /// </summary>
         private void InRoomBoxChange()
         {
@@ -613,7 +613,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½Òï¿½ï¿½iID, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        /// Š³Òî•ñiID, –¼, èp—š—ğj‚ğ•\¦‚·‚é
         /// </summary>
         private void PtShow()
         {
@@ -624,7 +624,7 @@ namespace EyeCenter
 
             this.Text = this.Pat.Name;
 
-            // ï¿½`ï¿½Bï¿½ï¿½ñ‚ª‘ï¿½ï¿½İ‚ï¿½ï¿½ï¿½Îuï¿½`ï¿½Bï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½È‚ï¿½Bï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Í‰ï¿½ï¿½Fï¿½B
+            // “`’Bî•ñ‚ª‘¶İ‚·‚ê‚Îu“`’Bvƒ{ƒ^ƒ“‚ªÔ‚­‚È‚éB‚»‚êˆÈŠO‚Í‰©FB
             Memo tmpInfo = Memo.Load(this.Pat.Id, "0");
 
             if (tmpInfo.Cont.Length > 0)
@@ -636,7 +636,7 @@ namespace EyeCenter
                 this.InfoShareButton.BackColor = Color.FromArgb(255, 255, 192);
             }
 
-            // ï¿½Æ‘ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ñ‚ª‘ï¿½ï¿½İ‚ï¿½ï¿½ï¿½Îuï¿½Æ‘ï¿½ï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½È‚ï¿½Bï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Í‰ï¿½ï¿½Fï¿½B
+            // ‰Æ‘°˜A—æî•ñ‚ª‘¶İ‚·‚ê‚Îu‰Æ‘°vƒ{ƒ^ƒ“‚ªÔ‚­‚È‚éB‚»‚êˆÈŠO‚Í‰©FB
             List<PatContact> tmpList = PatContact.GetList(this.Pat.Id);
 
             if (tmpList.Count > 0)
@@ -658,7 +658,7 @@ namespace EyeCenter
 
                         if (c.RelationComment.Length > 0)
                         {
-                            con += "ï¿½i" + c.RelationComment + "ï¿½j";
+                            con += "i" + c.RelationComment + "j";
                         }
                     }
 
@@ -668,7 +668,7 @@ namespace EyeCenter
 
                         if (c.KindVal1.Length > 0)
                         {
-                            con += "ï¿½i" + c.KindVal1 + "ï¿½j";
+                            con += "i" + c.KindVal1 + "j";
                         }
                     }
 
@@ -678,7 +678,7 @@ namespace EyeCenter
 
                         if (c.KindVal2.Length > 0)
                         {
-                            con += "ï¿½i" + c.KindVal2 + "ï¿½j";
+                            con += "i" + c.KindVal2 + "j";
                         }
                     }
 
@@ -688,7 +688,7 @@ namespace EyeCenter
 
                         if (c.KindVal3.Length > 0)
                         {
-                            con += "ï¿½i" + c.KindVal3 + "ï¿½j";
+                            con += "i" + c.KindVal3 + "j";
                         }
                     }
 
@@ -707,7 +707,7 @@ namespace EyeCenter
                 FamilyButton.BackColor = Color.FromArgb(255, 255, 192);
             }
 
-            // ï¿½ÖŠï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾
+            // ‹ÖŠõî•ñ‚ğæ“¾
             List<AllergyData> allergy_list = AllergyData.GetList(this.Pat.Id);
 
             if (allergy_list.Count > 0)
@@ -741,16 +741,16 @@ namespace EyeCenter
 
             this._SumPage.Show(this.Pat.Id);
 
-            // ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½\ï¿½ï¿½
+            // ŒŸ¸ƒf[ƒ^‚ğ•\¦
             KensaShow(this.Pat.Id, KensaDate.Value.ToString("yyyyMMdd"));
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        /// èp—ğ‚ğ•\¦‚·‚é
         /// </summary>
         private void PtOpeHistoryShow()
         {
-            DataTable tmpTable = dSet.Tables["ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½"];
+            DataTable tmpTable = dSet.Tables["èp—š—ğ"];
             tmpTable.Rows.Clear();
 
             List<EyeOpe> tmpList = EyeOpe.GetListByPatDates(this.Pat.Id, "", "");
@@ -762,66 +762,66 @@ namespace EyeCenter
 
                 r["ID"] = tmpOpe.Id;
                 r["OPE_DATE"] = tmpOpe.OpeDate;
-                r["ï¿½ï¿½pï¿½ï¿½"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.SHORT);
+                r["èp“ú"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.SHORT);
                 r["OPE_TIME"] = tmpOpe.OpeTime;
-                r["ï¿½ï¿½ï¿½ï¿½"] = tmpOpe.OpeTime.PadLeft(4, '0').Insert(2, ":");
+                r[""] = tmpOpe.OpeTime.PadLeft(4, '0').Insert(2, ":");
 
                 r["OPE_KIND"] = tmpOpe.OpeKind;
 
                 if (EyeDict.OpeKindDict.ContainsKey(tmpOpe.OpeKind))
                 {
-                    r["ï¿½ï¿½ï¿½"] = EyeDict.OpeKindDict[tmpOpe.OpeKind];
+                    r["í•Ê"] = EyeDict.OpeKindDict[tmpOpe.OpeKind];
                 }
                 else
                 {
-                    r["ï¿½ï¿½ï¿½"] = "";
+                    r["í•Ê"] = "";
                 }
 
-                r["ï¿½ï¿½pï¿½ï¿½"] = tmpOpe.OpeRoom;
-                r["ï¿½ï¿½p"] = tmpOpe.OpeName;
-                r["ï¿½ï¿½t"] = tmpOpe.Doctor;
-                r["ï¿½ï¿½ï¿½ï¿½"] = tmpOpe.Anes;
-                r["ï¿½aï¿½ï¿½"] = tmpOpe.Diag;
-                r["ï¿½ï¿½ï¿½O"] = tmpOpe.InOut;
+                r["èpº"] = tmpOpe.OpeRoom;
+                r["èp"] = tmpOpe.OpeName;
+                r["ˆãt"] = tmpOpe.Doctor;
+                r["–ƒŒ"] = tmpOpe.Anes;
+                r["•a–¼"] = tmpOpe.Diag;
+                r["“üŠO"] = tmpOpe.InOut;
 
-                r["ï¿½Nï¿½ï¿½"] = tmpOpe.Pat.AgeCalc(tmpOpe.OpeDate);
+                r["”N—î"] = tmpOpe.Pat.AgeCalc(tmpOpe.OpeDate);
 
                 if (tmpOpe.EyeR.Equals("1") && tmpOpe.EyeL.Equals("1"))
                 {
-                    r["ï¿½ï¿½"] = "B";
+                    r["Šá"] = "B";
                 }
                 else if (tmpOpe.EyeR.Equals("1"))
                 {
-                    r["ï¿½ï¿½"] = "R";
+                    r["Šá"] = "R";
                 }
                 else if (tmpOpe.EyeL.Equals("1"))
                 {
-                    r["ï¿½ï¿½"] = "L";
+                    r["Šá"] = "L";
                 }
                 else
                 {
-                    r["ï¿½ï¿½"] = "";
+                    r["Šá"] = "";
                 }
 
                 if (tmpOpe.Infection.Contains("+"))
                 {
-                    r["ï¿½ï¿½ï¿½ï¿½"] = "+";
+                    r["Š´õ"] = "+";
                 }
                 else
                 {
-                    r["ï¿½ï¿½ï¿½ï¿½"] = "-";
+                    r["Š´õ"] = "-";
                 }
 
                 if (tmpOpe.Agree.Equals("1"))
                 {
-                    r["ï¿½ÖŠï¿½"] = "ï¿½ï¿½";
+                    r["‹ÖŠõ"] = "›";
                 }
                 else
                 {
-                    r["ï¿½ÖŠï¿½"] = "";
+                    r["‹ÖŠõ"] = "";
                 }
 
-                r["ï¿½ï¿½ï¿½l"] = tmpOpe.Comment;
+                r["”õl"] = tmpOpe.Comment;
 
                 tmpRecDict = ContData.Parse(tmpOpe.OpeRecord);
 
@@ -842,7 +842,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// OpeHistoryView ï¿½Ì‘å‚«ï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½ÄƒJï¿½ï¿½ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½Eï¿½ï¿½\ï¿½ï¿½ï¿½Æ•ï¿½ï¿½ğ’²ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// OpeHistoryView ‚Ì‘å‚«‚³‚É‰‚¶‚ÄƒJƒ‰ƒ€‚Ì•\¦E”ñ•\¦‚Æ•‚ğ’²®‚·‚éB
         /// </summary>
         void PtOpeHistoryWide()
         {
@@ -854,40 +854,40 @@ namespace EyeCenter
 
                     OpeHistoryView.Columns["OPE_DATE"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].Width = 55;
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    OpeHistoryView.Columns["èp“ú"].Width = 55;
+                    OpeHistoryView.Columns["èp“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     OpeHistoryView.Columns["OPE_TIME"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns[""].Visible = false;
 
                     OpeHistoryView.Columns["OPE_KIND"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["í•Ê"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["èpº"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½p"].Width = 220;
+                    OpeHistoryView.Columns["èp"].Width = 220;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½t"].HeaderText = "Dr";
-                    OpeHistoryView.Columns["ï¿½ï¿½t"].Width = 55;
+                    OpeHistoryView.Columns["ˆãt"].HeaderText = "Dr";
+                    OpeHistoryView.Columns["ˆãt"].Width = 55;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["–ƒŒ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½aï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["•a–¼"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½O"].Visible = false;
+                    OpeHistoryView.Columns["“üŠO"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½Nï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["”N—î"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½"].Width = 25;
-                    OpeHistoryView.Columns["ï¿½ï¿½"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    OpeHistoryView.Columns["Šá"].Width = 25;
+                    OpeHistoryView.Columns["Šá"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["Š´õ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ÖŠï¿½"].Visible = false;
+                    OpeHistoryView.Columns["‹ÖŠõ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½l"].Visible = false;
+                    OpeHistoryView.Columns["”õl"].Visible = false;
 
                     int width = 0;
 
@@ -895,8 +895,8 @@ namespace EyeCenter
                     {
                         string colText = tmpRow["Text"].ToString();
 
-                        // ï¿½ÛŒï¿½ï¿½pï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½{ï¿½aï¿½ï¿½ï¿½Eï¿½ï¿½pï¿½ï¿½ï¿½Rï¿½Í•\ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
-                        if (colText.Equals("ï¿½ÛŒï¿½ï¿½pï¿½ï¿½") || colText.Equals("ï¿½ï¿½ï¿½{ï¿½aï¿½ï¿½") || colText.Equals("ï¿½ï¿½pï¿½ï¿½ï¿½R"))
+                        // •ÛŒ¯p®EÀ{•a–¼Eèp——R‚Í•\¦‚µ‚È‚¢
+                        if (colText.Equals("•ÛŒ¯p®") || colText.Equals("À{•a–¼") || colText.Equals("èp——R"))
                         {
                             OpeHistoryView.Columns[colText].Visible = false;
                             continue;
@@ -915,40 +915,40 @@ namespace EyeCenter
 
                     OpeHistoryView.Columns["OPE_DATE"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].Width = 55;
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    OpeHistoryView.Columns["èp“ú"].Width = 55;
+                    OpeHistoryView.Columns["èp“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     OpeHistoryView.Columns["OPE_TIME"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns[""].Visible = false;
 
                     OpeHistoryView.Columns["OPE_KIND"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["í•Ê"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½pï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["èpº"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½p"].Width = 145;
+                    OpeHistoryView.Columns["èp"].Width = 145;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½t"].HeaderText = "Dr";
-                    OpeHistoryView.Columns["ï¿½ï¿½t"].Width = 30;
+                    OpeHistoryView.Columns["ˆãt"].HeaderText = "Dr";
+                    OpeHistoryView.Columns["ˆãt"].Width = 30;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["–ƒŒ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½aï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["•a–¼"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½O"].Visible = false;
+                    OpeHistoryView.Columns["“üŠO"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½Nï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["”N—î"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½"].Width = 25;
-                    OpeHistoryView.Columns["ï¿½ï¿½"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    OpeHistoryView.Columns["Šá"].Width = 25;
+                    OpeHistoryView.Columns["Šá"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½ï¿½"].Visible = false;
+                    OpeHistoryView.Columns["Š´õ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ÖŠï¿½"].Visible = false;
+                    OpeHistoryView.Columns["‹ÖŠõ"].Visible = false;
 
-                    OpeHistoryView.Columns["ï¿½ï¿½ï¿½l"].Visible = false;
+                    OpeHistoryView.Columns["”õl"].Visible = false;
 
                     foreach (DataRow tmpRow in EyeDict.EyeSet.Tables["OpeHistory"].Rows)
                     {
@@ -959,7 +959,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// èpŠî–{î•ñ‚Ì“à—e‚ğ•\¦‚·‚éB
         /// </summary>
         /// <param name="record"></param>
         private void OpeShow(EyeOpe ope)
@@ -991,8 +991,8 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½ï¿½{ï¿½ï¿½ï¿½Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½Eï¿½ï¿½pï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Eï¿½Xï¿½^ï¿½bï¿½tï¿½Íİ’è‚µï¿½È‚ï¿½ï¿½B
+        /// èpŠî–{î•ñ‚Ì“à—e‚ğ•\¦‚·‚éB
+        /// ‚½‚¾‚µIDEèp“úE“ü‰@“úEƒXƒ^ƒbƒt‚Íİ’è‚µ‚È‚¢B
         /// </summary>
         /// <param name="ope"></param>
         private void OpeBaseShow(EyeOpe ope)
@@ -1002,7 +1002,7 @@ namespace EyeCenter
                 this.OpeKindBox.Text = ope.OpeKind + " " + EyeDict.OpeKindDict[ope.OpeKind];
             }
 
-            // ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ OpeDateTimePicker ï¿½ï¿½ OpeKindBox ï¿½ÌŒï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½ï¿½Î‚È‚ï¿½È‚ï¿½ï¿½Bï¿½iOpeTimeBox ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ßj
+            // ‚±‚Ìˆ—‚Í OpeDateTimePicker ‚Æ OpeKindBox ‚ÌŒã‚É‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢BiOpeTimeBox ‚ªƒNƒŠƒA‚³‚ê‚Ä‚µ‚Ü‚¤‚½‚ßj
             if (ope.OpeTime.Length > 0)
             {
                 this.OpeTimeBox.Text = ope.OpeTime.PadLeft(4, '0');
@@ -1037,12 +1037,12 @@ namespace EyeCenter
             this.PreCheckBox.Checked = ope.PreCheck.Equals("1");
             this.EarlierOKBox.Checked = ope.EarlierOK.Equals("1");
 
-            // ï¿½gï¿½ï¿½ï¿½Eï¿½Ìdï¿½Ì’lï¿½ï¿½ï¿½ï¿½Aï¿½Ì•\ï¿½ÊÏEï¿½rï¿½Xï¿½_ï¿½Cï¿½ï¿½ï¿½nï¿½tï¿½Eï¿½uï¿½hï¿½Eï¿½ï¿½ï¿½tï¿½Ì—Ê‚ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½B
+            // g’·E‘Ìd‚Ì’l‚©‚çA‘Ì•\–ÊÏEƒrƒXƒ_ƒCƒ“—n‰tEƒuƒhƒE“œ‰t‚Ì—Ê‚ğŒvZ‚·‚éB
             this.BodyCalc();
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// èp‹L˜^‚Ì“à—e‚ğ•\¦‚·‚éB
         /// </summary>
         /// <param name="record"></param>
         private void RecordShow(EyeOpeRecord record)
@@ -1079,7 +1079,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½tï¿½Lï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// ˆãt‹L˜^‚Ì“à—e‚ğ•\¦‚·‚éB
         /// </summary>
         /// <param name="doctor"></param>
         private void DoctorShow(EyeOpeDoctor doctor)
@@ -1096,7 +1096,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½oï¿½ß‹Lï¿½^ï¿½Ì“ï¿½ï¿½eï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// Œo‰ß‹L˜^‚Ì“à—e‚ğ•\¦‚·‚éB
         /// </summary>
         /// <param name="pass"></param>
         private void PassShow(EyeOpePass pass)
@@ -1121,7 +1121,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½Ê•ÒWï¿½ï¿½ï¿½[ï¿½hï¿½ÏXï¿½B
+        /// ‰æ–Ê•ÒWƒ‚[ƒh•ÏXB
         /// </summary>
         /// <param name="mode"></param>
         private void OpeModeChange(Mode mode)
@@ -1143,36 +1143,36 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½dï¿½qï¿½Jï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½ï¿½èï¿½ŞB
+        /// “dqƒJƒ‹ƒe‚©‚çƒf[ƒ^‚ğæ‚è‚ŞB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GetKarteDataButton_Click(object sender, EventArgs e)
         {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // Š´õÇ
             this.InfectionBox.Text = InfectionData.GetInfectionData(this.Pat.Id).ResultString;
 
-            // ï¿½ï¿½ï¿½ÒŠï¿½{ï¿½ï¿½ï¿½
+            // Š³ÒŠî–{î•ñ
             Dictionary<string, List<BaseInfo>> dict = BaseInfo.GetDict(this.Pat.Id);
 
-            // ï¿½gï¿½ï¿½
+            // g’·
             if (dict.ContainsKey(LibSettings.Current.BaseInfoCodes.Height))
             {
                 this.HeightBox.Text = AppString.ZenToHan(dict[LibSettings.Current.BaseInfoCodes.Height][0].Value);
             }
 
-            // ï¿½Ìd
+            // ‘Ìd
             if (dict.ContainsKey(LibSettings.Current.BaseInfoCodes.Weight))
             {
                 this.WeightBox.Text = AppString.ZenToHan(dict[LibSettings.Current.BaseInfoCodes.Weight][0].Value);
             }
 
-            // ï¿½Ì•\ï¿½ÊÏEï¿½rï¿½Xï¿½_ï¿½Cï¿½ï¿½ï¿½nï¿½tï¿½Eï¿½uï¿½hï¿½Eï¿½ï¿½ï¿½tï¿½Ì—Ê‚ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½B
+            // ‘Ì•\–ÊÏEƒrƒXƒ_ƒCƒ“—n‰tEƒuƒhƒE“œ‰t‚Ì—Ê‚ğŒvZ‚·‚éB
             BodyCalc();
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½Í‚ï¿½ï¿½ê‚½ï¿½gï¿½ï¿½ï¿½Eï¿½Ìdï¿½ï¿½ï¿½ï¿½Aï¿½Ì•\ï¿½ÊÏEï¿½rï¿½Xï¿½_ï¿½Cï¿½ï¿½ï¿½nï¿½tï¿½Eï¿½uï¿½hï¿½Eï¿½ï¿½ï¿½tï¿½EDMï¿½Pï¿½Ê‚ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½B
+        /// “ü—Í‚³‚ê‚½g’·E‘Ìd‚©‚çA‘Ì•\–ÊÏEƒrƒXƒ_ƒCƒ“—n‰tEƒuƒhƒE“œ‰tEDM’PˆÊ‚ğŒvZ‚·‚éB
         /// </summary>
         private void BodyCalc()
         {
@@ -1200,13 +1200,13 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½ÌVï¿½Kï¿½ì¬
+        /// èp‹L˜^‚ÌV‹Kì¬
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OpeHistoryNewMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("ï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½Vï¿½Kï¿½ì¬ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+            if (MessageBox.Show("èp‹L˜^‚ğV‹Kì¬‚µ‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 this.TabChange(Tab.OPE);
                 this.AllOpeClear();
@@ -1214,8 +1214,8 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½pï¿½Lï¿½^ï¿½ÌŠï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ÄVï¿½Kï¿½ì¬ï¿½ï¿½ï¿½ï¿½B
-        /// ï¿½ï¿½pï¿½ï¿½ï¿½Í–{ï¿½ï¿½ï¿½Ì“ï¿½ï¿½tï¿½Æ‚ï¿½ï¿½ï¿½B
+        /// ‘I‘ğ‚³‚ê‚½èp‹L˜^‚ÌŠî–{î•ñ‚ğƒRƒs[‚µ‚ÄV‹Kì¬‚·‚éB
+        /// èp“ú‚Í–{“ú‚Ì“ú•t‚Æ‚·‚éB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1223,16 +1223,16 @@ namespace EyeCenter
         {
             if (OpeHistoryView.SelectedRows.Count > 0)
             {
-                if (MessageBox.Show("ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½pï¿½Lï¿½^ï¿½ÌŠï¿½{ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½sï¿½[ï¿½ï¿½ï¿½ÄVï¿½Kï¿½ì¬ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                if (MessageBox.Show("‘I‘ğ‚³‚ê‚½èp‹L˜^‚ÌŠî–{î•ñ‚ğƒRƒs[‚µ‚ÄV‹Kì¬‚µ‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
                 {
                     EyeOpe tmpOpe = EyeOpe.Load(OpeHistoryView.SelectedRows[0].Cells["ID"].Value.ToString());
 
                     this.TabChange(Tab.OPE);
 
-                    // AllOpeClear ï¿½ï¿½ ID ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½É‚È‚ï¿½B
+                    // AllOpeClear ‚Å ID ‚ªƒNƒŠƒA‚³‚êAèp“ú‚ª–{“ú‚É‚È‚éB
                     this.AllOpeClear();
 
-                    // ï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½Íˆï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½{ï¿½ï¿½ï¿½Éƒï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½B
+                    // “ü‰@“ú‚Íˆø‚«Œp‚ª‚¸–{“ú‚ÉƒŠƒZƒbƒg‚·‚éB
                     this.InDateTimePicker.Value = DateTime.Now;
 
                     this.OpeBaseShow(tmpOpe);
@@ -1241,7 +1241,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½ÌVï¿½Kï¿½ì¬
+        /// èp‹L˜^‚ÌV‹Kì¬
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1252,7 +1252,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½
+        /// èp‹L˜^‚ğŠJ‚­
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1267,7 +1267,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½
+        /// èp‹L˜^‚ğŠJ‚­
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1278,7 +1278,7 @@ namespace EyeCenter
                 return;
             }
 
-            if (LoginUser.IsDoctor || MessageBox.Show("ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+            if (LoginUser.IsDoctor || MessageBox.Show("ƒNƒŠƒbƒN‚³‚ê‚½‹L˜^‚ğŠJ‚«‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 EyeOpe tmpOpe = EyeOpe.Load(OpeHistoryView.Rows[e.RowIndex].Cells["ID"].Value.ToString());
                 this.OpeShow(tmpOpe);
@@ -1287,7 +1287,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½pï¿½Lï¿½^ï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
+        /// èp‹L˜^‚ğíœ‚·‚é
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1295,10 +1295,10 @@ namespace EyeCenter
         {
             if (OpeHistoryView.SelectedRows.Count > 0)
             {
-                if (MessageBox.Show("ï¿½íœï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+                if (MessageBox.Show("íœ‚µ‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1) == DialogResult.OK)
                 {
                     EyeOpe.Delete(OpeHistoryView.SelectedRows[0].Cells["ID"].Value.ToString(), LoginUser.Id);
-                    MessageBox.Show("ï¿½íœï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+                    MessageBox.Show("íœ‚µ‚Ü‚µ‚½");
 
                     this.AllOpeClear();
                     this.PtOpeHistoryShow();
@@ -1310,7 +1310,7 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("Š³ÒID‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
@@ -1320,7 +1320,7 @@ namespace EyeCenter
             {
                 if (!int.TryParse(this.PlanTimeBox.Text, out time))
                 {
-                    MessageBox.Show("ï¿½ï¿½ï¿½Ô‚É‚Íï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                    MessageBox.Show("ŠÔ‚É‚Í”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                     this.PlanTimeBox.Focus();
                     return;
                 }
@@ -1330,7 +1330,7 @@ namespace EyeCenter
             {
                 if (!int.TryParse(this.OpeTimeBox.Text, out time))
                 {
-                    MessageBox.Show("ï¿½ï¿½ï¿½ï¿½ï¿½É‚Íï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                    MessageBox.Show("‚É‚Í”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                     this.OpeTimeBox.Focus();
                     return;
                 }
@@ -1340,7 +1340,7 @@ namespace EyeCenter
             {
                 if (!int.TryParse(this.InTimeBox.Text, out time))
                 {
-                    MessageBox.Show("ï¿½ï¿½ï¿½ï¿½ï¿½É‚Íï¿½ï¿½lï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                    MessageBox.Show("‚É‚Í”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                     this.InTimeBox.Focus();
                     return;
                 }
@@ -1350,7 +1350,7 @@ namespace EyeCenter
             {
                 if (r.Cells["OPE_DATE"].Value.ToString().Equals(this.OpeDateTimePicker.Value.ToString("yyyyMMdd")))
                 {
-                    DialogResult result = MessageBox.Show("ï¿½ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½Éï¿½pï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½oï¿½^ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H\r\nï¿½@ï¿½Í‚ï¿½(Y) ï¿½c ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½\r\nï¿½@ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(N) ï¿½c ï¿½oï¿½^ï¿½ï¿½ï¿½È‚ï¿½ï¿½{ï¿½ï¿½ÊƒNï¿½ï¿½ï¿½A\r\nï¿½@ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½ ï¿½c ï¿½oï¿½^ï¿½ï¿½ï¿½È‚ï¿½", "ï¿½mï¿½F", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button3);
+                    DialogResult result = MessageBox.Show("Šù‚É“¯“ú‚Éèp“o˜^‚ª‚³‚ê‚Ä‚¢‚Ü‚·B“o˜^‚µ‚Ü‚·‚©H\r\n@‚Í‚¢(Y) c “o˜^‚·‚é\r\n@‚¢‚¢‚¦(N) c “o˜^‚µ‚È‚¢{‰æ–ÊƒNƒŠƒA\r\n@ƒLƒƒƒ“ƒZƒ‹ c “o˜^‚µ‚È‚¢", "Šm”F", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button3);
 
                     if (result == DialogResult.Yes)
                     {
@@ -1388,7 +1388,7 @@ namespace EyeCenter
             ope.Diag = this.DiagBox.Text;
             ope.InOut = this.InOutBox.Text;
 
-            if (!ope.InOut.Contains("ï¿½Oï¿½ï¿½"))
+            if (!ope.InOut.Contains("ŠO—ˆ"))
             {
                 ope.InRoom = this.InRoomBox.Text;
                 ope.InDate = this.InDateTimePicker.Value.ToString("yyyyMMdd");
@@ -1418,7 +1418,7 @@ namespace EyeCenter
 
             ope.Save();
 
-            MessageBox.Show("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+            MessageBox.Show("•Û‘¶‚µ‚Ü‚µ‚½");
 
             this.AllOpeClear();
             this.PtOpeHistoryShow();
@@ -1428,13 +1428,13 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("Š³ÒID‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
             if (this.OpeIdBox.Text.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ÉŠï¿½{ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("æ‚ÉŠî–{î•ñ‚ğ•Û‘¶‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
@@ -1448,7 +1448,7 @@ namespace EyeCenter
 
             ope.Save();
 
-            MessageBox.Show("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+            MessageBox.Show("•Û‘¶‚µ‚Ü‚µ‚½");
 
             this.AllOpeClear();
             this.PtOpeHistoryShow();
@@ -1458,13 +1458,13 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("Š³ÒID‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
             if (this.OpeIdBox.Text.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ÉŠï¿½{ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("æ‚ÉŠî–{î•ñ‚ğ•Û‘¶‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
@@ -1479,7 +1479,7 @@ namespace EyeCenter
 
             ope.Save();
 
-            MessageBox.Show("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+            MessageBox.Show("•Û‘¶‚µ‚Ü‚µ‚½");
 
             this.AllOpeClear();
             this.PtOpeHistoryShow();
@@ -1489,13 +1489,13 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("Š³ÒID‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
             if (this.OpeIdBox.Text.Length == 0)
             {
-                MessageBox.Show("ï¿½ï¿½ÉŠï¿½{ï¿½ï¿½ï¿½ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                MessageBox.Show("æ‚ÉŠî–{î•ñ‚ğ•Û‘¶‚µ‚Ä‚­‚¾‚³‚¢");
                 return;
             }
 
@@ -1509,7 +1509,7 @@ namespace EyeCenter
 
             ope.Save();
 
-            MessageBox.Show("ï¿½Û‘ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+            MessageBox.Show("•Û‘¶‚µ‚Ü‚µ‚½");
 
             this.AllOpeClear();
             this.PtOpeHistoryShow();
@@ -1537,7 +1537,7 @@ namespace EyeCenter
         {
             if (!InnoProgram.KarteShow(this.Pat.Id))
             {
-                MessageBox.Show("ï¿½Jï¿½ï¿½ï¿½eï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+                MessageBox.Show("ƒJƒ‹ƒe‚ª‹N“®‚µ‚Ä‚¢‚Ü‚¹‚ñ");
             }
         }
 
@@ -1571,12 +1571,12 @@ namespace EyeCenter
         {
             if (KensaWideBox.Checked)
             {
-                // ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
+                // èp—ğ‚ğ”ñ•\¦‚É‚·‚é
                 OpeHistoryLabel.Visible = false;
                 OpeClearButton.Visible = false;
                 OpeWideBox.Visible = false;
 
-                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
+                // ŒŸ¸—ğ‚Ì•\¦ˆÊ’u‚ğ•ÏX‚·‚é
                 KensaHistoryLabel.Location = new Point(3, 35);
                 KensaClearButton.Location = new Point(60, 29);
                 ReloadButton.Location = new Point(151, 29);
@@ -1590,7 +1590,7 @@ namespace EyeCenter
             }
             else if (OpeWideBox.Checked)
             {
-                // ï¿½ï¿½pï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½
+                // èp—ğ‚Ì•\¦ˆÊ’u‚ğ•ÏX‚·‚é
                 OpeHistoryLabel.Location = new Point(3, 35);
                 OpeClearButton.Location = new Point(60, 29);
                 OpeHistoryView.Location = new Point(3, 50);
@@ -1599,7 +1599,7 @@ namespace EyeCenter
                 OpeClearButton.Visible = true;
                 OpeWideBox.Visible = true;
 
-                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
+                // ŒŸ¸—ğ‚ğ”ñ•\¦‚É‚·‚é
                 KensaHistoryLabel.Visible = false;
                 KensaClearButton.Visible = false;
                 KensaHistoryView.Visible = false;
@@ -1607,7 +1607,7 @@ namespace EyeCenter
             }
             else
             {
-                // ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                // èp—ğ‚ğ•\¦‚·‚é
                 OpeHistoryLabel.Location = new Point(3, 35);
                 OpeClearButton.Location = new Point(54, 29);
                 OpeHistoryView.Location = new Point(3, 50);
@@ -1616,8 +1616,8 @@ namespace EyeCenter
                 OpeClearButton.Visible = true;
                 OpeWideBox.Visible = true;
 
-                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-                // ï¿½Ä“Çï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½Eï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½Fï¿½bï¿½Nï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½Ä‰Eï¿½Ö‚ï¿½ï¿½ç‚·ï¿½iï¿½dï¿½È‚ï¿½hï¿½~ï¿½j
+                // ŒŸ¸—ğ‚Ì•\¦‚·‚é
+                // Ä“Çƒ{ƒ^ƒ“E•\¦•ƒ`ƒFƒbƒN‚àèp—ğ‚Ì‰¡•‚É‡‚í‚¹‚Ä‰E‚Ö‚¸‚ç‚·id‚È‚è–h~j
                 KensaHistoryLabel.Location = new Point(this._OpeHistoryWidth + 6, 35);
                 KensaClearButton.Location = new Point(this._OpeHistoryWidth + 59, 29);
                 ReloadButton.Location = new Point(this._OpeHistoryWidth + 150, 29);
@@ -1634,7 +1634,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½B
+        /// ŒŸ¸ƒf[ƒ^‚ğŠJ‚­B
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1653,9 +1653,9 @@ namespace EyeCenter
                 return;
             }
 
-            if (LoginUser.IsDoctor || MessageBox.Show("ï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½Ì‹Lï¿½^ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+            if (LoginUser.IsDoctor || MessageBox.Show("ƒNƒŠƒbƒN‚³‚ê‚½“ú‚Ì‹L˜^‚ğŠJ‚«‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
-                // KensaDate ï¿½Ì’lï¿½ï¿½ï¿½Ï‚ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½Iï¿½ï¿½ KensaShow() ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½
+                // KensaDate ‚Ì’l‚ª•Ï‚í‚ê‚Î©“®“I‚É KensaShow() ‚ªŒÄ‚Î‚ê‚é
                 this.KensaDate.Value = DateTime.Parse(kensa_date);
 
                 this.TabChange(Tab.KENSA);
@@ -1673,7 +1673,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+        /// ŒŸ¸ƒf[ƒ^‚ğ•\¦‚·‚éB
         /// </summary>
         /// <param name="kensa"></param>
         private void KensaShow(string pt_id, string kensa_date)
@@ -1688,7 +1688,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// KensaHistoryView ï¿½ï¿½ _KensaDate ï¿½ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î‘Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        /// KensaHistoryView ‚Å _KensaDate ‚ÉŠY“–‚·‚é“ú•t‚ª‚ ‚ê‚Î‘I‘ğ‚·‚é
         /// </summary>
         private void KensaRowSelect()
         {
@@ -1702,7 +1702,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½Eï¿½ï¿½ï¿½Íƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½ÉƒRï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½B
+        /// ‰E‹—Íƒf[ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[‚·‚éB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1715,7 +1715,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½Íƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½ÉƒRï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½B
+        /// ¶‹—Íƒf[ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[‚·‚éB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1728,7 +1728,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½Íƒfï¿½[ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½ÉƒRï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½B
+        /// —¼‹—Íƒf[ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[‚·‚éB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1741,7 +1741,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½ÍEï¿½áˆ³ï¿½Eï¿½Ô–ï¿½ï¿½ï¿½ï¿½fï¿½[ï¿½^ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½{ï¿½[ï¿½hï¿½ÉƒRï¿½sï¿½[ï¿½ï¿½ï¿½ï¿½B
+        /// —¼‹—ÍEŠáˆ³E–Ô–ŒŒúƒf[ƒ^‚ğƒNƒŠƒbƒvƒ{[ƒh‚ÉƒRƒs[‚·‚éB
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1757,13 +1757,13 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½^ï¿½ÌVï¿½Kï¿½ì¬
+        /// ŒŸ¸‹L˜^‚ÌV‹Kì¬
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void KensaClearButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê‚ï¿½Vï¿½Kï¿½ì¬ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
+            if (MessageBox.Show("ŒŸ¸Œ‹‰Ê‚ğV‹Kì¬‚µ‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.OK)
             {
                 this.TabChange(Tab.KENSA);
                 this.AllKensaClear();
@@ -1771,7 +1771,7 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// ï¿½ï¿½ï¿½ï¿½ï¿½^ï¿½uï¿½ÌƒNï¿½ï¿½ï¿½A
+        /// ŒŸ¸ƒ^ƒu‚ÌƒNƒŠƒA
         /// </summary>
         private void AllKensaClear()
         {
@@ -1793,7 +1793,7 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length > 0)
             {
-                FormString1 f1 = new FormString1("ï¿½Æ‘ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½", "ï¿½Æ‘ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½", ((Button)sender).Tag.ToString());
+                FormString1 f1 = new FormString1("‰Æ‘°˜A—æ", "‰Æ‘°˜A—æ", ((Button)sender).Tag.ToString());
                 f1.ShowDialog();
             }
         }
@@ -1802,7 +1802,7 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length > 0)
             {
-                FormString1 f1 = new FormString1("ï¿½ÖŠï¿½", "ï¿½ÖŠï¿½", ((Button)sender).Tag.ToString());
+                FormString1 f1 = new FormString1("‹ÖŠõ", "‹ÖŠõ", ((Button)sender).Tag.ToString());
                 f1.ShowDialog();
             }
         }
@@ -1845,7 +1845,7 @@ namespace EyeCenter
         {
             if (this._SumPage.Save(this.Pat.Id))
             {
-                MessageBox.Show("ï¿½oï¿½^ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+                MessageBox.Show("“o˜^‚µ‚Ü‚µ‚½");
             }
         }
 
@@ -1853,7 +1853,7 @@ namespace EyeCenter
         {
             if (this._IVPage.Save(this.Pat.Id))
             {
-                MessageBox.Show("ï¿½oï¿½^ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+                MessageBox.Show("“o˜^‚µ‚Ü‚µ‚½");
                 this._IVPage.HistoryShow(this.Pat.Id);
             }
         }
@@ -1862,11 +1862,11 @@ namespace EyeCenter
         {
             if (this.Pat.Id.Length > 0 && this.IVIdBox.Text.Length > 0)
             {
-                if (MessageBox.Show("ï¿½ï¿½fï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show("–âf‚ğíœ‚µ‚Ü‚·‚©H", "Šm”F", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     if (this._IVPage.Delete(this.IVIdBox.Text))
                     {
-                        MessageBox.Show("ï¿½íœï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½");
+                        MessageBox.Show("íœ‚µ‚Ü‚µ‚½");
                         this._IVPage.HistoryShow(this.Pat.Id);
                     }
                 }
@@ -1884,7 +1884,7 @@ namespace EyeCenter
 
             IVIdBox.Text = r.Cells["ID"].Value.ToString();
             IVDate.Value = DateTime.Parse(r.Cells["IV_DATE"].Value.ToString().Insert(4, "/").Insert(7, "/"));
-            IVContBox.Text = r.Cells["ï¿½ï¿½ï¿½e"].Value.ToString();
+            IVContBox.Text = r.Cells["“à—e"].Value.ToString();
 
             if (Dict.StaffDict.ContainsKey(r.Cells["STAFF"].Value.ToString()))
             {
@@ -1905,7 +1905,7 @@ namespace EyeCenter
 
         private void Clear2button_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("ï¿½ï¿½ï¿½ÌŒï¿½ï¿½ï¿½ï¿½\ï¿½è‚ªï¿½ï¿½ï¿½×‚ÄƒNï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½ï¿½ë‚µï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½H", "ï¿½mï¿½F", MessageBoxButtons.OK) == DialogResult.OK)
+            if (MessageBox.Show("‰º‚ÌŒŸ¸—\’è‚ª‚·‚×‚ÄƒNƒŠƒA‚³‚ê‚Ü‚·B‚æ‚ë‚µ‚¢‚Å‚·‚©H", "Šm”F", MessageBoxButtons.OK) == DialogResult.OK)
             {
                 this._SumPage.Panel2Clear();
             }
@@ -1946,7 +1946,7 @@ namespace EyeCenter
         {
             if (IVHistoryView.SelectedRows.Count > 0)
             {
-                string cont = IVHistoryView.SelectedRows[0].Cells["ï¿½ï¿½ï¿½e"].Value.ToString();
+                string cont = IVHistoryView.SelectedRows[0].Cells["“à—e"].Value.ToString();
 
                 if (cont.Length > 0)
                 {
@@ -1966,7 +1966,7 @@ namespace EyeCenter
 
             if (this.KensaEdited)
             {
-                // ï¿½ÏXï¿½mï¿½Fï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ßŠOï¿½ï¿½ 2018/08/17
+                // •ÏXŠm”Fƒ_ƒCƒAƒƒO‚ÍÀ‘•¢“ï‚È‚½‚ßŠO‚· 2018/08/17
             }
 
             if (b)
