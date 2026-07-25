@@ -150,7 +150,6 @@ namespace EyeCenter
             AddPanelItems(this.SumPanel3.Controls, "サマリ入院管理", true, tmpDoc.SumList);
             AddPanelItems(this.SumPanel4.Controls, "サマリ経過", true, tmpDoc.SumList);
 
-            AddItem(tmpDoc.SumList, "サマリ経過", "経過", SumPassBox.Text);
             AddItem(tmpDoc.SumList, "サマリ経過", "履歴", SumHistBox.Text);
             AddItem(tmpDoc.SumList, "サマリ治療方針", "方針", SumPlanBox.Text);
 

@@ -18,6 +18,11 @@ namespace EyeCenter
         DataSet DSet;
 
         /// <summary>
+        /// 経過欄(UI削除済み)の既存値。Show()で読み込んだ値をSave()でそのまま書き戻し、既存データを消さないようにする。
+        /// </summary>
+        string sumPass = "";
+
+        /// <summary>
         /// サマリを初期化する。
         /// </summary>
         public void Init(FormPat fp, ControlIVPage ip)
@@ -426,8 +431,8 @@ namespace EyeCenter
             FP.SumKindBox2.Text = "";
             FP.SumKindBox3.Text = "";
             FP.SumPlanBox.Clear();
-            FP.SumPassBox.Clear();
             FP.SumHistBox.Clear();
+            sumPass = "";
             FP.SumSaveDateLabel.Text = "";
             FP.SumStaffLabel.Text = "";
 
@@ -517,8 +522,8 @@ namespace EyeCenter
             FP.SumKindBox2.Text = sum.Kind2;
             FP.SumKindBox3.Text = sum.Kind3;
             FP.SumPlanBox.Text = sum.Plan;
-            FP.SumPassBox.Text = sum.Pass;
             FP.SumHistBox.Text = sum.Hist;
+            sumPass = sum.Pass;
 
             string[] ss;
 
@@ -654,7 +659,7 @@ namespace EyeCenter
             sum.Kind2 = FP.SumKindBox2.Text;
             sum.Kind3 = FP.SumKindBox3.Text;
             sum.Plan = FP.SumPlanBox.Text;
-            sum.Pass = FP.SumPassBox.Text;
+            sum.Pass = sumPass;
             sum.Hist = FP.SumHistBox.Text;
             sum.Staff = LoginUser.Id;
 

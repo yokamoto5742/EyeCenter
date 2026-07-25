@@ -63,8 +63,6 @@
             this.SumHistBox = new System.Windows.Forms.TextBox();
             this.label55 = new System.Windows.Forms.Label();
             this.SumPanel4 = new System.Windows.Forms.Panel();
-            this.SumPassBox = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
             this.SumTabPage3 = new System.Windows.Forms.TabPage();
             this.label53 = new System.Windows.Forms.Label();
             this.IVClearButton = new System.Windows.Forms.Button();
@@ -502,8 +500,6 @@
             this.SumTabPage2.Controls.Add(this.SumHistBox);
             this.SumTabPage2.Controls.Add(this.label55);
             this.SumTabPage2.Controls.Add(this.SumPanel4);
-            this.SumTabPage2.Controls.Add(this.SumPassBox);
-            this.SumTabPage2.Controls.Add(this.label48);
             this.SumTabPage2.Location = new System.Drawing.Point(4, 22);
             this.SumTabPage2.Name = "SumTabPage2";
             this.SumTabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -517,23 +513,23 @@
             this.SumHistBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.SumHistBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.SumHistBox.Location = new System.Drawing.Point(5, 398);
+            this.SumHistBox.Location = new System.Drawing.Point(5, 24);
             this.SumHistBox.MaxLength = 199;
             this.SumHistBox.Multiline = true;
             this.SumHistBox.Name = "SumHistBox";
             this.SumHistBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.SumHistBox.Size = new System.Drawing.Size(200, 103);
+            this.SumHistBox.Size = new System.Drawing.Size(200, 477);
             this.SumHistBox.TabIndex = 17;
-            // 
+            //
             // label55
-            // 
+            //
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(6, 383);
+            this.label55.Location = new System.Drawing.Point(6, 9);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(53, 12);
             this.label55.TabIndex = 16;
             this.label55.Text = "手術履歴";
-            // 
+            //
             // SumPanel4
             // 
             this.SumPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -546,27 +542,7 @@
             this.SumPanel4.Name = "SumPanel4";
             this.SumPanel4.Size = new System.Drawing.Size(492, 479);
             this.SumPanel4.TabIndex = 15;
-            // 
-            // SumPassBox
-            // 
-            this.SumPassBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.SumPassBox.Location = new System.Drawing.Point(5, 24);
-            this.SumPassBox.MaxLength = 199;
-            this.SumPassBox.Multiline = true;
-            this.SumPassBox.Name = "SumPassBox";
-            this.SumPassBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.SumPassBox.Size = new System.Drawing.Size(200, 352);
-            this.SumPassBox.TabIndex = 14;
-            // 
-            // label48
-            // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(6, 9);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(29, 12);
-            this.label48.TabIndex = 0;
-            this.label48.Text = "経過";
-            // 
+            //
             // SumTabPage3
             // 
             this.SumTabPage3.Controls.Add(this.label53);
@@ -2056,7 +2032,7 @@
             this.InnoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.InnoButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.InnoButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InnoButton.Location = new System.Drawing.Point(630, 4);
+            this.InnoButton.Location = new System.Drawing.Point(650, 4);
             this.InnoButton.Name = "InnoButton";
             this.InnoButton.Size = new System.Drawing.Size(35, 23);
             this.InnoButton.TabIndex = 173;
@@ -2104,7 +2080,7 @@
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
             this.RsvButton.Location = new System.Drawing.Point(570, 4);
             this.RsvButton.Name = "RsvButton";
-            this.RsvButton.Size = new System.Drawing.Size(60, 23);
+            this.RsvButton.Size = new System.Drawing.Size(80, 23);
             this.RsvButton.TabIndex = 179;
             this.RsvButton.Text = "手術予約";
             this.RsvButton.UseVisualStyleBackColor = false;
@@ -2139,7 +2115,7 @@
             this.PDFButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PDFButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.PDFButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.PDFButton.Location = new System.Drawing.Point(710, 4);
+            this.PDFButton.Location = new System.Drawing.Point(730, 4);
             this.PDFButton.Name = "PDFButton";
             this.PDFButton.Size = new System.Drawing.Size(35, 23);
             this.PDFButton.TabIndex = 182;
@@ -2176,7 +2152,7 @@
             this.GrapaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GrapaButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.GrapaButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.GrapaButton.Location = new System.Drawing.Point(665, 4);
+            this.GrapaButton.Location = new System.Drawing.Point(685, 4);
             this.GrapaButton.Name = "GrapaButton";
             this.GrapaButton.Size = new System.Drawing.Size(45, 23);
             this.GrapaButton.TabIndex = 188;
@@ -2397,7 +2373,6 @@
         private System.Windows.Forms.TabPage SumTabPage2;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label46;
-        private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.Button SumRegButton;
         private System.Windows.Forms.Button IVDeleteButton;
@@ -2414,7 +2389,6 @@
         protected internal System.Windows.Forms.TextBox SumPlanBox;
         protected internal System.Windows.Forms.Panel SumPanel3;
         protected internal System.Windows.Forms.Panel SumPanel4;
-        protected internal System.Windows.Forms.TextBox SumPassBox;
         protected internal System.Windows.Forms.TextBox IVContBox;
         protected internal System.Windows.Forms.DataGridView IVHistoryView;
         private System.Windows.Forms.ContextMenuStrip IVHistoryMenuStrip;
