@@ -545,7 +545,8 @@ namespace EyeCenter
             OpeInfoMove(delta, 70, 0, label31, GrapeBox, label30);
             OpeInfoMove(delta, 70, 0, label33, DmBox);
 
-            // 感染症欄と電子カルテ取込ボタンは現状の位置・幅を維持する
+            // 感染症欄は現状の位置・幅を維持し、電子カルテ取込ボタンは右端に吸着させる
+            OpeInfoMove(delta, 150, 0, GetKarteDataButton);
 
             // 術前チェック完了・禁忌確認・締切後手術は基準位置のまま動かさない
 

@@ -1017,11 +1017,11 @@
             // GetKarteDataButton
             // 
             this.GetKarteDataButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.GetKarteDataButton.Location = new System.Drawing.Point(456, 134);
+            this.GetKarteDataButton.Location = new System.Drawing.Point(465, 134);
             this.GetKarteDataButton.Name = "GetKarteDataButton";
-            this.GetKarteDataButton.Size = new System.Drawing.Size(90, 20);
+            this.GetKarteDataButton.Size = new System.Drawing.Size(80, 20);
             this.GetKarteDataButton.TabIndex = 133;
-            this.GetKarteDataButton.Text = "電子カルテ取込";
+            this.GetKarteDataButton.Text = "カルテ取込";
             this.GetKarteDataButton.UseVisualStyleBackColor = false;
             this.GetKarteDataButton.Click += new System.EventHandler(this.GetKarteDataButton_Click);
             // 
