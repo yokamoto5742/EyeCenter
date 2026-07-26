@@ -376,44 +376,61 @@ namespace EyeCenter
         {
             if (this.PtId.Length > 0)
             {
-                EyeDoc tmpDoc = new EyeDoc(this.PtId);
-
-                // テンプレートファイル名は EyeDataSettings.ini に一本化。
-                // ボタン表示名でシード用／パナコム用を判別する。
-                tmpDoc.FileName = ExcelControl.GetContactOrderFileName(((Button)sender).Text);
-
-                EyeDoc.Item item_date = new EyeDoc.Item();
-                item_date.Kind = "コンタクト注文";
-                item_date.Name = "注文日";
-                item_date.Value = DateTimeAgent.DateFormat(this.KensaDate, DateTimeAgent.DateFormatKind.LONG);
-                tmpDoc.ItemList.Add(item_date);
-
-                foreach (Control c in this.Controls)
-                {
-                    if (c is TextBox || c is ComboBox)
-                    {
-                        EyeDoc.Item tmpItem = new EyeDoc.Item();
-                        tmpItem.Kind = "コンタクト注文";
-                        tmpItem.Name = c.Name;
-                        tmpItem.Value = c.Text;
-                        tmpDoc.ItemList.Add(tmpItem);
-                    }
-                }
-
-                // 共通情報シート（B1～B12と27行目以降のリスト）を書き込み、バーコードなしで別名保存する
-                ExcelControl excelControl = new ExcelControl();
+                Button tmpButton = (Button)sender;
+                string originalText = tmpButton.Text;
 
                 try
                 {
-                    excelControl.MakeSimpleDocument(tmpDoc, true);
-                }
-                catch (Exception ex)
-                {
-                    LibUtility.Except(ex);
+                    tmpButton.Text = "生成中…";
+                    tmpButton.Enabled = false;
+                    this.FindForm().Cursor = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    EyeDoc tmpDoc = new EyeDoc(this.PtId);
+
+                    // テンプレートファイル名は EyeDataSettings.ini に一本化。
+                    // ボタン表示名でシード用／パナコム用を判別する。
+                    tmpDoc.FileName = ExcelControl.GetContactOrderFileName(originalText);
+
+                    EyeDoc.Item item_date = new EyeDoc.Item();
+                    item_date.Kind = "コンタクト注文";
+                    item_date.Name = "注文日";
+                    item_date.Value = DateTimeAgent.DateFormat(this.KensaDate, DateTimeAgent.DateFormatKind.LONG);
+                    tmpDoc.ItemList.Add(item_date);
+
+                    foreach (Control c in this.Controls)
+                    {
+                        if (c is TextBox || c is ComboBox)
+                        {
+                            EyeDoc.Item tmpItem = new EyeDoc.Item();
+                            tmpItem.Kind = "コンタクト注文";
+                            tmpItem.Name = c.Name;
+                            tmpItem.Value = c.Text;
+                            tmpDoc.ItemList.Add(tmpItem);
+                        }
+                    }
+
+                    // 共通情報シート（B1～B12と27行目以降のリスト）を書き込み、バーコードなしで別名保存する
+                    ExcelControl excelControl = new ExcelControl();
+
+                    try
+                    {
+                        excelControl.MakeSimpleDocument(tmpDoc, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        LibUtility.Except(ex);
+                    }
+                    finally
+                    {
+                        excelControl.ReleaseExcel();
+                    }
                 }
                 finally
                 {
-                    excelControl.ReleaseExcel();
+                    tmpButton.Text = originalText;
+                    tmpButton.Enabled = true;
+                    this.FindForm().Cursor = Cursors.Default;
                 }
             }
         }
@@ -457,25 +474,42 @@ namespace EyeCenter
         {
             if (this.PtId.Length > 0)
             {
-                EyeDoc tmpDoc = new EyeDoc(this.PtId);
-
-                // テンプレートファイル名は EyeDataSettings.ini に一本化
-                tmpDoc.FileName = ExcelControl.GetGlassPrescriptionFileName();
-
-                // 共通情報シートは B1～B12 のみ書き込み、バーコードなしで別名保存する
-                ExcelControl excelControl = new ExcelControl();
+                Button tmpButton = (Button)sender;
+                string originalText = tmpButton.Text;
 
                 try
                 {
-                    excelControl.MakeSimpleDocument(tmpDoc, false);
-                }
-                catch (Exception ex)
-                {
-                    LibUtility.Except(ex);
+                    tmpButton.Text = "生成中…";
+                    tmpButton.Enabled = false;
+                    this.FindForm().Cursor = Cursors.WaitCursor;
+                    Application.DoEvents();
+
+                    EyeDoc tmpDoc = new EyeDoc(this.PtId);
+
+                    // テンプレートファイル名は EyeDataSettings.ini に一本化
+                    tmpDoc.FileName = ExcelControl.GetGlassPrescriptionFileName();
+
+                    // 共通情報シートは B1～B12 のみ書き込み、バーコードなしで別名保存する
+                    ExcelControl excelControl = new ExcelControl();
+
+                    try
+                    {
+                        excelControl.MakeSimpleDocument(tmpDoc, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        LibUtility.Except(ex);
+                    }
+                    finally
+                    {
+                        excelControl.ReleaseExcel();
+                    }
                 }
                 finally
                 {
-                    excelControl.ReleaseExcel();
+                    tmpButton.Text = originalText;
+                    tmpButton.Enabled = true;
+                    this.FindForm().Cursor = Cursors.Default;
                 }
             }
         }

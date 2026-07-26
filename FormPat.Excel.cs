@@ -36,7 +36,24 @@ namespace EyeCenter
         /// <param name="e"></param>
         private void NsPrintButton_Click(object sender, EventArgs e)
         {
-            this.ExcelOpen(ExcelControl.GetNsFileName());
+            Button tmpButton = (Button)sender;
+            string originalText = tmpButton.Text;
+
+            try
+            {
+                tmpButton.Text = "生成中…";
+                tmpButton.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                Application.DoEvents();
+
+                this.ExcelOpen(ExcelControl.GetNsFileName());
+            }
+            finally
+            {
+                tmpButton.Text = originalText;
+                tmpButton.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         /// <summary>
@@ -46,7 +63,24 @@ namespace EyeCenter
         /// <param name="e"></param>
         private void RecordPrintButton_Click(object sender, EventArgs e)
         {
-            this.ExcelOpen(ExcelControl.GetRecordFileName());
+            Button tmpButton = (Button)sender;
+            string originalText = tmpButton.Text;
+
+            try
+            {
+                tmpButton.Text = "生成中…";
+                tmpButton.Enabled = false;
+                this.Cursor = Cursors.WaitCursor;
+                Application.DoEvents();
+
+                this.ExcelOpen(ExcelControl.GetRecordFileName());
+            }
+            finally
+            {
+                tmpButton.Text = originalText;
+                tmpButton.Enabled = true;
+                this.Cursor = Cursors.Default;
+            }
         }
 
         /// <summary>
