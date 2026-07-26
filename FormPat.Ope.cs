@@ -528,9 +528,9 @@ namespace EyeCenter
             OpeInfoMove(delta, 60, 0, label13, PlanTimeBox);
             OpeInfoMove(delta, 90, 0, label25, AnesBox);
 
-            // 病名・術式（術式のみ幅を広げる）
-            OpeInfoMove(delta, 40, 0, label5);
-            OpeInfoMove(delta, 40, 110, OpeNameBox);
+            // 病名・術式（術式のみ幅を広げる。術式ラベルと入力欄をともに病名との間隔を20詰める）
+            OpeInfoMove(delta, 20, 0, label5);
+            OpeInfoMove(delta, 20, 110, OpeNameBox);
 
             // 入外・病室・入院日・時刻・期間（均等割り振りではなく各間隔を個別に詰める）
             OpeInfoMove(delta, 18, 0, label24, InRoomBox);

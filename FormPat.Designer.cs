@@ -1074,7 +1074,7 @@
             // 
             this.DmBox.BackColor = System.Drawing.Color.White;
             this.DmBox.ImeMode = System.Windows.Forms.ImeMode.Alpha;
-            this.DmBox.Location = new System.Drawing.Point(512, 114);
+            this.DmBox.Location = new System.Drawing.Point(521, 114);
             this.DmBox.MaxLength = 6;
             this.DmBox.Name = "DmBox";
             this.DmBox.ReadOnly = true;
@@ -1103,7 +1103,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(490, 117);
+            this.label33.Location = new System.Drawing.Point(499, 117);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(22, 12);
             this.label33.TabIndex = 131;
@@ -1112,7 +1112,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(470, 117);
+            this.label30.Location = new System.Drawing.Point(479, 117);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(17, 12);
             this.label30.TabIndex = 130;
@@ -1132,7 +1132,7 @@
             // 
             this.GrapeBox.BackColor = System.Drawing.Color.White;
             this.GrapeBox.ImeMode = System.Windows.Forms.ImeMode.Alpha;
-            this.GrapeBox.Location = new System.Drawing.Point(439, 114);
+            this.GrapeBox.Location = new System.Drawing.Point(448, 114);
             this.GrapeBox.MaxLength = 6;
             this.GrapeBox.Name = "GrapeBox";
             this.GrapeBox.ReadOnly = true;
@@ -1152,7 +1152,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(395, 117);
+            this.label31.Location = new System.Drawing.Point(404, 117);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(47, 12);
             this.label31.TabIndex = 128;
@@ -1169,7 +1169,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(375, 117);
+            this.label28.Location = new System.Drawing.Point(384, 117);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(17, 12);
             this.label28.TabIndex = 127;
@@ -1188,7 +1188,7 @@
             // 
             this.VisdineBox.BackColor = System.Drawing.Color.White;
             this.VisdineBox.ImeMode = System.Windows.Forms.ImeMode.Alpha;
-            this.VisdineBox.Location = new System.Drawing.Point(344, 114);
+            this.VisdineBox.Location = new System.Drawing.Point(353, 114);
             this.VisdineBox.MaxLength = 6;
             this.VisdineBox.Name = "VisdineBox";
             this.VisdineBox.ReadOnly = true;
@@ -1508,7 +1508,7 @@
             this.OpeNameBox.Location = new System.Drawing.Point(305, 70);
             this.OpeNameBox.MaxLength = 50;
             this.OpeNameBox.Name = "OpeNameBox";
-            this.OpeNameBox.Size = new System.Drawing.Size(240, 20);
+            this.OpeNameBox.Size = new System.Drawing.Size(200, 20);
             this.OpeNameBox.TabIndex = 102;
             // 
             // label18
