@@ -519,39 +519,38 @@ namespace EyeCenter
             OpeInfoMove(delta, 150, 0, label10, OpeStaffLabel, OpeRegButton, OpeIdBox);
 
             // 手術日・種別・時刻・手術室
-            OpeInfoMove(delta, 50, 0, label6, OpeKindBox);
-            OpeInfoMove(delta, 100, 0, label4, OpeTimeBox);
-            OpeInfoMove(delta, 150, 0, label32, OpeRoomBox);
+            OpeInfoMove(delta, 30, 0, label6, OpeKindBox);
+            OpeInfoMove(delta, 60, 0, label4, OpeTimeBox);
+            OpeInfoMove(delta, 90, 0, label32, OpeRoomBox);
 
             // 眼球・術者・時間・麻酔（上段と桁を揃える）
-            OpeInfoMove(delta, 50, 0, label7, DoctorBox);
-            OpeInfoMove(delta, 100, 0, label13, PlanTimeBox);
-            OpeInfoMove(delta, 150, 0, label25, AnesBox);
+            OpeInfoMove(delta, 30, 0, label7, DoctorBox);
+            OpeInfoMove(delta, 60, 0, label13, PlanTimeBox);
+            OpeInfoMove(delta, 90, 0, label25, AnesBox);
 
             // 病名・術式（術式のみ幅を広げる）
             OpeInfoMove(delta, 40, 0, label5);
             OpeInfoMove(delta, 40, 110, OpeNameBox);
 
-            // 入外・病室・入院日・時刻・期間
-            OpeInfoMove(delta, 38, 0, label24, InRoomBox);
-            OpeInfoMove(delta, 75, 0, label21, InDateTimePicker);
-            OpeInfoMove(delta, 113, 0, label22, InTimeBox);
-            OpeInfoMove(delta, 150, 0, label23, InTermBox);
+            // 入外・病室・入院日・時刻・期間（均等割り振りではなく各間隔を個別に詰める）
+            OpeInfoMove(delta, 18, 0, label24, InRoomBox);
+            OpeInfoMove(delta, 35, 0, label21, InDateTimePicker);
+            OpeInfoMove(delta, 53, 0, label22, InTimeBox);
+            OpeInfoMove(delta, 70, 0, label23, InTermBox);
 
-            // 身長・体重・体表・ビスダイン・ブドウ糖・DM
-            OpeInfoMove(delta, 30, 0, label17, WeightBox, label19);
-            OpeInfoMove(delta, 60, 0, label27, SurfaceBox, label26);
-            OpeInfoMove(delta, 90, 0, label29, VisdineBox, label28);
-            OpeInfoMove(delta, 120, 0, label31, GrapeBox, label30);
-            OpeInfoMove(delta, 150, 0, label33, DmBox);
+            // 身長・体重・体表・ビスダイン・ブドウ糖・DM（均等割り振りではなく上段の間隔と桁を揃える。DMのみブドウ糖と同位置で追加の間隔なし）
+            OpeInfoMove(delta, 18, 0, label17, WeightBox, label19);
+            OpeInfoMove(delta, 35, 0, label27, SurfaceBox, label26);
+            OpeInfoMove(delta, 53, 0, label29, VisdineBox, label28);
+            OpeInfoMove(delta, 70, 0, label31, GrapeBox, label30);
+            OpeInfoMove(delta, 70, 0, label33, DmBox);
 
             // 感染症欄と電子カルテ取込ボタンは現状の位置・幅を維持する
 
-            // 術前チェック完了・禁忌確認・締切後手術
-            OpeInfoMove(delta, 75, 0, AgreeBox);
-            OpeInfoMove(delta, 150, 0, EarlierOKBox);
+            // 術前チェック完了・禁忌確認・締切後手術は基準位置のまま動かさない
 
-            // 最下部は備考を残して右側のブロックごと右端へ寄せる
+            // 最下部は備考欄を幅50まで広げ、右側のブロックごと右端へ寄せる
+            OpeInfoMove(delta, 0, 50, CommentBox);
             OpeInfoMove(delta, 150, 0, label38, label45, AllCheckBox, ExplainBox, EyeDropBox,
                 PostDealBox, PastBox, AgreePrintButton, NsPrintButton, RecordPrintButton);
         }
