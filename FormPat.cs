@@ -197,6 +197,8 @@ namespace EyeCenter
             // 手術基本情報・手術記録画面の横幅・高さを設定ファイル(EyeCenter.exe.config)から反映する
             this.OpeInfoPanel.Width = AppConfig.GetInt("OpeInfoPanelWidth", this.OpeInfoPanel.Width);
             this.OpeInfoPanel.Height = AppConfig.GetInt("OpeInfoPanelHeight", this.OpeInfoPanel.Height);
+            // 手術基本情報画面を広げた分だけパネル内のコントロールを再配置する
+            this.OpeInfoPanelRelayout();
             this.OpeDoctorPanel.Left = this.OpeInfoPanel.Right + 1;
 
             this.OpeRecordPanel.Top = this.OpeInfoPanel.Bottom - 1;

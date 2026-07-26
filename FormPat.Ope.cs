@@ -19,6 +19,12 @@ namespace EyeCenter
     /// </summary>
     public partial class FormPat
     {
+        /// <summary>手術基本情報パネルの既定の横幅（Designer 上の設計値）</summary>
+        private const int OpeInfoBaseWidth = 550;
+
+        /// <summary>手術基本情報パネルの再配置設計値の基準となる拡張量</summary>
+        private const int OpeInfoBaseDelta = 150;
+
         /// <summary>
         /// 手術記録タブコントロールの初期化
         /// </summary>
@@ -492,6 +498,77 @@ namespace EyeCenter
                         }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 手術基本情報パネルを既定値(横550)より広げたとき、右側に空白が残らないよう
+        /// パネル内のコントロールを再配置する。既定値のままなら何もしない。
+        /// 術式のみ幅を広げ、他の入力欄は幅を変えずに行内へ等間隔に配置する。
+        /// </summary>
+        private void OpeInfoPanelRelayout()
+        {
+            int delta = OpeInfoPanel.Width - OpeInfoBaseWidth;
+
+            if (delta <= 0)
+            {
+                return;
+            }
+
+            // 記録者・登録ボタンは右端に吸着させる
+            OpeInfoMove(delta, 150, 0, label10, OpeStaffLabel, OpeRegButton, OpeIdBox);
+
+            // 手術日・種別・時刻・手術室
+            OpeInfoMove(delta, 50, 0, label6, OpeKindBox);
+            OpeInfoMove(delta, 100, 0, label4, OpeTimeBox);
+            OpeInfoMove(delta, 150, 0, label32, OpeRoomBox);
+
+            // 眼球・術者・時間・麻酔（上段と桁を揃える）
+            OpeInfoMove(delta, 50, 0, label7, DoctorBox);
+            OpeInfoMove(delta, 100, 0, label13, PlanTimeBox);
+            OpeInfoMove(delta, 150, 0, label25, AnesBox);
+
+            // 病名・術式（術式のみ幅を広げる）
+            OpeInfoMove(delta, 40, 0, label5);
+            OpeInfoMove(delta, 40, 110, OpeNameBox);
+
+            // 入外・病室・入院日・時刻・期間
+            OpeInfoMove(delta, 38, 0, label24, InRoomBox);
+            OpeInfoMove(delta, 75, 0, label21, InDateTimePicker);
+            OpeInfoMove(delta, 113, 0, label22, InTimeBox);
+            OpeInfoMove(delta, 150, 0, label23, InTermBox);
+
+            // 身長・体重・体表・ビスダイン・ブドウ糖・DM
+            OpeInfoMove(delta, 30, 0, label17, WeightBox, label19);
+            OpeInfoMove(delta, 60, 0, label27, SurfaceBox, label26);
+            OpeInfoMove(delta, 90, 0, label29, VisdineBox, label28);
+            OpeInfoMove(delta, 120, 0, label31, GrapeBox, label30);
+            OpeInfoMove(delta, 150, 0, label33, DmBox);
+
+            // 感染症欄と電子カルテ取込ボタンは現状の位置・幅を維持する
+
+            // 術前チェック完了・禁忌確認・締切後手術
+            OpeInfoMove(delta, 75, 0, AgreeBox);
+            OpeInfoMove(delta, 150, 0, EarlierOKBox);
+
+            // 最下部は備考を残して右側のブロックごと右端へ寄せる
+            OpeInfoMove(delta, 150, 0, label38, label45, AllCheckBox, ExplainBox, EyeDropBox,
+                PostDealBox, PastBox, AgreePrintButton, NsPrintButton, RecordPrintButton);
+        }
+
+        /// <summary>
+        /// 手術基本情報パネル内のコントロールを移動・伸長する。
+        /// dx・dw は横幅を既定値から +150px 広げたときの設計値で、実際の拡張量 delta に比例させる。
+        /// </summary>
+        private static void OpeInfoMove(int delta, int dx, int dw, params Control[] controls)
+        {
+            int x = dx * delta / OpeInfoBaseDelta;
+            int w = dw * delta / OpeInfoBaseDelta;
+
+            foreach (Control ctrl in controls)
+            {
+                ctrl.Left += x;
+                ctrl.Width += w;
             }
         }
     }
