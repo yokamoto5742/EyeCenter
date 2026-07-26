@@ -124,7 +124,9 @@ namespace EyeCenter
         {
             if (!File.Exists(doc.FileName))
             {
-                return;
+                throw new FileNotFoundException(
+                    "テンプレートファイルが見つかりません。EyeDataSettings.ini の[DOCUMENT_SETTINGS]の設定を確認してください。\n" + doc.FileName,
+                    doc.FileName);
             }
 
             exApp = new Excel.Application();
