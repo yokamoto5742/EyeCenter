@@ -70,9 +70,9 @@ namespace EyeCenter
             Cancelled = true;
             StopButton.Enabled = false;
 
-            // 実行中のSQLをキャンセルする（OracleCommand.Cancel は別スレッドから呼び出せる）
-            try { EyeDb.Command.Cancel(); } catch (Exception) { }
-            try { PatDb.Command.Cancel(); } catch (Exception) { }
+            // 実行中のSQLをキャンセルする（別スレッドから呼び出してよい）
+            try { EyeDb.CancelCommand(); } catch (Exception) { }
+            try { PatDb.CancelCommand(); } catch (Exception) { }
 
             PollTimer.Stop();
             this.DialogResult = DialogResult.Cancel;
@@ -106,8 +106,8 @@ namespace EyeCenter
                 finally
                 {
                     // 接続はワーカースレッドが所有し、終了時に必ず破棄する
-                    try { form.EyeDb.Connection.Dispose(); } catch (Exception) { }
-                    try { form.PatDb.Connection.Dispose(); } catch (Exception) { }
+                    try { form.EyeDb.DisposeConnection(); } catch (Exception) { }
+                    try { form.PatDb.DisposeConnection(); } catch (Exception) { }
 
                     form.Completed = true;
                 }

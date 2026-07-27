@@ -106,7 +106,7 @@ namespace EyeCenter
             db.Init(DB.Db2.InitString);
 
             // ALL_TAB_COLUMNS.DATA_DEFAULT は LONG 型。既定（0）のままだと内容が取得できない
-            db.Command.InitialLONGFetchSize = -1;
+            db.SetInitialLongFetchSize(-1);
 
             try
             {
@@ -114,7 +114,7 @@ namespace EyeCenter
             }
             finally
             {
-                try { db.Connection.Dispose(); } catch (Exception) { }
+                try { db.DisposeConnection(); } catch (Exception) { }
             }
         }
 
