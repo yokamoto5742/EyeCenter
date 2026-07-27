@@ -132,6 +132,9 @@ namespace EyeCenter
             }
             else if (form.Error != null)
             {
+                // 表示するのはメッセージだけなので、原因追跡用にスタックトレースをログへ残す
+                Program.WriteErrorLog("SearchTask", form.Error);
+
                 MessageBox.Show(form.Error.Message);
             }
             else

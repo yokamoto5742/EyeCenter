@@ -349,6 +349,10 @@
     <None Include=".claude\settings.local.json" />
     <None Include="App.config" />
     <None Include="docs\CHANGELOG.md" />
+    <None Include="docs\export_coverage_check.md" />
+    <None Include="docs\export_expansion_plan.md" />
+    <None Include="docs\eyedata_migration_plan.md" />
+    <None Include="docs\learning_plan.md" />
     <None Include="docs\LICENSE" />
     <None Include="EyeDataSettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
