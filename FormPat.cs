@@ -626,18 +626,6 @@ namespace EyeCenter
 
             this.Text = this.Pat.Name;
 
-            // 伝達情報が存在すれば「伝達」ボタンが赤くなる。それ以外は黄色。
-            Memo tmpInfo = Memo.Load(this.Pat.Id, "0");
-
-            if (tmpInfo.Cont.Length > 0)
-            {
-                this.InfoShareButton.BackColor = Color.FromArgb(255, 192, 192);
-            }
-            else
-            {
-                this.InfoShareButton.BackColor = Color.FromArgb(255, 255, 192);
-            }
-
             // 家族連絡先情報が存在すれば「家族」ボタンが赤くなる。それ以外は黄色。
             List<PatContact> tmpList = PatContact.GetList(this.Pat.Id);
 
@@ -1779,16 +1767,6 @@ namespace EyeCenter
         {
             this.KensaDate.Value = DateTime.Now;
             ((KensaPanel)(this.KensaTab.Controls["KensaPanel"])).KensaClear();
-        }
-
-        private void InfoShareButton_Click(object sender, EventArgs e)
-        {
-            if (this.Pat.Id.Length > 0)
-            {
-                FormMemo f1 = new FormMemo();
-                f1.PatSet(this.Pat);
-                f1.ShowDialog();
-            }
         }
 
         private void FamilyButton_Click(object sender, EventArgs e)

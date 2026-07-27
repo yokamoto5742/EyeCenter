@@ -205,7 +205,6 @@
             this.KensaWideBox = new System.Windows.Forms.CheckBox();
             this.RsvButton = new System.Windows.Forms.Button();
             this.OpeWideBox = new System.Windows.Forms.CheckBox();
-            this.InfoShareButton = new System.Windows.Forms.Button();
             this.PDFButton = new System.Windows.Forms.Button();
             this.FamilyButton = new System.Windows.Forms.Button();
             this.AllergyButton = new System.Windows.Forms.Button();
@@ -2032,7 +2031,7 @@
             this.InnoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.InnoButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.InnoButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InnoButton.Location = new System.Drawing.Point(650, 4);
+            this.InnoButton.Location = new System.Drawing.Point(610, 4);
             this.InnoButton.Name = "InnoButton";
             this.InnoButton.Size = new System.Drawing.Size(35, 23);
             this.InnoButton.TabIndex = 173;
@@ -2078,7 +2077,7 @@
             //
             this.RsvButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.RsvButton.Location = new System.Drawing.Point(570, 4);
+            this.RsvButton.Location = new System.Drawing.Point(530, 4);
             this.RsvButton.Name = "RsvButton";
             this.RsvButton.Size = new System.Drawing.Size(80, 23);
             this.RsvButton.TabIndex = 179;
@@ -2098,24 +2097,12 @@
             this.OpeWideBox.UseVisualStyleBackColor = true;
             this.OpeWideBox.CheckedChanged += new System.EventHandler(this.OpeWideBox_CheckedChanged);
             // 
-            // InfoShareButton
-            // 
-            this.InfoShareButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.InfoShareButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InfoShareButton.Location = new System.Drawing.Point(450, 4);
-            this.InfoShareButton.Name = "InfoShareButton";
-            this.InfoShareButton.Size = new System.Drawing.Size(40, 23);
-            this.InfoShareButton.TabIndex = 181;
-            this.InfoShareButton.Text = "伝達";
-            this.InfoShareButton.UseVisualStyleBackColor = false;
-            this.InfoShareButton.Click += new System.EventHandler(this.InfoShareButton_Click);
-            // 
             // PDFButton
             // 
             this.PDFButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PDFButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.PDFButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.PDFButton.Location = new System.Drawing.Point(730, 4);
+            this.PDFButton.Location = new System.Drawing.Point(690, 4);
             this.PDFButton.Name = "PDFButton";
             this.PDFButton.Size = new System.Drawing.Size(35, 23);
             this.PDFButton.TabIndex = 182;
@@ -2127,7 +2114,7 @@
             // 
             this.FamilyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.FamilyButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.FamilyButton.Location = new System.Drawing.Point(490, 4);
+            this.FamilyButton.Location = new System.Drawing.Point(450, 4);
             this.FamilyButton.Name = "FamilyButton";
             this.FamilyButton.Size = new System.Drawing.Size(40, 23);
             this.FamilyButton.TabIndex = 183;
@@ -2139,7 +2126,7 @@
             // 
             this.AllergyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.AllergyButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.AllergyButton.Location = new System.Drawing.Point(530, 4);
+            this.AllergyButton.Location = new System.Drawing.Point(490, 4);
             this.AllergyButton.Name = "AllergyButton";
             this.AllergyButton.Size = new System.Drawing.Size(40, 23);
             this.AllergyButton.TabIndex = 187;
@@ -2152,7 +2139,7 @@
             this.GrapaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GrapaButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.GrapaButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.GrapaButton.Location = new System.Drawing.Point(685, 4);
+            this.GrapaButton.Location = new System.Drawing.Point(645, 4);
             this.GrapaButton.Name = "GrapaButton";
             this.GrapaButton.Size = new System.Drawing.Size(45, 23);
             this.GrapaButton.TabIndex = 188;
@@ -2179,7 +2166,6 @@
             this.Controls.Add(this.AllergyButton);
             this.Controls.Add(this.FamilyButton);
             this.Controls.Add(this.PDFButton);
-            this.Controls.Add(this.InfoShareButton);
             this.Controls.Add(this.OpeWideBox);
             this.Controls.Add(this.RsvButton);
             this.Controls.Add(this.KensaHistoryView);
@@ -2360,7 +2346,6 @@
         private System.Windows.Forms.ToolStripMenuItem TensionBCopyMenuItem;
         private System.Windows.Forms.Button RsvButton;
         private System.Windows.Forms.CheckBox OpeWideBox;
-        private System.Windows.Forms.Button InfoShareButton;
         private System.Windows.Forms.Button PDFButton;
         private System.Windows.Forms.Button FamilyButton;
         private System.Windows.Forms.TabPage SummaryTab;
