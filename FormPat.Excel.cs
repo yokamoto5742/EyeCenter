@@ -209,6 +209,9 @@ namespace EyeCenter
             finally
             {
                 excelControl.ReleaseExcel();
+
+                // 使った分を補充し、次回の押下に備える
+                ExcelWarmup.Start();
             }
         }
     }

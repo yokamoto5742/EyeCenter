@@ -129,7 +129,13 @@ namespace EyeCenter
                     doc.FileName);
             }
 
-            exApp = new Excel.Application();
+            // バックグラウンドで起動済みの Excel があれば使い回す（生成の約0.7秒を省く）
+            exApp = ExcelWarmup.Take();
+
+            if (exApp == null)
+            {
+                exApp = new Excel.Application();
+            }
 
             // 自動処理中はテンプレートのマクロを起動させない
             exApp.EnableEvents = false;
@@ -137,8 +143,13 @@ namespace EyeCenter
             // 生成が完了するまで非表示・描画停止のまま処理する（最後に表示する）
             exApp.ScreenUpdating = false;
 
+            // 外部リンクの更新確認や保存時の警告で処理が止まらないようにする
+            exApp.DisplayAlerts = false;
+
+            // 第2引数 UpdateLinks=0。テンプレートは OneDrive 上の .xls への外部リンクを
+            // 5件持つため、既定のまま開くと Excel がリンク解決を試みて待たされる。
             exWorkbook = (Excel._Workbook)(exApp.Workbooks.Open(doc.FileName,
-                Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                0, Missing.Value, Missing.Value, Missing.Value,
                 Missing.Value, Missing.Value, Missing.Value, Missing.Value,
                 Missing.Value, Missing.Value, Missing.Value, Missing.Value,
                 Missing.Value, Missing.Value));
@@ -218,7 +229,8 @@ namespace EyeCenter
                 writeItemList(doc.AllergyList, 17);
             }
 
-            if (useBarcode)
+            // CODE128-C は偶数桁の数字のみ。36桁の数字でなければ挿入しない。
+            if (useBarcode && barcodeValue.Length == 36 && isAllDigits(barcodeValue))
             {
                 // バーコード画像の挿入対象シート（INI 指定が空なら共通情報以外の全シート）
                 List<string> targetSheetNames = new List<string>();
@@ -231,17 +243,33 @@ namespace EyeCenter
                     }
                 }
 
-                for (int i = 1; i <= sheetCount; i++)
+                // 画像は全シート共通のため1回だけ生成し、全シートへ挿入してから削除する
+                string barcodePath = generateBarcodeImage(barcodeValue);
+
+                try
                 {
-                    Excel._Worksheet ws = (Excel._Worksheet)(sheets[i]);
-
-                    if (!ws.Name.Equals(CommonSheetName)
-                        && (targetSheetNames.Count == 0 || targetSheetNames.Contains(ws.Name)))
+                    for (int i = 1; i <= sheetCount; i++)
                     {
-                        insertBarcode(ws, barcodeValue);
-                    }
+                        Excel._Worksheet ws = (Excel._Worksheet)(sheets[i]);
 
-                    Marshal.ReleaseComObject(ws);
+                        if (!ws.Name.Equals(CommonSheetName)
+                            && (targetSheetNames.Count == 0 || targetSheetNames.Contains(ws.Name)))
+                        {
+                            insertBarcode(ws, barcodePath);
+                        }
+
+                        Marshal.ReleaseComObject(ws);
+                    }
+                }
+                finally
+                {
+                    try
+                    {
+                        File.Delete(barcodePath);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
 
@@ -270,6 +298,7 @@ namespace EyeCenter
 
             exApp.EnableEvents = true;
             exApp.ScreenUpdating = true;
+            exApp.DisplayAlerts = true;
             exApp.Visible = true;
         }
 
@@ -336,6 +365,7 @@ namespace EyeCenter
                 {
                     exApp.EnableEvents = true;
                     exApp.ScreenUpdating = true;
+                    exApp.DisplayAlerts = true;
                     exApp.Visible = true;
                     bringToFront(exApp);
                 }
@@ -598,22 +628,14 @@ namespace EyeCenter
                 + userId.PadLeft(5, '0') + saveDate + saveTime;
         }
 
-        private void insertBarcode(Excel._Worksheet sheet, string barcodeText)
+        private void insertBarcode(Excel._Worksheet sheet, string imagePath)
         {
-            if (barcodeText.Length != 36 || !isAllDigits(barcodeText))
-            {
-                // CODE128-C は偶数桁の数字のみ。36桁の数字でなければ挿入しない。
-                return;
-            }
-
-            string tempPath = null;
             Excel.Range anchor = null;
             object shapes = null;
             object picture = null;
 
             try
             {
-                tempPath = generateBarcodeImage(barcodeText);
                 anchor = (Excel.Range)(sheet.Cells[1, 4]); // D1
                 float left = (float)(double)anchor.Left;
                 float top = (float)(double)anchor.Top;
@@ -623,7 +645,7 @@ namespace EyeCenter
                 // 要求しコンパイルできないため、遅延バインディングで呼び出す。
                 // 引数: ファイル, LinkToFile=msoFalse(0), SaveWithDocument=msoTrue(-1), 左, 上, 幅, 高さ
                 picture = shapes.GetType().InvokeMember("AddPicture", BindingFlags.InvokeMethod, null, shapes,
-                    new object[] { tempPath, 0, -1, left, top, 250f, 30f });
+                    new object[] { imagePath, 0, -1, left, top, 250f, 30f });
                 ((Excel.Shape)picture).Placement = Excel.XlPlacement.xlMove;
             }
             finally
@@ -641,17 +663,6 @@ namespace EyeCenter
                 if (anchor != null)
                 {
                     Marshal.ReleaseComObject(anchor);
-                }
-
-                if (tempPath != null && File.Exists(tempPath))
-                {
-                    try
-                    {
-                        File.Delete(tempPath);
-                    }
-                    catch
-                    {
-                    }
                 }
             }
         }

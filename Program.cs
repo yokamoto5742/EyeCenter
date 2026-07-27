@@ -111,7 +111,19 @@ namespace EyeCenter
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new MainForm());
+
+                // 帳票生成の待ち時間を減らすため、Excel をバックグラウンドで起動しておく
+                ExcelWarmup.Start();
+
+                try
+                {
+                    Application.Run(new MainForm());
+                }
+                finally
+                {
+                    // 使われないまま残った Excel を終了する（隠れたプロセスを残さない）
+                    ExcelWarmup.Shutdown();
+                }
             }
         }
     }

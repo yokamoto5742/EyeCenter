@@ -122,6 +122,7 @@
     <Compile Include="ControlSumPage.cs" />
     <Compile Include="Barcode128.cs" />
     <Compile Include="ExcelControl.cs" />
+    <Compile Include="ExcelWarmup.cs" />
     <Compile Include="FormControl.cs" />
     <Compile Include="FormExport.cs">
       <SubType>Form</SubType>
