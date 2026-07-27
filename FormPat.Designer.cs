@@ -1651,13 +1651,13 @@
             this.OpeDoctorPanel.Controls.Add(this.DoctorStatusBox);
             this.OpeDoctorPanel.Location = new System.Drawing.Point(551, 3);
             this.OpeDoctorPanel.Name = "OpeDoctorPanel";
-            this.OpeDoctorPanel.Size = new System.Drawing.Size(450, 255);
+            this.OpeDoctorPanel.Size = new System.Drawing.Size(550, 255);
             this.OpeDoctorPanel.TabIndex = 139;
             // 
             // DoctorStaffLabel
             // 
             this.DoctorStaffLabel.BackColor = System.Drawing.Color.LightYellow;
-            this.DoctorStaffLabel.Location = new System.Drawing.Point(260, 5);
+            this.DoctorStaffLabel.Location = new System.Drawing.Point(360, 5);
             this.DoctorStaffLabel.Name = "DoctorStaffLabel";
             this.DoctorStaffLabel.Size = new System.Drawing.Size(90, 16);
             this.DoctorStaffLabel.TabIndex = 173;
@@ -1666,7 +1666,7 @@
             // DoctorRegButton
             // 
             this.DoctorRegButton.BackColor = System.Drawing.Color.Lime;
-            this.DoctorRegButton.Location = new System.Drawing.Point(361, 3);
+            this.DoctorRegButton.Location = new System.Drawing.Point(461, 3);
             this.DoctorRegButton.Name = "DoctorRegButton";
             this.DoctorRegButton.Size = new System.Drawing.Size(84, 20);
             this.DoctorRegButton.TabIndex = 142;
@@ -1677,7 +1677,7 @@
             // label41
             // 
             this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(212, 6);
+            this.label41.Location = new System.Drawing.Point(312, 6);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(41, 12);
             this.label41.TabIndex = 145;
@@ -1686,18 +1686,18 @@
             // DoContBox
             // 
             this.DoContBox.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.DoContBox.Location = new System.Drawing.Point(227, 39);
+            this.DoContBox.Location = new System.Drawing.Point(277, 39);
             this.DoContBox.MaxLength = 1499;
             this.DoContBox.Multiline = true;
             this.DoContBox.Name = "DoContBox";
             this.DoContBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DoContBox.Size = new System.Drawing.Size(220, 212);
+            this.DoContBox.Size = new System.Drawing.Size(270, 212);
             this.DoContBox.TabIndex = 140;
             // 
             // label36
             // 
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(226, 24);
+            this.label36.Location = new System.Drawing.Point(276, 24);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(53, 12);
             this.label36.TabIndex = 141;
@@ -1720,7 +1720,7 @@
             this.PreContBox.Multiline = true;
             this.PreContBox.Name = "PreContBox";
             this.PreContBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.PreContBox.Size = new System.Drawing.Size(220, 212);
+            this.PreContBox.Size = new System.Drawing.Size(270, 212);
             this.PreContBox.TabIndex = 137;
             // 
             // label8
@@ -1736,7 +1736,7 @@
             // 
             this.DoctorStatusBox.AutoSize = true;
             this.DoctorStatusBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.DoctorStatusBox.Location = new System.Drawing.Point(147, 4);
+            this.DoctorStatusBox.Location = new System.Drawing.Point(247, 4);
             this.DoctorStatusBox.Name = "DoctorStatusBox";
             this.DoctorStatusBox.Size = new System.Drawing.Size(48, 16);
             this.DoctorStatusBox.TabIndex = 89;
