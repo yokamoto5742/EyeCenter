@@ -128,11 +128,25 @@ namespace EyeCenter.Tests
         }
 
         [TestMethod]
-        public void InsertBarcode_36桁数字以外はシートに触れず何もしない()
+        public void バーコード挿入判定_36桁の数字のみ挿入対象になる()
         {
-            // sheet=null でも、長さ・数字チェックで早期returnすればNullReferenceExceptionにならないはず
-            Invoke(new ExcelControl(), "insertBarcode", null, "12345");
-            Invoke(new ExcelControl(), "insertBarcode", null, "abcdefghijklmnopqrstuvwxyzabcdefghij" /* 36文字だが数字以外 */);
+            // 桁数・数字チェックは insertBarcode から呼び出し側（createDocument）へ移ったため、
+            // 挿入可否の条件（36桁 かつ 全数字）を組み立て結果に対して検証する。
+            Assert.IsTrue(canInsertBarcode(
+                (string)Invoke(null, "buildBarcodeValue", "1", "39911", "519", "20260705", "123456")));
+
+            Assert.IsFalse(canInsertBarcode(
+                (string)Invoke(null, "buildBarcodeValue", "1234567890", "39911", "519", "20260705", "123456")),
+                "9桁超の患者IDは36桁を超えるため挿入しない");
+
+            Assert.IsFalse(canInsertBarcode(
+                (string)Invoke(null, "buildBarcodeValue", "1", "3991A", "519", "20260705", "123456")),
+                "36桁でも数字以外を含む場合は挿入しない");
+        }
+
+        static bool canInsertBarcode(string barcodeValue)
+        {
+            return barcodeValue.Length == 36 && (bool)Invoke(null, "isAllDigits", barcodeValue);
         }
 
         [TestMethod]
