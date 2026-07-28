@@ -112,11 +112,11 @@ namespace EyeCenter
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                // 帳票生成の待ち時間を減らすため、Excel をバックグラウンドで起動しておく
-                ExcelWarmup.Start();
-
                 try
                 {
+                    // Excel の事前起動は帳票を出す手術記録画面（FormPat）を開いたときに行う。
+                    // 起動時から常駐させると、利用者が開いた Excel ファイルが同じプロセスへ
+                    // 相乗りしてしまう時間が長くなるため。
                     Application.Run(new MainForm());
                 }
                 finally

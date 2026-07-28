@@ -259,6 +259,9 @@ namespace EyeCenter
         private void FormPat_Shown(object sender, EventArgs e)
         {
             this.stdControlPat11.Focus();
+
+            // 帳票（オペ録・眼科申し送り書）を速く開けるよう Excel を先に起動しておく
+            ExcelWarmup.Start();
         }
 
         private void ReloadButton_Click(object sender, EventArgs e)
@@ -1964,6 +1967,10 @@ namespace EyeCenter
         private void FormPat_FormClosed(object sender, FormClosedEventArgs e)
         {
             FormControl.FormPat_Remove(this);
+
+            // 帳票を出す画面を閉じたら、使わなかった Excel は常駐させずに終了する。
+            // UI スレッドを止めないよう起動処理の完了は待たない。
+            ExcelWarmup.Shutdown(false);
         }
     }
 }

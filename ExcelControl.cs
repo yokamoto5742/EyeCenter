@@ -366,8 +366,18 @@ namespace EyeCenter
                     exApp.EnableEvents = true;
                     exApp.ScreenUpdating = true;
                     exApp.DisplayAlerts = true;
-                    exApp.Visible = true;
-                    bringToFront(exApp);
+
+                    if (isEmpty(exApp))
+                    {
+                        // 生成に失敗してブックが1冊も無い場合。表示すると空の Excel が
+                        // 残り続けるため、そのまま終了させる。
+                        exApp.Quit();
+                    }
+                    else
+                    {
+                        exApp.Visible = true;
+                        bringToFront(exApp);
+                    }
                 }
                 catch
                 {
@@ -375,6 +385,32 @@ namespace EyeCenter
 
                 Marshal.ReleaseComObject(exApp);
                 exApp = null;
+            }
+        }
+
+        /// <summary>
+        /// ブックが1冊も開かれていないことが確認できたときだけ true を返す。
+        /// 判定できない場合は false とし、開かれているブックを閉じないようにする。
+        /// </summary>
+        private static bool isEmpty(Excel.Application app)
+        {
+            Excel.Workbooks books = null;
+
+            try
+            {
+                books = app.Workbooks;
+                return books.Count == 0;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                if (books != null)
+                {
+                    Marshal.ReleaseComObject(books);
+                }
             }
         }
 
@@ -404,6 +440,7 @@ namespace EyeCenter
         /// <summary>
         /// EyeDoc.ExcelOpen が内部で開いた Excel の Application を ROT（Running Object Table）
         /// 経由で取得し、前面化する。取得できない場合は何もしない。
+        /// ブックが1冊も無いものは事前起動した待機中の Excel なので前面化しない。
         /// </summary>
         private static void bringLatestExcelToFront()
         {
@@ -412,7 +449,11 @@ namespace EyeCenter
             try
             {
                 app = Marshal.GetActiveObject("Excel.Application");
-                bringToFront((Excel.Application)app);
+
+                if (!isEmpty((Excel.Application)app))
+                {
+                    bringToFront((Excel.Application)app);
+                }
             }
             catch
             {
@@ -564,7 +605,7 @@ namespace EyeCenter
         /// EyeDataSettings.ini から指定キーの値を読み取る。
         /// ファイルが無い・読めない・キーが無い場合は既定値を返す。
         /// </summary>
-        private static string readIniValue(string key, string defaultValue)
+        internal static string readIniValue(string key, string defaultValue)
         {
             try
             {
