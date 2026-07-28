@@ -343,9 +343,9 @@
             // 
             // ColumnSettingButton
             // 
-            this.ColumnSettingButton.Location = new System.Drawing.Point(905, 32);
+            this.ColumnSettingButton.Location = new System.Drawing.Point(910, 32);
             this.ColumnSettingButton.Name = "ColumnSettingButton";
-            this.ColumnSettingButton.Size = new System.Drawing.Size(135, 23);
+            this.ColumnSettingButton.Size = new System.Drawing.Size(90, 23);
             this.ColumnSettingButton.TabIndex = 37;
             this.ColumnSettingButton.Text = "出力列設定";
             this.ColumnSettingButton.UseVisualStyleBackColor = true;
@@ -353,9 +353,9 @@
             // 
             // SumColumnSettingButton
             // 
-            this.SumColumnSettingButton.Location = new System.Drawing.Point(905, 59);
+            this.SumColumnSettingButton.Location = new System.Drawing.Point(910, 59);
             this.SumColumnSettingButton.Name = "SumColumnSettingButton";
-            this.SumColumnSettingButton.Size = new System.Drawing.Size(135, 23);
+            this.SumColumnSettingButton.Size = new System.Drawing.Size(90, 23);
             this.SumColumnSettingButton.TabIndex = 38;
             this.SumColumnSettingButton.Text = "サマリ列設定";
             this.SumColumnSettingButton.UseVisualStyleBackColor = true;
