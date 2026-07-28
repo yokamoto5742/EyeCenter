@@ -113,7 +113,60 @@ namespace EyeCenter
         /// <returns></returns>
         public static bool FilterColumns(TableData data, string key)
         {
-            // 同名の列（日付・値のペアなど）は1項目にまとめて表示する
+            List<string> names = UniqueColumnNames(data);
+
+            FormCsvColumnSelect form = new FormCsvColumnSelect(names, LoadExclusion(key));
+
+            if (form.ShowDialog() != DialogResult.OK)
+            {
+                return false;
+            }
+
+            List<string> excluded = ExcludedNames(names, form.SelectedNames);
+
+            SaveExclusion(key, excluded);
+
+            RemoveExcludedColumns(data, excluded);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 出力列の設定ダイアログを表示し、選択されなかった列を除外設定として保存する。
+        /// </summary>
+        /// <param name="titles">Title・Title2 のみを設定した出力データ</param>
+        /// <param name="key">選択保存用のキー（検索フォームごとに一意）</param>
+        public static void ShowColumnSettings(TableData titles, string key)
+        {
+            List<string> names = UniqueColumnNames(titles);
+
+            FormCsvColumnSelect form = new FormCsvColumnSelect(names, LoadExclusion(key));
+
+            form.Text = "出力列の設定";
+
+            if (form.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            SaveExclusion(key, ExcludedNames(names, form.SelectedNames));
+        }
+
+        /// <summary>
+        /// 保存済みの除外設定を data に適用する。設定が無い場合は全列を出力する。
+        /// </summary>
+        /// <param name="data">出力データ</param>
+        /// <param name="key">選択保存用のキー（検索フォームごとに一意）</param>
+        public static void ApplySavedColumns(TableData data, string key)
+        {
+            RemoveExcludedColumns(data, LoadExclusion(key));
+        }
+
+        /// <summary>
+        /// 列の表示名の一覧を作成する。同名の列（日付・値のペアなど）は1項目にまとめる。
+        /// </summary>
+        static List<string> UniqueColumnNames(TableData data)
+        {
             List<string> names = new List<string>();
 
             foreach (string name in ColumnNames(data))
@@ -124,28 +177,22 @@ namespace EyeCenter
                 }
             }
 
-            FormCsvColumnSelect form = new FormCsvColumnSelect(names, LoadExclusion(key));
+            return names;
+        }
 
-            if (form.ShowDialog() != DialogResult.OK)
-            {
-                return false;
-            }
-
+        static List<string> ExcludedNames(List<string> names, List<string> selected)
+        {
             List<string> excluded = new List<string>();
 
             foreach (string name in names)
             {
-                if (!form.SelectedNames.Contains(name))
+                if (!selected.Contains(name))
                 {
                     excluded.Add(name);
                 }
             }
 
-            SaveExclusion(key, excluded);
-
-            RemoveExcludedColumns(data, excluded);
-
-            return true;
+            return excluded;
         }
 
         /// <summary>

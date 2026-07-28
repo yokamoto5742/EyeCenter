@@ -193,10 +193,12 @@ namespace EyeCenter
             AppDataGridView.SexColor(SumListView);
         }
 
-        private void CSVButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 出力データの列見出しを作成する。
+        /// </summary>
+        /// <param name="data">出力データ</param>
+        void AddTitles(TableData data)
         {
-            TableData data = new TableData();
-
             data.Title.Add("ID");
             data.Title.Add("カナ");
             data.Title.Add("氏名");
@@ -268,6 +270,22 @@ namespace EyeCenter
                     data.Title2.Add(r["Name"].ToString());
                 }
             }
+        }
+
+        private void ColumnSettingButton_Click(object sender, EventArgs e)
+        {
+            TableData data = new TableData();
+
+            AddTitles(data);
+
+            FormCsvColumnSelect.ShowColumnSettings(data, "Summary");
+        }
+
+        private void CSVButton_Click(object sender, EventArgs e)
+        {
+            TableData data = new TableData();
+
+            AddTitles(data);
 
             Dictionary<string, string> dict1 = new Dictionary<string, string>();
             Dictionary<string, string> dict2 = new Dictionary<string, string>();
@@ -404,10 +422,7 @@ namespace EyeCenter
                 data.RecordList.Add(d);
             }
 
-            if (!FormCsvColumnSelect.FilterColumns(data, "Summary"))
-            {
-                return;
-            }
+            FormCsvColumnSelect.ApplySavedColumns(data, "Summary");
 
             if (data.CSVSave("サマリ検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
             {

@@ -294,13 +294,11 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// 出力データを作成する。
+        /// 出力データの列見出しを作成する。
         /// </summary>
-        /// <returns></returns>
-        TableData MakeTableData()
+        /// <param name="data">出力データ</param>
+        void AddTitles(TableData data)
         {
-            TableData data = new TableData();
-
             data.Title.Add("手術日");
             data.Title.Add("手術時刻");
             data.Title.Add("患者ID");
@@ -338,6 +336,17 @@ namespace EyeCenter
                     data.Title.Add(r["Text"].ToString() + "_" + s);
                 }
             }
+        }
+
+        /// <summary>
+        /// 出力データを作成する。
+        /// </summary>
+        /// <returns></returns>
+        TableData MakeTableData()
+        {
+            TableData data = new TableData();
+
+            AddTitles(data);
 
             Dictionary<string, string> recordDict;
             Dictionary<string, string> passDict;
@@ -407,14 +416,25 @@ namespace EyeCenter
             return data;
         }
 
+        private void ColumnSettingButton_Click(object sender, EventArgs e)
+        {
+            TableData data = new TableData();
+
+            AddTitles(data);
+
+            FormCsvColumnSelect.ShowColumnSettings(data, "OpeRecord");
+        }
+
+        private void SumColumnSettingButton_Click(object sender, EventArgs e)
+        {
+            FormSumColumnSelect.ShowColumnSettings();
+        }
+
         private void ExcelButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
 
-            if (!FormCsvColumnSelect.FilterColumns(data, "OpeRecord"))
-            {
-                return;
-            }
+            FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
             if (data.ExcelOpen())
             {
@@ -426,10 +446,7 @@ namespace EyeCenter
         {
             TableData data = MakeTableData();
 
-            if (!FormCsvColumnSelect.FilterColumns(data, "OpeRecord"))
-            {
-                return;
-            }
+            FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
             if (SumJoinBox.Checked)
             {
@@ -440,10 +457,7 @@ namespace EyeCenter
                     ptList.Add(d.Cells["PT_ID"].Value.ToString());
                 }
 
-                if (!FormSumColumnSelect.AppendSummaryColumns(data, ptList))
-                {
-                    return;
-                }
+                FormSumColumnSelect.AppendSavedSummaryColumns(data, ptList);
             }
 
             if (data.CSVSave("手術記録検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))

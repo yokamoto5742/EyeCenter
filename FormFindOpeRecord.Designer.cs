@@ -60,6 +60,8 @@
             this.CountLabel = new System.Windows.Forms.Label();
             this.CSVButton = new System.Windows.Forms.Button();
             this.PreCheckBox = new System.Windows.Forms.CheckBox();
+            this.ColumnSettingButton = new System.Windows.Forms.Button();
+            this.SumColumnSettingButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.OpeListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -339,11 +341,33 @@
             this.PreCheckBox.UseVisualStyleBackColor = true;
             this.PreCheckBox.CheckedChanged += new System.EventHandler(this.PreCheckBox_CheckedChanged);
             // 
+            // ColumnSettingButton
+            // 
+            this.ColumnSettingButton.Location = new System.Drawing.Point(905, 32);
+            this.ColumnSettingButton.Name = "ColumnSettingButton";
+            this.ColumnSettingButton.Size = new System.Drawing.Size(135, 23);
+            this.ColumnSettingButton.TabIndex = 37;
+            this.ColumnSettingButton.Text = "出力列設定";
+            this.ColumnSettingButton.UseVisualStyleBackColor = true;
+            this.ColumnSettingButton.Click += new System.EventHandler(this.ColumnSettingButton_Click);
+            // 
+            // SumColumnSettingButton
+            // 
+            this.SumColumnSettingButton.Location = new System.Drawing.Point(905, 59);
+            this.SumColumnSettingButton.Name = "SumColumnSettingButton";
+            this.SumColumnSettingButton.Size = new System.Drawing.Size(135, 23);
+            this.SumColumnSettingButton.TabIndex = 38;
+            this.SumColumnSettingButton.Text = "サマリー列設定";
+            this.SumColumnSettingButton.UseVisualStyleBackColor = true;
+            this.SumColumnSettingButton.Click += new System.EventHandler(this.SumColumnSettingButton_Click);
+            // 
             // FormFindOpeRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 573);
+            this.Controls.Add(this.SumColumnSettingButton);
+            this.Controls.Add(this.ColumnSettingButton);
             this.Controls.Add(this.PreCheckBox);
             this.Controls.Add(this.CSVButton);
             this.Controls.Add(this.CountLabel);
@@ -415,5 +439,7 @@
         private System.Windows.Forms.Label CountLabel;
         private System.Windows.Forms.Button CSVButton;
         private System.Windows.Forms.CheckBox PreCheckBox;
+        private System.Windows.Forms.Button ColumnSettingButton;
+        private System.Windows.Forms.Button SumColumnSettingButton;
     }
 }

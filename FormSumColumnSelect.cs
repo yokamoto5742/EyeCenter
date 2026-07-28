@@ -37,7 +37,7 @@ namespace EyeCenter
 
         FormSumColumnSelect(List<SumColumn> columns, List<string> checked_keys)
         {
-            this.Text = "サマリー結合列の選択";
+            this.Text = "サマリー結合列の設定";
             this.ClientSize = new Size(380, 520);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -117,28 +117,43 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// サマリー項目の選択ダイアログを表示し、選択された項目を data の各行の右側に結合する。
-        /// キャンセル時は false を返す。
+        /// サマリー結合列の設定ダイアログを表示し、選択された項目を保存する。
         /// </summary>
-        /// <param name="data">結合先の出力データ（RecordList は pt_id_list と同順であること）</param>
-        /// <param name="pt_id_list">各行の患者IDのリスト</param>
-        /// <returns></returns>
-        public static bool AppendSummaryColumns(TableData data, List<string> pt_id_list)
+        public static void ShowColumnSettings()
         {
             FormSumColumnSelect form = new FormSumColumnSelect(GetAllColumns(), LoadSelection());
 
             if (form.ShowDialog() != DialogResult.OK)
             {
-                return false;
+                return;
             }
 
-            List<SumColumn> selected = form.SelectedColumns;
+            SaveSelection(form.SelectedColumns);
+        }
 
-            SaveSelection(selected);
+        /// <summary>
+        /// 保存済みの設定で選択されているサマリー項目を data の各行の右側に結合する。
+        /// 設定が無い場合は何も結合しない。
+        /// </summary>
+        /// <param name="data">結合先の出力データ（RecordList は pt_id_list と同順であること）</param>
+        /// <param name="pt_id_list">各行の患者IDのリスト</param>
+        public static void AppendSavedSummaryColumns(TableData data, List<string> pt_id_list)
+        {
+            List<string> keys = LoadSelection();
+
+            List<SumColumn> selected = new List<SumColumn>();
+
+            foreach (SumColumn col in GetAllColumns())
+            {
+                if (keys.Contains(col.Key))
+                {
+                    selected.Add(col);
+                }
+            }
 
             if (selected.Count == 0)
             {
-                return true;
+                return;
             }
 
             foreach (SumColumn col in selected)
@@ -228,8 +243,6 @@ namespace EyeCenter
                     }
                 }
             }
-
-            return true;
         }
 
         static List<SumColumn> GetAllColumns()

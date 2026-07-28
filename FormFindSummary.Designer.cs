@@ -41,6 +41,7 @@
             this.FindButton = new System.Windows.Forms.Button();
             this.CSVButton = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.ColumnSettingButton = new System.Windows.Forms.Button();
             this.SumListView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.SumListView)).BeginInit();
             this.SuspendLayout();
@@ -145,6 +146,16 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // ColumnSettingButton
+            // 
+            this.ColumnSettingButton.Location = new System.Drawing.Point(830, 4);
+            this.ColumnSettingButton.Name = "ColumnSettingButton";
+            this.ColumnSettingButton.Size = new System.Drawing.Size(70, 22);
+            this.ColumnSettingButton.TabIndex = 21;
+            this.ColumnSettingButton.Text = "列設定";
+            this.ColumnSettingButton.UseVisualStyleBackColor = true;
+            this.ColumnSettingButton.Click += new System.EventHandler(this.ColumnSettingButton_Click);
+            // 
             // SumListView
             // 
             this.SumListView.AllowUserToAddRows = false;
@@ -177,6 +188,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(934, 582);
             this.Controls.Add(this.SumListView);
+            this.Controls.Add(this.ColumnSettingButton);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.CSVButton);
             this.Controls.Add(this.FindButton);
@@ -211,6 +223,7 @@
         private System.Windows.Forms.Button FindButton;
         private System.Windows.Forms.Button CSVButton;
         private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.Button ColumnSettingButton;
         private System.Windows.Forms.DataGridView SumListView;
     }
 }
