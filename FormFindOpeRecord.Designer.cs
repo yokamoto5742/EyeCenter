@@ -357,7 +357,7 @@
             this.SumColumnSettingButton.Name = "SumColumnSettingButton";
             this.SumColumnSettingButton.Size = new System.Drawing.Size(135, 23);
             this.SumColumnSettingButton.TabIndex = 38;
-            this.SumColumnSettingButton.Text = "サマリー列設定";
+            this.SumColumnSettingButton.Text = "サマリ列設定";
             this.SumColumnSettingButton.UseVisualStyleBackColor = true;
             this.SumColumnSettingButton.Click += new System.EventHandler(this.SumColumnSettingButton_Click);
             // 

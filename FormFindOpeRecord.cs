@@ -55,7 +55,7 @@ namespace EyeCenter
             }
 
             SumJoinBox.AutoSize = true;
-            SumJoinBox.Text = "CSVにサマリー結合";
+            SumJoinBox.Text = "サマリ結合";
             SumJoinBox.Location = new Point(365, 92);
             this.Controls.Add(SumJoinBox);
 
