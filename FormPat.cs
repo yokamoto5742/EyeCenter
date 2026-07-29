@@ -357,9 +357,9 @@ namespace EyeCenter
             tmpTable.Columns.Add("MChartTate_L");
             tmpTable.Columns.Add("MChartYoko_L");
 
-            // –Ô–ŒŒú
-            tmpTable.Columns.Add("Moumakukou_R");
-            tmpTable.Columns.Add("Moumakukou_L");
+            // CMT
+            tmpTable.Columns.Add("CMT_R");
+            tmpTable.Columns.Add("CMT_L");
         }
 
         /// <summary>

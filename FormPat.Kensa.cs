@@ -247,8 +247,8 @@ namespace EyeCenter
                     ContData.ParseInto(tmpKensa.Cont, tmpDict);
 
                     // 網膜厚データ作成
-                    tmpRow["Moumakukou_R"] = tmpDict["1110R"];
-                    tmpRow["Moumakukou_L"] = tmpDict["1110L"];
+                    tmpRow["CMT_R"] = tmpDict["1110R"];
+                    tmpRow["CMT_L"] = tmpDict["1110L"];
                 }
             }
 
