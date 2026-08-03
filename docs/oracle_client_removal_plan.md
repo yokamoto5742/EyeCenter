@@ -1,12 +1,16 @@
 # Oracle クライアント非依存化 計画
 
-作成日: 2026-08-03
+作成日: 2026-08-03 / 最終更新: 2026-08-03
 
 電子カルテ端末に今後 Oracle クライアントを導入しない方針のため、EyeCenter（および同居する関連アプリ）を
 **Oracle クライアントのインストール無しで動作する構成**へ移行する。データベースは Oracle のまま使用する前提。
 
 結論として、移行先は **ODP.NET マネージド・ドライバ（`Oracle.ManagedDataAccess`）** 一択であり、
 コード変更は `using` の付け替えが主体で小さい。工数の大半は検証と配布物の整理になる。
+
+> **状況（2026-08-03）**: 19.x（`4.122.19.1`）でコード改修を完了し、**本番環境での疎通に成功**。
+> 本計画最大の懸念だった「本番DB 11.2.0.1.0 に対して 19.x が未認定」という点は実務上クリアされた。
+> 残るのは日本語ラウンドトリップを中心とした機能検証と後片付け。詳細は **6. 実施記録** を参照。
 
 ---
 
@@ -32,16 +36,47 @@ grep で洗い出した依存箇所は以下のとおり。
 
 ## 2. 移行先の選定
 
-**`Oracle.ManagedDataAccess` 19.x（例: 19.28）** を採用する。
-
-- 100% マネージドのため、`Oracle.ManagedDataAccess.dll` を exe と同じフォルダに置くだけで動作する（xcopy 配置）。
-  Oracle クライアント／`OraOps.dll`／`ORACLE_HOME`／レジストリ／`NLS_LANG` はすべて不要になる。
-- **19.x を選ぶ理由**: 19.x は Oracle Database **11.2.0.4 以降**をサポートするが、21c 以降のドライバは
-  サーバー 11.2 系を切っている。本番DBが 11.2 系である以上、19.x が安全圏。
-- .NET Framework 4.8 はサポート範囲内（19.x の最低要件は .NET Framework 4.6.2）。
+`Oracle.ManagedDataAccess`（100% マネージド）を採用する方針は変わらない。
+`Oracle.ManagedDataAccess.dll` を exe と同じフォルダに置くだけで動作し（xcopy 配置）、
+Oracle クライアント／`OraOps.dll`／`ORACLE_HOME`／レジストリ／`NLS_LANG` はすべて不要になる。
 
 副次的な効果として、現在の「開発機 4.122 / 本番 2.112」というバージョン差に起因する
 bindingRedirect 問題（`MedicalLibrary/docs/Oracle_DataAccess_Deploy_Troubleshooting.md` 参照）が根本的に消える。
+
+### 2.1 バージョン選定（本番DB = 11.2.0.1.0 判明後の修正）
+
+本番サーバーは **11.2.0.1.0**（11.2.0.4 **未満**）と判明した。
+Oracle のクライアント／サーバー相互運用マトリクス（Doc ID 207303.1）では、
+19c・18c・12.2 のクライアントはいずれも **サーバー 11.2.0.4 以上**が条件のため、
+当初案の 19.x は **11.2.0.1 に対しては未認定**である。11.2.0.1 を正式サポートする最後のマネージド・ドライバは
+**12.1.0.2（`Oracle.ManagedDataAccess.dll` 4.121.2.0）** となる。
+
+ただし「未認定」は「動かない」とは別で、TTC プロトコル上 11.2.0.1 と 11.2.0.4 に差は無く、
+**同院内の別アプリが既に `Oracle.ManagedDataAccess.dll` で同DBに接続できている実績がある**。
+したがって選定は次の優先順で行う。
+
+| 優先 | 採用するもの | 判断理由 |
+|---|---|---|
+| 1 | **別アプリが実際に使っている DLL と同一バージョン** | 同DB・同ネットワークでの動作実績が最強の根拠。後述のとおり同一フォルダに同居する以上、バージョンは揃えざるを得ない |
+| 2 | 12.1.0.2（4.121.2.0） | 11.2.0.1 を正式サポートする唯一の選択肢。認定を重視する場合 |
+| 3 | 19.x（4.122.19.x） | 実績はあるが 11.2.0.1 では未認定。Oracle へ問い合わせる事態になった場合に unsupported 扱いとなるリスクを許容できる場合のみ |
+
+**→ 2026-08-03、3 の 19.x（`4.122.19.1`）を採用し、本番環境での疎通に成功した。**
+未認定という位置づけは変わらないため、Oracle へ問い合わせる事態になった場合は
+「サポート対象外の組み合わせ」と扱われる点だけ認識しておく。実運用上の障害が出た場合の退避先は
+2 の 12.1.0.2（DLL 差し替えと csproj の `Version=` 修正のみで戻せる）。
+
+**重要**: EyeCenter / CanonRKF1 / NidekARK1 / InnoUketsuke受付 は `C:\Shinseikai\EyeData` に同居するため、
+`Oracle.ManagedDataAccess.dll` は **全アプリで 1 本・同一バージョン**にする必要がある。
+別アプリが 19.x を使っているならこちらも 19.x、12.1 なら 12.1 に揃える。
+揃えられない場合のみ bindingRedirect を書くことになり、現在の問題が形を変えて再発する。
+
+なお開発機にある DLL は以下のとおりで、**どちらもそのままでは採用しない**（21c は 12.1 未満のサーバーを完全に切っているため特に不可）。
+
+- `C:\oracle\odac32\odpm\odp.net\managed\common\Oracle.ManagedDataAccess.dll` → 4.122.**21**.1（21c, サーバー 12.1 以上が条件）
+- `OneDrive\...\C#\EyeData\Oracle.ManagedDataAccess.dll` → 4.122.**19**.1（19c）
+
+.NET Framework 4.8 はいずれのバージョンでもサポート範囲内（12.1.0.2 は .NET 4.0 以上、19.x は 4.6.2 以上）。
 
 ## 3. 作業手順
 
@@ -50,9 +85,13 @@ bindingRedirect 問題（`MedicalLibrary/docs/Oracle_DataAccess_Deploy_Troublesh
 DBに対して1回問い合わせるだけで済む。
 
 ```sql
-select * from v$version;                                    -- 11.2.0.4 以上かどうか
+select * from v$version;                                    -- 済: 11.2.0.1.0
 select parameter, value from nls_database_parameters
  where parameter in ('NLS_CHARACTERSET','NLS_NCHAR_CHARACTERSET');
+
+-- 12c 以降のクライアントを使う場合の必須確認（リスク7）。'11G' が含まれているか
+select username, password_versions from dba_users
+ where username in ('MEDB','（実際に使用する接続ユーザー）');
 ```
 
 併せて本番端末の `tnsnames.ora` / `sqlnet.ora` の内容を控える
@@ -98,15 +137,17 @@ EyeCenter からは実行時オプショナル扱いだが、読み込まれた�
 現在の接続文字列（`MedicalLibrary/Utility/LibSettings.cs`、実体は `Setting.xml`）は
 `Data Source=wgs_odbc_orcl` / `macs_open` / `inno_orcl` の **TNSエイリアス指定**で、`tnsnames.ora` に依存している。
 
-- **推奨（C案）: 接続文字列を完全記述子に書き換え、`tnsnames.ora` を不要にする。**
-  コード変更ゼロで、端末に置くファイルも増えない。
+- **採用（A案）: `tnsnames.ora` を exe と同じフォルダ（`C:\Shinseikai\EyeData`）に置く。**
+  接続文字列も `Setting.xml` も変更不要で、エイリアス名のまま運用を継続できる。
+  **開発機での実測（下記 6. 参照）で、この配置なら解決できることを確認済み**。
+  逆に `tnsnames.ora` が無く `TNS_ADMIN` も未設定だと起動時に例外になる。
+
+- C案: 接続文字列を完全記述子に書き換え、`tnsnames.ora` を不要にする。
+  端末に置くファイルは減るが、`Setting.xml` の再配布が必要になる。
 
   ```
   User Id=medb;Password=xxx;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=xxx)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xxx)));
   ```
-
-- A案: `tnsnames.ora` を exe と同じフォルダ、または `TNS_ADMIN`（環境変数か `.config` の設定）で指定した場所に置く。
-  既存の運用（エイリアス名のまま）を変えたくない場合はこちら。
 
 いずれの案でも Oracle クライアントのインストールは不要。
 
@@ -143,10 +184,13 @@ EyeCenter からは実行時オプショナル扱いだが、読み込まれた�
    ドライバ実装依存の文字列比較であり、移行時に最も壊れやすい箇所。
    → 移行前に `reader.IsDBNull(i)` ベースへ直しておくのが安全。
 
-3. **DBサーバが 11.2.0.4 未満だった場合**
-   19.x マネージドは非対応。代替案は
-   (a) Instant Client Basic Lite を xcopy 配置して非管理ドライバを継続（"インストール"は不要だがネイティブDLLは必要）、
-   (b) DB 側にパッチを適用して 11.2.0.4 以上にする。
+3. ~~**DBサーバが 11.2.0.4 未満（＝実際に 11.2.0.1.0 だった）**~~ → **解消**（2026-08-03）
+   19.x マネージドは 11.2.0.1 に対して未認定だが、**本番環境で実際に接続できることを確認済み**。
+   認定外である事実は残るため、退避策だけ記録しておく:
+   (a) 12.1.0.2（4.121.2.0）へ落とす — 11.2.0.1 を正式サポートする最後のマネージド・ドライバ。
+       DLL 差し替えと csproj の `Version=` 修正のみ、
+   (b) Instant Client Basic Lite を xcopy 配置して非管理ドライバを継続（"インストール"は不要だがネイティブDLLは必要）、
+   (c) DB 側にパッチを適用して 11.2.0.4 以上にする。
 
 4. **`sqlnet.ora` の特殊設定**
    ネイティブ暗号化（ANO）などを使用している場合、マネージド側の対応可否を個別に確認する必要がある。
@@ -159,12 +203,82 @@ EyeCenter からは実行時オプショナル扱いだが、読み込まれた�
    端末からDBへ TCP 1521 の直結が引き続き必要。ポリシー上これが許容されない場合は、
    本計画ではなく「中間APIサーバーを設けて端末からはDB接続しない」という別アーキテクチャの検討になる。
 
-## 5. 未確認事項（着手前に確定させる）
+7. ~~**`ORA-28040: 一致する認証プロトコルがありません`**~~ → **顕在化せず**（2026-08-03）
+   12c 以降のクライアントは 11G 以上のパスワード・ベリファイアを要求するため、
+   10G ベリファイアしか持たないユーザーだとログインが失敗する懸念があったが、本番接続は成功した。
+   今後 DB 側でユーザーを作り直した場合は再発しうるので、その際は `dba_users.password_versions` に
+   `11G` があるか確認すること。無ければ `SQLNET.ALLOWED_LOGON_VERSION=11`（サーバー `sqlnet.ora`）にした上で
+   同じパスワードで `alter user ... identified by ...` を実行しベリファイアを再生成する。
 
-1. 本番 Oracle **サーバー**のバージョン（`11.2.0.x` の x）と `NLS_CHARACTERSET`
-2. 電子カルテ端末から DB への **TCP 1521 直結**が引き続き許容されるか
-3. 現在の `tnsnames.ora` の内容と `sqlnet.ora` の特殊設定の有無
-4. 既存端末の Oracle クライアントを残すのか撤去するのか（移行期に新旧を共存させる必要があるか）
-5. `Setting.xml`（接続文字列）を端末へ再配布できるか
+## 5. 未確認事項
 
-1〜3 が判明すれば着手可能。コード改修は半日程度、残りは検証と配布物の整理。
+本番接続が成功したことで、着手前に確定させるべき事項は解消した。残りは運用判断のみ。
+
+| # | 事項 | 状態 |
+|---|---|---|
+| 1 | 本番 Oracle サーバーのバージョン | **`11.2.0.1.0`**（2026-08-03 確認） |
+| 2 | 19.x マネージドで本番DBに接続できるか | **接続成功**（2026-08-03 確認）— これが最大の懸念だった |
+| 3 | 接続ユーザーの `password_versions` に `11G` が含まれるか | 接続成功のため事実上クリア（リスク7） |
+| 4 | 電子カルテ端末から DB への TCP 1521 直結 | 接続成功のため許容されている |
+| 5 | `tnsnames.ora` / `sqlnet.ora` の特殊設定 | 接続成功のため特殊設定は無いか、マネージドで問題にならない範囲 |
+| 6 | 本番DBの `NLS_CHARACTERSET` | **未確認**（リスク1のラウンドトリップ検証と併せて確認する） |
+| 7 | 既存端末の Oracle クライアントを残すのか撤去するのか | **運用判断待ち**。撤去すると `ORACLE_HOME` 配下の `tnsnames.ora` が消えるため、先に `C:\Shinseikai\EyeData` へコピーしておくこと |
+
+---
+
+## 6. 実施記録（2026-08-03）
+
+19.x（`Oracle.ManagedDataAccess` 4.122.19.1）でコード改修を実施し、**本番環境での疎通に成功した**。
+これにより「11.2.0.1 では 19.x が未認定」という本計画最大の懸念は実務上クリアされ、
+Oracle クライアントに依存しない構成が成立することが確認できた。
+
+### 実施したこと
+
+| Phase | 内容 |
+|---|---|
+| 1 | `C:\Shinseikai\EyeData\Oracle.ManagedDataAccess.dll`（4.122.19.1, MSIL）を配置。3プロジェクトが同一ファイルを `HintPath` 参照 |
+| 2 | MedicalLibrary 8ファイルの `using` 置換＋`MedicalLibrary.csproj` の参照差し替え |
+| 3 | InnoUketsukeLib 5ファイルの `using` 置換＋`InnoUketsukeLib.csproj` の参照差し替え |
+| 4 | EyeCenter: csproj 参照差し替え／`App.config`・`EyeCenter.Tests/App.config` の bindingRedirect 削除／`Program.cs` の `ResolveOracleAssembly` 削除／`EyeData.exe.config.production` 削除 |
+| 7 | `deploy.ps1`・`deploy-production.ps1` から本番用 config の受け渡しを削除。CanonRKF1 / NidekARK1 も再ビルド |
+
+`using` の置換はバイト単位で行い、Shift-JIS / UTF-8(BOM) の混在エンコーディングと改行コードを保持した。
+
+### 検証結果
+
+**本番環境**
+
+- **19.x マネージド・ドライバで本番DB（11.2.0.1.0）への接続に成功**（Oracle クライアント非依存で動作することを確認）
+
+**開発機**
+
+- ビルド: MedicalLibrary / InnoUketsukeLib / EyeCenter / CanonRKF1 / NidekARK1 すべて成功
+- `dotnet test`: **81 合格 / 0 失敗**（移行前は 11 失敗 — `Oracle.DataAccess` 2.112 がテストホストで読めなかったため。移行で解消）
+- `tools\Test-OracleManaged.ps1` でローカル Oracle 23ai Free に接続成功。日本語ラウンドトリップも一致
+- EyeData.exe を起動し患者台帳の表示まで到達
+
+### 判明したこと: `tnsnames.ora` は exe と同じフォルダに必要
+
+`TNS_ADMIN` 未設定・exe フォルダに `tnsnames.ora` 無しの状態で起動すると、DB接続で例外ダイアログになる。
+`tnsnames.ora` を exe と同じフォルダに置くと正常に起動する。
+→ **本番配布時に `C:\Shinseikai\EyeData\tnsnames.ora` を必ず配置すること**（Phase 5 のA案）。
+
+### 残作業
+
+疎通は取れたので、残るのは「データが正しく読み書きできるか」の機能検証と後片付け。
+
+1. **Phase 6 の機能検証** — **未実施**。特に優先度が高い順に:
+   1. **日本語のラウンドトリップ**（リスク1）。本番DBは SJIS 系のため、半角カナ・㈱等の機種依存文字・波ダッシュで
+      既存データの読み取り結果比較と、書き込み→読み戻しの一致確認を行う。
+      併せて本番の `NLS_CHARACTERSET` を控える（未確認事項6）
+   2. NULL 判定（下記2）が絡む箇所の実データ確認
+   3. `FormExport` のスキーマ取得（LONG 列 = `InitialLONGFetchSize` の経路）
+   4. 検索のキャンセル（`SearchTask` → `Command.Cancel`）
+   5. DBリンク（`@INNO.WORLD`）越しの取得
+   6. コマンドタイムアウト（`DbCommandTimeout`）
+2. リスク2（`GetOracleValue(i).ToString() != "null"`, `MedicalLibrary/Entity/StdClass.cs`）の `IsDBNull` 化 — **未着手**。
+   ドライバ実装依存の文字列比較であり、移行後に最も静かに壊れやすい箇所
+3. **本番端末への `tnsnames.ora` 配置の恒久化** — Oracle クライアントを撤去する前に
+   `%ORACLE_HOME%\network\admin\tnsnames.ora` を `C:\Shinseikai\EyeData` へコピーしておく
+4. 旧 `Oracle.DataAccess.dll` の撤去（配布フォルダ・本番端末の双方）
+5. `MedicalLibrary/docs/Oracle_DataAccess_Deploy_Troubleshooting.md` に廃止済みである旨を追記 — **未着手**
