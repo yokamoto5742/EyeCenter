@@ -180,9 +180,9 @@ EyeCenter からは実行時オプショナル扱いだが、読み込まれた�
    暗黙に変換されていた文字（半角カナ・㈱等の機種依存文字・波ダッシュ）で挙動が変わる可能性がある。
    → Phase 6-7 のラウンドトリップ試験を必ず実施する。
 
-2. **`GetOracleValue(i).ToString() != "null"` による NULL 判定**（`MedicalLibrary/Entity/StdClass.cs:492`）
-   ドライバ実装依存の文字列比較であり、移行時に最も壊れやすい箇所。
-   → 移行前に `reader.IsDBNull(i)` ベースへ直しておくのが安全。
+2. ~~**`GetOracleValue(i).ToString() != "null"` による NULL 判定**~~ → **修正済み**（2026-08-03）
+   ドライバ実装依存の文字列比較で、移行時に最も壊れやすい箇所だった。
+   MedicalLibrary 2箇所・InnoUketsukeLib 3箇所を `IsDBNull(i)` ベースへ変更した（実施記録参照）。
 
 3. ~~**DBサーバが 11.2.0.4 未満（＝実際に 11.2.0.1.0 だった）**~~ → **解消**（2026-08-03）
    19.x マネージドは 11.2.0.1 に対して未認定だが、**本番環境で実際に接続できることを確認済み**。
@@ -241,8 +241,32 @@ Oracle クライアントに依存しない構成が成立することが確認�
 | 3 | InnoUketsukeLib 5ファイルの `using` 置換＋`InnoUketsukeLib.csproj` の参照差し替え |
 | 4 | EyeCenter: csproj 参照差し替え／`App.config`・`EyeCenter.Tests/App.config` の bindingRedirect 削除／`Program.cs` の `ResolveOracleAssembly` 削除／`EyeData.exe.config.production` 削除 |
 | 7 | `deploy.ps1`・`deploy-production.ps1` から本番用 config の受け渡しを削除。CanonRKF1 / NidekARK1 も再ビルド |
+| リスク2対応 | NULL 判定を `IsDBNull` ベースへ変更（下記） |
 
 `using` の置換はバイト単位で行い、Shift-JIS / UTF-8(BOM) の混在エンコーディングと改行コードを保持した。
+
+### NULL 判定の `IsDBNull` 化（リスク2対応）
+
+`GetOracleValue(i).ToString() != "null"` という**ドライバ実装依存の文字列比較**を、
+`IsDBNull(i)` による判定へ置き換えた。対象は5箇所:
+
+| ファイル | 箇所 |
+|---|---|
+| `MedicalLibrary/Entity/StdClass.cs` | `Select`（LOB解放済みの側）と、`Db.Command.ExecuteReader()` を回すもう1箇所 |
+| `InnoUketsukeLib/Entity/StdClass.cs` | 1箇所 |
+| `InnoUketsukeLib/Entity/StdDbClass.cs` | 1箇所 |
+| `InnoUketsukeLib/Entity/SOAP.cs` | 1箇所（`!(... != "null")` で行をスキップしていた判定） |
+
+**値の取得は `GetOracleValue(i).ToString()` のまま**にしてある。
+`GetValue(i)` に変えると `OracleDate` → `DateTime` となり日付の文字列表現が変わってしまうため、
+NULL 判定だけを差し替えるにとどめた。
+
+副次的な修正として、`GetOracleValue` を1列あたり2回呼んでいた4箇所を1回に減らし、
+LOB ロケータを `IDisposable` として解放するようにした
+（`MedicalLibrary/Entity/StdClass.cs` の `Select` 側に既にあった対応を他の箇所にも揃えた形）。
+
+**挙動が変わるケース**: 値そのものが文字列 `"null"` である列。
+従来は空文字に潰していたが、修正後は `"null"` がそのまま入る。これは修正であって退行ではない。
 
 ### 検証結果
 
@@ -255,7 +279,8 @@ Oracle クライアントに依存しない構成が成立することが確認�
 - ビルド: MedicalLibrary / InnoUketsukeLib / EyeCenter / CanonRKF1 / NidekARK1 すべて成功
 - `dotnet test`: **81 合格 / 0 失敗**（移行前は 11 失敗 — `Oracle.DataAccess` 2.112 がテストホストで読めなかったため。移行で解消）
 - `tools\Test-OracleManaged.ps1` でローカル Oracle 23ai Free に接続成功。日本語ラウンドトリップも一致
-- EyeData.exe を起動し患者台帳の表示まで到達
+- EyeData.exe を起動し患者台帳の表示まで到達。`IsDBNull` 化の後も
+  手術歴・病名・日付が従来どおり表示されることを確認（値が空に潰れていない）
 
 ### 判明したこと: `tnsnames.ora` は exe と同じフォルダに必要
 
@@ -276,8 +301,8 @@ Oracle クライアントに依存しない構成が成立することが確認�
    4. 検索のキャンセル（`SearchTask` → `Command.Cancel`）
    5. DBリンク（`@INNO.WORLD`）越しの取得
    6. コマンドタイムアウト（`DbCommandTimeout`）
-2. リスク2（`GetOracleValue(i).ToString() != "null"`, `MedicalLibrary/Entity/StdClass.cs`）の `IsDBNull` 化 — **未着手**。
-   ドライバ実装依存の文字列比較であり、移行後に最も静かに壊れやすい箇所
+2. ~~リスク2の `IsDBNull` 化~~ → **完了**（2026-08-03。上記「NULL 判定の `IsDBNull` 化」参照）。
+   ただし本番相当データでの確認は Phase 6 と併せて実施すること
 3. **本番端末への `tnsnames.ora` 配置の恒久化** — Oracle クライアントを撤去する前に
    `%ORACLE_HOME%\network\admin\tnsnames.ora` を `C:\Shinseikai\EyeData` へコピーしておく
 4. 旧 `Oracle.DataAccess.dll` の撤去（配布フォルダ・本番端末の双方）
