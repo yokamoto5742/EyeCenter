@@ -489,12 +489,30 @@ namespace EyeCenter
                     // テンプレートファイル名は EyeDataSettings.ini に一本化
                     tmpDoc.FileName = ExcelControl.GetGlassPrescriptionFileName();
 
-                    // 共通情報シートは B1～B12 のみ書き込み、バーコードなしで別名保存する
+                    EyeDoc.Item item_date = new EyeDoc.Item();
+                    item_date.Kind = "メガネ処方";
+                    item_date.Name = "処方日";
+                    item_date.Value = DateTimeAgent.DateFormat(this.KensaDate, DateTimeAgent.DateFormatKind.LONG);
+                    tmpDoc.ItemList.Add(item_date);
+
+                    foreach (Control c in this.Controls)
+                    {
+                        if (c is TextBox || c is ComboBox)
+                        {
+                            EyeDoc.Item tmpItem = new EyeDoc.Item();
+                            tmpItem.Kind = "メガネ処方";
+                            tmpItem.Name = c.Name;
+                            tmpItem.Value = c.Text;
+                            tmpDoc.ItemList.Add(tmpItem);
+                        }
+                    }
+
+                    // 共通情報シート（B1～B13と27行目以降のリスト）を書き込み、バーコードなしで別名保存する
                     ExcelControl excelControl = new ExcelControl();
 
                     try
                     {
-                        excelControl.MakeSimpleDocument(tmpDoc, false);
+                        excelControl.MakeSimpleDocument(tmpDoc, true);
                     }
                     catch (Exception ex)
                     {
