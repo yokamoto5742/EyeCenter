@@ -83,9 +83,17 @@
     <UseWinFormsOutOfProcDesigner>True</UseWinFormsOutOfProcDesigner>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Excel の型は「相互運用機能アセンブリの埋め込み」(NoPIA) で exe に取り込む。
+         Interop.Excel.dll 自体が office 12.0 (Office 2007 PIA) を参照しているため、
+         参照のままだと GAC に 12.0 の発行者ポリシーが無い端末（Windows 7 等）で
+         FileNotFoundException になる。埋め込むと office への実行時依存が消える
+         （MedicalLibrary も同じやり方で Excel の型を埋め込んでいる）。
+         埋め込みのため Interop.Excel.dll はビルド時にしか使わない（配布不要）。 -->
     <Reference Include="Interop.Excel, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Shinseikai\EyeData\Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MedicalLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -99,6 +107,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Shinseikai\EyeData\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
+    <!-- 埋め込んだ相互運用型のインデクサ呼び出しが
+         動的バインドになるため必要。 -->
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />

@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- EyeCenter.exe の依存DLL（MedicalLibrary, Interop.Excel など）をテスト実行フォルダへコピー -->
+    <!-- EyeCenter.exe の依存DLL（MedicalLibrary など）をテスト実行フォルダへコピー -->
     <None Include="..\bin\x86\Debug\*.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
   </ItemGroup>
 
