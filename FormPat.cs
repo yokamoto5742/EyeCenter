@@ -240,6 +240,9 @@ namespace EyeCenter
             this._IVPage.Init(this);
 
             this.OrgSize();
+
+            // 前回終了時の位置で表示する（画面外になる場合は OrgSize の既定位置のまま）
+            WindowPosition.Attach(this, "FormPat");
         }
 
         /// <summary>

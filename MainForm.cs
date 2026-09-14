@@ -55,6 +55,9 @@ namespace EyeCenter
                     AppConfig.GetInt("MainFormWidth", this.ClientSize.Width),
                     AppConfig.GetInt("MainFormHeight", this.ClientSize.Height));
 
+                // 前回終了時の位置で表示する
+                WindowPosition.Attach(this, "MainForm");
+
                 LibSettings.Init();
 
                 // DBコマンドのタイムアウト秒数を設定ファイル(EyeCenter.exe.config)から反映する（既定値 60秒）
