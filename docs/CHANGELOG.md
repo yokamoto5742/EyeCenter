@@ -7,6 +7,24 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-09-14
+
+### 追加
+- ウィンドウ位置の保存・復元機能を実装（MainForm と FormPat で自動保存・復元）
+- メガネ処方箋の Excel 出力に処方日と入力欄（TextBox／ComboBox）の値を書き込むようにした
+
+### 変更
+- Interop.Excel.dll 参照を NoPIA 化して、配布ファイルから Excel COM ライブラリを削除
+- Oracle.DataAccess から Oracle.ManagedDataAccess への全面移行を実施
+- 網膜厚データのカラム名を Moumakukou_R/L から CMT_R/L に変更
+
+### 修正
+- NULL 判定を IsDBNull ベースに修正し、ドライバ依存の脆弱性を排除
+- サマリーの治療方針における手術履歴入力欄の高さを調整
+
+### 削除
+- 本番用設定ファイル EyeData.exe.config.production を削除
+
 ## [1.2.0] - 2026-07-28
 
 ### 修正

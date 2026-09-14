@@ -371,7 +371,6 @@
     <None Include="docs\eyedata_migration_plan.md" />
     <None Include="docs\learning_plan.md" />
     <None Include="docs\LICENSE" />
-    <None Include="docs\oracle_client_removal_plan.md" />
     <None Include="EyeDataSettings.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
