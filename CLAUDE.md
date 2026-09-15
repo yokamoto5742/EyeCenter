@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## MedicalLibrary 依存（重要）
 
-コアロジックの大半はこのリポジトリには無く、隣接プロジェクト `..\MedicalLibrary\MedicalLibrary` にある。`LoginUser` / `FormControl` / `PatBase` / `EyeDict` / `LibSettings` / `WinAPI` / `LibUtility` や `MedicalLibrary.Boundary` / `.Entity` / `.Agent` / `.Utility` 名前空間の定義はこのリポジトリ内を探しても見つからない。`Interop.Excel` も外部パス参照。ビルドには MedicalLibrary のビルド成果物が必要。
+コアロジックの大半はこのリポジトリには無く、隣接プロジェクト `..\MedicalLibrary\MedicalLibrary` にある。`LoginUser` / `PatBase` / `EyeDict` / `LibSettings` / `WinAPI` / `LibUtility` や `MedicalLibrary.Boundary` / `.Entity` / `.Agent` / `.Utility` 名前空間の定義はこのリポジトリ内を探しても見つからない。`FormControl` / `FormPat` は EyeCenter 自身のクラス（MedicalLibrary 側の同名クラスはフェーズ4で削除済み）。`Interop.Excel` も外部パス参照。ビルドには MedicalLibrary のビルド成果物が必要。
 
 ## フォームの構成
 
@@ -30,7 +30,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 実行時の前提
 
-起動時に医療DB・ネットワーク共有（患者データ, `Pat.csv` など、いずれもリポジトリ外）に接続する。外部機器EXE（`CanonRKF1.exe`, `NidekARK1.exe`）や OpeOrder を起動する箇所がある。これらは環境依存のため、ローカルでの実行は環境が整っていないと動かない。
+起動時に医療DB・ネットワーク共有（患者データ, `Pat.csv` など、いずれもリポジトリ外）に接続する。外部機器EXE（`CanonRKF1.exe`, `NidekARK1.exe`）を起動する箇所がある。これらは環境依存のため、ローカルでの実行は環境が整っていないと動かない。
 
 ## 規約
 
