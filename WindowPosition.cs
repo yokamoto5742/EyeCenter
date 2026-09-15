@@ -13,21 +13,37 @@ namespace EyeCenter
         /// <summary>
         /// 前回終了時の位置を復元し、画面が閉じられたときに位置を保存するよう登録する。
         /// 保存位置がどのモニターの作業領域にも入っていない場合は復元しない（既定位置のまま）。
+        /// withSize が true の場合は大きさも保存・復元する（最大化・最小化中は通常時の大きさ）。
         /// </summary>
-        internal static void Attach(Form form, string key)
+        internal static void Attach(Form form, string key, bool withSize = false)
         {
             Point p;
+
+            if (withSize && TryParse(Load(key + "_Size"), out p) && p.X > 0 && p.Y > 0)
+            {
+                form.Size = new Size(p.X, p.Y);
+            }
 
             if (TryParse(Load(key), out p) && IsVisible(p, WorkingAreas()))
             {
                 form.Location = p;
             }
 
+            if (withSize)
+            {
+                form.Bounds = FitTo(form.Bounds, Screen.FromPoint(new Point(form.Left + 50, form.Top + 10)).WorkingArea);
+            }
+
             // 終了ボタンは Dispose() で閉じるため FormClosing ではなく HandleDestroyed で保存する
             form.HandleDestroyed += (sender, e) =>
             {
-                Point loc = form.WindowState == FormWindowState.Normal ? form.Location : form.RestoreBounds.Location;
-                Save(key, loc.X + "," + loc.Y);
+                Rectangle b = form.WindowState == FormWindowState.Normal ? form.Bounds : form.RestoreBounds;
+                Save(key, b.X + "," + b.Y);
+
+                if (withSize)
+                {
+                    Save(key + "_Size", b.Width + "," + b.Height);
+                }
             };
         }
 
@@ -68,6 +84,26 @@ namespace EyeCenter
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 作業領域より幅・高さが大きい場合は作業領域の大きさに縮め、その方向の位置を作業領域の端に合わせる。
+        /// </summary>
+        internal static Rectangle FitTo(Rectangle b, Rectangle area)
+        {
+            if (b.Width > area.Width)
+            {
+                b.Width = area.Width;
+                b.X = area.X;
+            }
+
+            if (b.Height > area.Height)
+            {
+                b.Height = area.Height;
+                b.Y = area.Y;
+            }
+
+            return b;
         }
 
         static Rectangle[] WorkingAreas()
