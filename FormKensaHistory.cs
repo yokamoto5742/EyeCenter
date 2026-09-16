@@ -471,6 +471,21 @@ namespace EyeCenter
                             dateDict2.Add(kensa.KensaDate, k);
                         }
                     }
+                    else if (KensaPageRow["Name"].ToString().Equals("経過項目"))
+                    {
+                        // 眼軸長（未入力・非数値・０はグラフの対象外とする）
+                        float k = 0.0F;
+
+                        if (kensaDict.ContainsKey("2206R") && float.TryParse(kensaDict["2206R"], out k) && k > 0.0F)
+                        {
+                            dateDict1.Add(kensa.KensaDate, k);
+                        }
+
+                        if (kensaDict.ContainsKey("2206L") && float.TryParse(kensaDict["2206L"], out k) && k > 0.0F)
+                        {
+                            dateDict2.Add(kensa.KensaDate, k);
+                        }
+                    }
 
                     // 検査日・作成者ラベルの表示
                     Label staffLabel = new Label();
@@ -611,6 +626,54 @@ namespace EyeCenter
                 p2.Image = new Bitmap(p2.Width, p2.Height);
 
                 this.GraphDraw2("左", p2.Image, dateList, dateDict2, date_interval);
+
+                this.Controls.Add(p1);
+                this.Controls.Add(p2);
+            }
+            else if (KensaPageRow["Name"].ToString().Equals("経過項目"))
+            {
+                // 元のグラフがあれば削除する
+                if (this.Controls.ContainsKey("Graph1"))
+                {
+                    this.Controls.RemoveByKey("Graph1");
+                }
+
+                if (this.Controls.ContainsKey("Graph2"))
+                {
+                    this.Controls.RemoveByKey("Graph2");
+                }
+
+                int form_height = int.Parse(KensaHistoryRow["FormHeight"].ToString());
+                int p_height = (form_height - 100) / 2;
+
+                // グラフの実座標からフォーム幅を決める
+                int graph_x = this.ContentPanel.Location.X + this.ContentPanel.Width + 10;
+                int graph_width = dateList.Count * date_interval + 60;
+
+                this.Width = graph_x + graph_width + 30;
+
+                if (Screen.PrimaryScreen.Bounds.Width < this.Width + this.Location.X)
+                {
+                    this.Width = Screen.PrimaryScreen.Bounds.Width - this.Location.X;
+                }
+
+                PictureBox p1 = new PictureBox();
+                p1.Name = "Graph1";
+                p1.BackColor = Color.White;
+                p1.Location = new Point(graph_x, 30);
+                p1.Size = new Size(graph_width, p_height);
+                p1.Image = new Bitmap(p1.Width, p1.Height);
+
+                this.GraphDraw3("右", p1.Image, dateList, dateDict1, date_interval);
+
+                PictureBox p2 = new PictureBox();
+                p2.Name = "Graph2";
+                p2.BackColor = Color.White;
+                p2.Location = new Point(graph_x, 30 + p_height + 10);
+                p2.Size = new Size(graph_width, p_height);
+                p2.Image = new Bitmap(p2.Width, p2.Height);
+
+                this.GraphDraw3("左", p2.Image, dateList, dateDict2, date_interval);
 
                 this.Controls.Add(p1);
                 this.Controls.Add(p2);
@@ -796,6 +859,126 @@ namespace EyeCenter
                     float py = 20 + (max - k) / iv_val * iv_h;
 
                     g.DrawString(k.ToString("F1"), f1, Brushes.Red, px, py - 20);
+                    g.FillRectangle(Brushes.Red, px - 5, py - 5, 10, 10);
+
+                    if (px0 > 0)
+                    {
+                        g.DrawLine(pen3, px0, py0, px, py);
+                    }
+
+                    px0 = px;
+                    py0 = py;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 眼軸長グラフ
+        /// </summary>
+        /// <param name="side_name"></param>
+        /// <param name="im"></param>
+        /// <param name="date_list"></param>
+        /// <param name="date_dict"></param>
+        void GraphDraw3(string side_name, Image im, List<string> date_list, Dictionary<string, float> date_dict, int date_interval)
+        {
+            Graphics g = Graphics.FromImage(im);
+
+            Pen pen2 = new Pen(Brushes.LightGray, 1);
+            Pen pen3 = new Pen(Brushes.Red, 2);
+
+            // 縦軸の目盛ラベルが５桁（24.25）になるため軸の位置を眼圧グラフより右にとる
+            int axis_x = 50;
+
+            // 縦軸の高さ
+            int h = im.Height - 50;
+
+            g.DrawLine(pen2, axis_x, h + 20, axis_x + date_list.Count * date_interval, h + 20);
+            g.DrawLine(pen2, axis_x, h + 20, axis_x, 20);
+
+            Font f1 = new System.Drawing.Font("ＭＳ ゴシック", 9.0F, FontStyle.Regular);
+
+            g.DrawString(side_name, f1, Brushes.Black, axis_x, 5);
+
+            // 最小値・最大値の取得
+            float min = 0.0F;
+            float max = 0.0F;
+            bool no_data = true;
+
+            foreach (float k in date_dict.Values)
+            {
+                if (no_data)
+                {
+                    min = k;
+                    max = k;
+                    no_data = false;
+                }
+                else
+                {
+                    if (k < min)
+                    {
+                        min = k;
+                    }
+
+                    if (k > max)
+                    {
+                        max = k;
+                    }
+                }
+            }
+
+            if (no_data)
+            {
+                g.DrawString("データなし", f1, Brushes.Gray, axis_x + 20, h / 2);
+
+                return;
+            }
+
+            // 縦軸の目盛ごとの値（目盛の本数が８以下になる最小の刻みを選ぶ）
+            float iv_val = 0.25F;
+
+            foreach (float v in new float[] { 0.25F, 0.5F, 1.0F, 2.0F, 5.0F })
+            {
+                iv_val = v;
+
+                // 上下に１目盛ずつ余白をとる
+                if ((max - min) / v + 2 <= 8)
+                {
+                    break;
+                }
+            }
+
+            // 目盛の刻みに合わせて上限・下限を丸める
+            float upper = (float)((Math.Ceiling(max / iv_val) + 1) * iv_val);
+            float lower = (float)((Math.Floor(min / iv_val) - 1) * iv_val);
+
+            int iv_count = (int)Math.Round((upper - lower) / iv_val);
+
+            // 縦軸の目盛ごとの高さ
+            int iv_h = h / iv_count;
+
+            // 縦軸
+            for (int i = 0; i <= iv_count; i++)
+            {
+                g.DrawString((upper - i * iv_val).ToString("F2"), f1, Brushes.Black, 2, 20 + i * iv_h - 5);
+                g.DrawLine(pen2, axis_x, 20 + i * iv_h, axis_x + date_list.Count * date_interval, 20 + i * iv_h);
+            }
+
+            float px0 = 0.0F;
+            float py0 = 0.0F;
+
+            // 横軸と検査結果
+            for (int i = 0; i < date_list.Count; i++)
+            {
+                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.SHORT), f1, Brushes.Black, axis_x + (date_list.Count - i - 1) * date_interval - 20, h + 25);
+                g.DrawLine(pen2, axis_x + (date_list.Count - i - 1) * date_interval, h + 20, axis_x + (date_list.Count - i - 1) * date_interval, 20);
+
+                if (date_dict.ContainsKey(date_list[i]))
+                {
+                    float k = date_dict[date_list[i]];
+                    float px = axis_x + (date_list.Count - i - 1) * date_interval;
+                    float py = 20 + (upper - k) / iv_val * iv_h;
+
+                    g.DrawString(k.ToString("F2"), f1, Brushes.Red, px, py - 20);
                     g.FillRectangle(Brushes.Red, px - 5, py - 5, 10, 10);
 
                     if (px0 > 0)
