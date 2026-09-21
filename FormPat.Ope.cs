@@ -502,6 +502,49 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// 経過記録の術前欄が空なら、サマリ(経過観察)の値を手術眼の分だけ写す。
+        /// 写し元は OpePassItem の SumCode（"右のコード,左のコード"）で指定する。両眼なら右を使う。
+        /// 写した値は経過記録の登録ボタンで保存される。
+        /// </summary>
+        private void PassPreFromSummary(EyeOpe ope)
+        {
+            DataTable itemTable = EyeDict.EyeSet.Tables["OpePassItem"];
+
+            if (!itemTable.Columns.Contains("SumCode"))
+            {
+                return;
+            }
+
+            int side;
+
+            if (ope.EyeR.Equals("1"))
+            {
+                side = 0;
+            }
+            else if (ope.EyeL.Equals("1"))
+            {
+                side = 1;
+            }
+            else
+            {
+                return;
+            }
+
+            Dictionary<string, string> sumDict = ContData.Parse(EyeSummary.Load(this.Pat.Id).Cont4);
+
+            foreach (DataRow r in itemTable.Rows)
+            {
+                string[] codes = r["SumCode"].ToString().Split(',');
+                string name = r["Name"].ToString() + "_Pre";
+
+                if (codes.Length == 2 && sumDict.ContainsKey(codes[side]) && PassPanel.Controls.ContainsKey(name) && PassPanel.Controls[name].Text.Length == 0)
+                {
+                    PassPanel.Controls[name].Text = sumDict[codes[side]];
+                }
+            }
+        }
+
+        /// <summary>
         /// 手術基本情報パネルを既定値(横550)より広げたとき、右側に空白が残らないよう
         /// パネル内のコントロールを再配置する。既定値のままなら何もしない。
         /// 術式のみ幅を広げ、他の入力欄は幅を変えずに行内へ等間隔に配置する。

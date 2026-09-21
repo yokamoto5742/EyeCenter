@@ -1,6 +1,7 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本ファイルは、このリポジトリのコードを操作する際の Claude Code（claude.ai/code）向け指示書です。
+必ず日本語で回答してください。
 
 眼科クリニック向けの業務アプリ。C# / .NET Framework 4.8 の WinForms デスクトップアプリ（WinExe, 単一インスタンス制御に WM_COPYDATA を使用）。患者(Pat)・検査(Kensa)・手術記録(Ope)・予約(Rsv)・サマリーを扱う。
 
