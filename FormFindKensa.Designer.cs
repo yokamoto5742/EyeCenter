@@ -42,6 +42,8 @@
             this.CountLabel = new System.Windows.Forms.Label();
             this.CSVButton = new System.Windows.Forms.Button();
             this.KensaListBox = new System.Windows.Forms.CheckedListBox();
+            this.RefKrtExcelButton = new System.Windows.Forms.Button();
+            this.RefKrtCSVButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.KensaListView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -161,14 +163,38 @@
             this.KensaListBox.FormattingEnabled = true;
             this.KensaListBox.Location = new System.Drawing.Point(14, 34);
             this.KensaListBox.Name = "KensaListBox";
-            this.KensaListBox.Size = new System.Drawing.Size(271, 536);
+            this.KensaListBox.Size = new System.Drawing.Size(271, 508);
             this.KensaListBox.TabIndex = 36;
-            // 
+            //
+            // RefKrtExcelButton
+            //
+            this.RefKrtExcelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RefKrtExcelButton.Location = new System.Drawing.Point(14, 545);
+            this.RefKrtExcelButton.Name = "RefKrtExcelButton";
+            this.RefKrtExcelButton.Size = new System.Drawing.Size(130, 23);
+            this.RefKrtExcelButton.TabIndex = 37;
+            this.RefKrtExcelButton.Text = "レフケラExcel出力";
+            this.RefKrtExcelButton.UseVisualStyleBackColor = true;
+            this.RefKrtExcelButton.Click += new System.EventHandler(this.RefKrtExcelButton_Click);
+            //
+            // RefKrtCSVButton
+            //
+            this.RefKrtCSVButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RefKrtCSVButton.Location = new System.Drawing.Point(155, 545);
+            this.RefKrtCSVButton.Name = "RefKrtCSVButton";
+            this.RefKrtCSVButton.Size = new System.Drawing.Size(130, 23);
+            this.RefKrtCSVButton.TabIndex = 38;
+            this.RefKrtCSVButton.Text = "レフケラcsv出力";
+            this.RefKrtCSVButton.UseVisualStyleBackColor = true;
+            this.RefKrtCSVButton.Click += new System.EventHandler(this.RefKrtCSVButton_Click);
+            //
             // FormFindKensa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(792, 573);
+            this.Controls.Add(this.RefKrtCSVButton);
+            this.Controls.Add(this.RefKrtExcelButton);
             this.Controls.Add(this.KensaListBox);
             this.Controls.Add(this.CSVButton);
             this.Controls.Add(this.CountLabel);
@@ -204,5 +230,7 @@
         private System.Windows.Forms.Label CountLabel;
         private System.Windows.Forms.Button CSVButton;
         private System.Windows.Forms.CheckedListBox KensaListBox;
+        private System.Windows.Forms.Button RefKrtExcelButton;
+        private System.Windows.Forms.Button RefKrtCSVButton;
     }
 }

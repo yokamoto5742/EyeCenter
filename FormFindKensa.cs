@@ -304,6 +304,131 @@ namespace EyeCenter
             }
         }
 
+        /// <summary>
+        /// レフ・ケラト（NIDEK ARK）の代表値を項目ごとに分けた出力データを作成する。
+        /// 期間は画面の日付範囲を使い、1測定（SEQ）を1行として右眼・左眼を横に並べる。
+        /// </summary>
+        /// <returns>中止・エラー時は null</returns>
+        TableData MakeRefKrtTableData()
+        {
+            string start_date = StartDate.Value.ToString("yyyyMMdd");
+            string end_date = EndDate.Value.ToString("yyyyMMdd");
+
+            int limit = AppConfig.GetInt("FindRowLimit", 10000);
+
+            List<EyeKensa2> list = SearchTask.Run("レフ・ケラトを検索しています...",
+                t => EyeKensa2.LoadByKensaDates("18", start_date, end_date, true, limit, t.EyeDb, t.PatDb));
+
+            if (list == null)
+            {
+                return null;
+            }
+
+            if (list.Count >= limit)
+            {
+                MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間を絞って再度出力してください。");
+            }
+
+            // 患者ID, 検査日, SEQ でソート
+            list.Sort((x, y) =>
+            {
+                int i = int.Parse(x.PtId) - int.Parse(y.PtId);
+
+                if (i.Equals(0))
+                {
+                    i = int.Parse(x.KensaDate) - int.Parse(y.KensaDate);
+                }
+
+                if (i.Equals(0))
+                {
+                    i = int.Parse(x.KensaSEQ) - int.Parse(y.KensaSEQ);
+                }
+
+                return i;
+            });
+
+            TableData data = new TableData();
+
+            data.Title.Add("日付");
+            data.Title.Add("ID");
+            data.Title.Add("カナ");
+            data.Title.Add("氏名");
+            data.Title.Add("性別");
+            data.Title.Add("生年月日");
+            data.Title.Add("年齢");
+            data.Title.Add("SEQ");
+            data.Title.Add("機種");
+            data.Title.Add("測定日時");
+
+            foreach (string eye in new[] { "R_", "L_" })
+            {
+                foreach (string s in NidekArkParser.EyeTitles)
+                {
+                    data.Title.Add(eye + s);
+                }
+            }
+
+            foreach (EyeKensa2 kensa in list)
+            {
+                // NIDEK ARK 以外（CANON など）の形式は出力しない
+                NidekArkParser.Result result = NidekArkParser.Parse(kensa.Cont);
+
+                if (result == null)
+                {
+                    continue;
+                }
+
+                TableDataRecord record = new TableDataRecord();
+
+                record.DataList.Add(DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.SHORT));
+                record.DataList.Add(kensa.Pat.Id);
+                record.DataList.Add(kensa.Pat.Kana);
+                record.DataList.Add(kensa.Pat.Name);
+                record.DataList.Add(kensa.Pat.SexNameEng);
+                record.DataList.Add(kensa.Pat.BirthString);
+                record.DataList.Add(kensa.Pat.AgeCalc(kensa.KensaDate).ToString());
+                record.DataList.Add(kensa.KensaSEQ);
+                record.DataList.Add(result.Model);
+                record.DataList.Add(result.MeasuredAt);
+                record.DataList.AddRange(result.R.ToArray());
+                record.DataList.AddRange(result.L.ToArray());
+
+                data.RecordList.Add(record);
+            }
+
+            return data;
+        }
+
+        private void RefKrtExcelButton_Click(object sender, EventArgs e)
+        {
+            TableData data = MakeRefKrtTableData();
+
+            if (data == null || !FormCsvColumnSelect.FilterColumns(data, "RefKrt"))
+            {
+                return;
+            }
+
+            if (data.ExcelOpen())
+            {
+                MessageBox.Show("Excel出力が完了しました");
+            }
+        }
+
+        private void RefKrtCSVButton_Click(object sender, EventArgs e)
+        {
+            TableData data = MakeRefKrtTableData();
+
+            if (data == null || !FormCsvColumnSelect.FilterColumns(data, "RefKrt"))
+            {
+                return;
+            }
+
+            if (data.CSVSave("レフケラ" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
+            {
+                MessageBox.Show("出力が完了しました");
+            }
+        }
+
         private void KensaListView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
