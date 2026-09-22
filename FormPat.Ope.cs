@@ -502,11 +502,29 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// 経過記録の術前欄が空なら、サマリ(経過観察)の値を手術眼の分だけ写す。
-        /// 写し元は OpePassItem の SumCode（"右のコード,左のコード"）で指定する。両眼なら右を使う。
-        /// 写した値は経過記録の登録ボタンで保存される。
+        /// 経過記録の見出し横に「サマリ→術前」ボタンを置く。登録ボタンと同じタイミングで有効になる。
         /// </summary>
-        private void PassPreFromSummary(EyeOpe ope)
+        private void PassPreCopyButtonInit()
+        {
+            Button b = new Button();
+            b.Text = "サマリ→術前";
+            b.Location = new Point(70, 2);
+            b.Size = new Size(100, 20);
+            b.BackColor = PassRegButton.BackColor;
+            b.ForeColor = PassRegButton.ForeColor;
+            b.UseVisualStyleBackColor = false;
+            b.Enabled = PassRegButton.Enabled;
+            b.Click += (s, e) => this.PassPreFromSummary();
+            PassRegButton.EnabledChanged += (s, e) => b.Enabled = PassRegButton.Enabled;
+            OpePassPanel.Controls.Add(b);
+        }
+
+        /// <summary>
+        /// 経過記録の術前欄が空なら、サマリ(経過観察)の値を手術眼の分だけ写す。術後の欄には写さない。
+        /// 写し元は OpePassItem の SumCode（"右のコード,左のコード"）で指定する。両眼なら右を使う。
+        /// 「サマリ→術前」ボタンで実行し、写した値は経過記録の登録ボタンで保存される。
+        /// </summary>
+        private void PassPreFromSummary()
         {
             DataTable itemTable = EyeDict.EyeSet.Tables["OpePassItem"];
 
@@ -517,11 +535,11 @@ namespace EyeCenter
 
             int side;
 
-            if (ope.EyeR.Equals("1"))
+            if (this.EyeBoxR.Checked)
             {
                 side = 0;
             }
-            else if (ope.EyeL.Equals("1"))
+            else if (this.EyeBoxL.Checked)
             {
                 side = 1;
             }

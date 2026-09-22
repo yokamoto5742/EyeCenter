@@ -231,6 +231,7 @@ namespace EyeCenter
 
             this.RecordTabControlInit();
             this.PassPanelControlInit();
+            this.PassPreCopyButtonInit();
             this.KensaTabInit();
 
             MainTabControl.SelectedIndex = 0;
@@ -984,7 +985,6 @@ namespace EyeCenter
             this.RecordShow(EyeOpeRecord.Load(ope.Id));
             this.DoctorShow(EyeOpeDoctor.Load(ope.Id));
             this.PassShow(EyeOpePass.Load(ope.Id));
-            this.PassPreFromSummary(ope);
 
             this.OpeModeChange(Mode.SHOW);
         }
