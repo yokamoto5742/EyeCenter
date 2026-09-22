@@ -109,32 +109,25 @@ namespace EyeCenter
             DataTable table = dSet.Tables["検査結果"];
             table.Clear();
 
-            bool b = false;
+            // 患者ID・検査日でソート済みのため、同じ患者・同じ日の検査は直前の行にまとめる
+            DataRow last = null;
 
             foreach (EyeKensa kensa in list)
             {
-                b = false;
-
-                foreach (DataRow r in table.Rows)
+                if (last != null &&
+                    last["KENSA_DATE"].ToString().Equals(kensa.KensaDate) &&
+                    last["ID"].ToString().Equals(kensa.PtId))
                 {
-                    if (r["KENSA_DATE"].ToString().Equals(kensa.KensaDate) &&
-                        r["ID"].ToString().Equals(kensa.PtId))
+                    if (last["検査"].ToString().Length > 0)
                     {
-                        if (r["検査"].ToString().Length > 0)
-                        {
-                            r["検査"] += ", ";
-                            r["CONT"] += "\r\n";
-                        }
-
-                        r["検査"] += kensa.KensaShort;
-                        r["CONT"] += kensa.Cont;
-
-                        b = true;
-                        break;
+                        last["検査"] += ", ";
+                        last["CONT"] += "\r\n";
                     }
-                }
 
-                if (!b)
+                    last["検査"] += kensa.KensaShort;
+                    last["CONT"] += kensa.Cont;
+                }
+                else
                 {
                     DataRow r = table.NewRow();
 
@@ -150,6 +143,7 @@ namespace EyeCenter
                     r["CONT"] = kensa.Cont;
 
                     table.Rows.Add(r);
+                    last = r;
                 }
             }
 
@@ -181,8 +175,6 @@ namespace EyeCenter
             KensaListView.Columns["検査"].Width = 80;
 
             KensaListView.Columns["CONT"].Visible = false;
-
-            AppDataGridView.SexColor(KensaListView);
 
             CountLabel.Text = "人数　　" + table.Rows.Count + " 人";
         }
@@ -218,7 +210,8 @@ namespace EyeCenter
                 }
             }
 
-            string value = "";
+            int comma = 0;
+            string key = "";
             Dictionary<string, string> recordDict = new Dictionary<string, string>();
             int i = 0;
 
@@ -238,21 +231,19 @@ namespace EyeCenter
 
                 foreach (string line in d.Cells["CONT"].Value.ToString().Split('\r', '\n'))
                 {
-                    if (line.Split(',').Length >= 2 && !recordDict.ContainsKey(line.Split(',')[0]))
+                    // 最初のカンマより前が項目コード、後ろ（カンマを含む）が値
+                    comma = line.IndexOf(',');
+
+                    if (comma < 0)
                     {
-                        value = "";
+                        continue;
+                    }
 
-                        for (int k = 1; k < line.Split(',').Length; k++)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value += ",";
-                            }
+                    key = line.Substring(0, comma);
 
-                            value += line.Split(',')[k];
-                        }
-
-                        recordDict.Add(line.Split(',')[0], value.Replace("<CR+LF>", "\r\n"));
+                    if (!recordDict.ContainsKey(key))
+                    {
+                        recordDict.Add(key, line.Substring(comma + 1).Replace("<CR+LF>", "\r\n"));
                     }
                 }
 

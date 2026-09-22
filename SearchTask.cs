@@ -93,6 +93,10 @@ namespace EyeCenter
             form.EyeDb.Init(DB.Db2.InitString);
             form.PatDb.Init(DB.Db3.InitString);
 
+            // 大量件数の検索で通信の往復回数を減らす
+            form.EyeDb.SetFetchSize(4 * 1024 * 1024);
+            form.PatDb.SetFetchSize(4 * 1024 * 1024);
+
             form.Worker = new Thread(delegate ()
             {
                 try
