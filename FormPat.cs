@@ -361,6 +361,10 @@ namespace EyeCenter
             // CMT
             tmpTable.Columns.Add("CMT_R");
             tmpTable.Columns.Add("CMT_L");
+
+            // —‡ŠáŽ‹—Í
+            tmpTable.Columns.Add("—‡ŠáŽ‹—Í_R");
+            tmpTable.Columns.Add("—‡ŠáŽ‹—Í_L");
         }
 
         /// <summary>

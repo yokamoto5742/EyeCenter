@@ -112,6 +112,10 @@ namespace EyeCenter
                         tmpRow["Sight_L"] = "LV=" + tmpDict["101L"] + "(" + tmpDict["102L"] + "×" + tmpDict["103L"] + "D=cyl" + tmpDict["104L"] + "D Ax" + tmpDict["105L"] + "°)";
                     }
 
+                    // 裸眼視力データ作成
+                    tmpRow["裸眼視力_R"] = tmpDict["101R"];
+                    tmpRow["裸眼視力_L"] = tmpDict["101L"];
+
                     // 視力（右）データ作成
                     if (tmpDict["102R"].Length == 0 || tmpDict["102R"].Contains("n.c"))
                     {
