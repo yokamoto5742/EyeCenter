@@ -7,7 +7,7 @@ using MedicalLibrary.Utility;
 namespace EyeCenter
 {
     /// <summary>
-    /// 検索をバックグラウンドスレッドで実行し、進行中ダイアログ（中止ボタン付き）を表示する。
+    /// 検索・一覧作成・出力をバックグラウンドスレッドで実行し、進行中ダイアログ（進捗表示・中止ボタン付き）を表示する。
     /// 共有DB接続（DB.Db2/Db3）はスレッドセーフではないため、
     /// 検索専用の接続 EyeDb / PatDb を作成してワーカースレッドから使用する。
     /// </summary>
@@ -21,17 +21,19 @@ namespace EyeCenter
 
         Thread Worker;
         volatile bool Completed = false;
-        bool Cancelled = false;
+        volatile bool Cancelled = false;
+        volatile string Progress = "";
         object Result = null;
         Exception Error = null;
 
+        Label ProgressLabel = new Label();
         Button StopButton = new Button();
         System.Windows.Forms.Timer PollTimer = new System.Windows.Forms.Timer();
 
         SearchTask(string message)
         {
-            this.Text = "検索中";
-            this.ClientSize = new Size(320, 100);
+            this.Text = "処理中";
+            this.ClientSize = new Size(320, 120);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.ControlBox = false;
             this.MinimizeBox = false;
@@ -45,9 +47,13 @@ namespace EyeCenter
             label.Location = new Point(20, 20);
             this.Controls.Add(label);
 
+            ProgressLabel.AutoSize = true;
+            ProgressLabel.Location = new Point(20, 45);
+            this.Controls.Add(ProgressLabel);
+
             StopButton.Text = "中止";
             StopButton.Size = new Size(80, 28);
-            StopButton.Location = new Point(120, 60);
+            StopButton.Location = new Point(120, 80);
             StopButton.Click += new EventHandler(StopButton_Click);
             this.Controls.Add(StopButton);
 
@@ -56,8 +62,25 @@ namespace EyeCenter
             PollTimer.Start();
         }
 
+        /// <summary>
+        /// 進捗をダイアログに表示する（ワーカースレッドから呼び出す）。
+        /// 中止済みの場合は OperationCanceledException を投げて処理を打ち切る。
+        /// </summary>
+        /// <param name="text">表示する進捗</param>
+        public void Report(string text)
+        {
+            if (Cancelled)
+            {
+                throw new OperationCanceledException();
+            }
+
+            Progress = text;
+        }
+
         void PollTimer_Tick(object sender, EventArgs e)
         {
+            ProgressLabel.Text = Progress;
+
             if (Completed)
             {
                 PollTimer.Stop();
@@ -79,10 +102,22 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// 結果が成否（bool）の処理をバックグラウンドで実行する。
+        /// 中止時・エラー時は false を返す。
+        /// </summary>
+        /// <param name="message">ダイアログに表示するメッセージ</param>
+        /// <param name="work">処理</param>
+        public static bool Run(string message, Func<SearchTask, bool> work)
+        {
+            return Run<object>(message, t => work(t) ? new object() : null) != null;
+        }
+
+        /// <summary>
         /// 検索処理をバックグラウンドで実行する。
         /// 中止時・エラー時は null を返す（エラーはメッセージ表示する）。
         /// search の中では引数の SearchTask が持つ EyeDb / PatDb だけを使い、
-        /// 共有接続（DB.Db2 等）には触れないこと。
+        /// 共有接続（DB.Db2 等）やフォームのコントロールには触れないこと。
+        /// 進捗は Report で表示する。
         /// </summary>
         /// <param name="message">ダイアログに表示するメッセージ</param>
         /// <param name="search">検索処理</param>
@@ -117,6 +152,8 @@ namespace EyeCenter
                 }
             });
 
+            // Excel（COM）への出力もワーカーで行うため STA にする
+            form.Worker.SetApartmentState(ApartmentState.STA);
             form.Worker.IsBackground = true;
             form.Worker.Start();
 

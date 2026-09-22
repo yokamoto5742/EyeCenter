@@ -122,23 +122,45 @@ namespace EyeCenter
             string record23 = RecordBox23.Text;
 
             int limit = AppConfig.GetInt("FindRowLimit", 10000);
+            int count = 0;
 
-            List<EyeOpe> opeList = SearchTask.Run("手術記録を検索しています...",
-                t => EyeOpe.GetList(start_date, end_date, diag, ope, doctor, record11, record12, record13, record21, record22, record23, limit, t.EyeDb, t.PatDb));
+            // 表示中の一覧に触れないよう、同じ列構成の新しい表に作成してから差し替える
+            DataTable empty = dSet.Tables["手術履歴"].Clone();
+
+            DataTable table = SearchTask.Run("手術記録を検索しています...", t =>
+            {
+                List<EyeOpe> opeList = EyeOpe.GetList(start_date, end_date, diag, ope, doctor, record11, record12, record13, record21, record22, record23, limit, t.EyeDb, t.PatDb, t.Report);
+                count = opeList.Count;
+                return MakeListTable(opeList, empty, t);
+            });
 
             // 中止・エラー時は表示中の一覧を維持する
-            if (opeList == null)
+            if (table == null)
             {
                 return;
             }
 
-            if (opeList.Count >= limit)
+            if (count >= limit)
             {
                 MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間や条件を絞って再検索してください。");
             }
 
-            DataTable tmpTable = dSet.Tables["手術履歴"];
-            tmpTable.Clear();
+            dSet.Tables.Remove(table.TableName);
+            dSet.Tables.Add(table);
+
+            this.ListFormat();
+        }
+
+        /// <summary>
+        /// 一覧の表を作成する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="opeList">検索結果</param>
+        /// <param name="tmpTable">行を追加する空の表</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        DataTable MakeListTable(List<EyeOpe> opeList, DataTable tmpTable, SearchTask t)
+        {
+            int count = 0;
 
             if (opeList.Count > 0)
             {
@@ -192,10 +214,15 @@ namespace EyeCenter
                     r["経過"] = tmpOpe.OpePass;
 
                     tmpTable.Rows.Add(r);
+
+                    if (++count % 1000 == 0)
+                    {
+                        t.Report("一覧を作成中 " + count.ToString("#,0") + " / " + opeList.Count.ToString("#,0") + "件");
+                    }
                 }
             }
 
-            this.ListFormat();
+            return tmpTable;
         }
 
         void ListFormat()

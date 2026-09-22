@@ -107,50 +107,31 @@ namespace EyeCenter
             string kind3 = SumKindBox3.Text;
 
             int limit = AppConfig.GetInt("FindRowLimit", 10000);
+            int count = 0;
 
-            List<EyeSummary> list = SearchTask.Run("サマリーを検索しています...",
-                t => EyeSummary.Find(diag, kind1, kind2, kind3, limit, t.EyeDb, t.PatDb));
+            // 表示中の一覧に触れないよう、同じ列構成の新しい表に作成してから差し替える
+            DataTable empty = DSet.Tables["サマリ"].Clone();
+
+            DataTable table = SearchTask.Run("サマリーを検索しています...", t =>
+            {
+                List<EyeSummary> list = EyeSummary.Find(diag, kind1, kind2, kind3, limit, t.EyeDb, t.PatDb, t.Report);
+                count = list.Count;
+                return MakeListTable(list, empty, t);
+            });
 
             // 中止・エラー時は表示中の一覧を維持する
-            if (list == null)
+            if (table == null)
             {
                 return;
             }
 
-            if (list.Count >= limit)
+            if (count >= limit)
             {
                 MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n条件を絞って再検索してください。");
             }
 
-            DataTable table = DSet.Tables["サマリ"];
-            table.Clear();
-
-            foreach (EyeSummary sum in list)
-            {
-                DataRow r = table.NewRow();
-
-                r["ID"] = sum.Pat.Id;
-                r["カナ"] = sum.Pat.Kana;
-                r["氏名"] = sum.Pat.Name;
-                r["性別"] = sum.Pat.SexNameShort;
-                r["生年月日"] = sum.Pat.BirthString;
-                r["年齢"] = sum.Pat.Age;
-                r["登録日"] = DateTimeAgent.DateFormat(sum.SaveDate, DateTimeAgent.DateFormatKind.LONG);
-                r["登録時"] = sum.Pat.AgeCalc(sum.SaveDate);
-                r["主病名"] = sum.Diag;
-                r["分類1"] = sum.Kind1;
-                r["分類2"] = sum.Kind2;
-                r["分類3"] = sum.Kind3;
-                r["PLAN"] = sum.Plan;
-                r["PASS"] = sum.Pass;
-                r["HIST"] = sum.Hist;
-                r["CONT1"] = sum.Cont1;
-                r["CONT2"] = sum.Cont2;
-                r["CONT3"] = sum.Cont3;
-                r["CONT4"] = sum.Cont4;
-
-                table.Rows.Add(r);
-            }
+            DSet.Tables.Remove(table.TableName);
+            DSet.Tables.Add(table);
 
             DataView view = new DataView(table);
 
@@ -191,6 +172,52 @@ namespace EyeCenter
             SumListView.Columns["CONT4"].Visible = false;
 
             AppDataGridView.SexColor(SumListView);
+        }
+
+        /// <summary>
+        /// 一覧の表を作成する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="list">検索結果</param>
+        /// <param name="table">行を追加する空の表</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        DataTable MakeListTable(List<EyeSummary> list, DataTable table, SearchTask t)
+        {
+            int count = 0;
+
+            foreach (EyeSummary sum in list)
+            {
+                DataRow r = table.NewRow();
+
+                r["ID"] = sum.Pat.Id;
+                r["カナ"] = sum.Pat.Kana;
+                r["氏名"] = sum.Pat.Name;
+                r["性別"] = sum.Pat.SexNameShort;
+                r["生年月日"] = sum.Pat.BirthString;
+                r["年齢"] = sum.Pat.Age;
+                r["登録日"] = DateTimeAgent.DateFormat(sum.SaveDate, DateTimeAgent.DateFormatKind.LONG);
+                r["登録時"] = sum.Pat.AgeCalc(sum.SaveDate);
+                r["主病名"] = sum.Diag;
+                r["分類1"] = sum.Kind1;
+                r["分類2"] = sum.Kind2;
+                r["分類3"] = sum.Kind3;
+                r["PLAN"] = sum.Plan;
+                r["PASS"] = sum.Pass;
+                r["HIST"] = sum.Hist;
+                r["CONT1"] = sum.Cont1;
+                r["CONT2"] = sum.Cont2;
+                r["CONT3"] = sum.Cont3;
+                r["CONT4"] = sum.Cont4;
+
+                table.Rows.Add(r);
+
+                if (++count % 1000 == 0)
+                {
+                    t.Report("一覧を作成中 " + count.ToString("#,0") + " / " + list.Count.ToString("#,0") + "件");
+                }
+            }
+
+            return table;
         }
 
         /// <summary>

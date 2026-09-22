@@ -65,87 +65,31 @@ namespace EyeCenter
             }
 
             int limit = AppConfig.GetInt("FindRowLimit", 10000);
+            int count = 0;
 
-            List<EyeKensa> list = SearchTask.Run("検査結果を検索しています...",
-                t => EyeKensa.LoadByKensasDates(kensa_id_list, start_date, end_date, true, limit, t.EyeDb, t.PatDb));
+            // 表示中の一覧に触れないよう、同じ列構成の新しい表に作成してから差し替える
+            DataTable empty = dSet.Tables["検査結果"].Clone();
+
+            DataTable table = SearchTask.Run("検査結果を検索しています...", t =>
+            {
+                List<EyeKensa> list = EyeKensa.LoadByKensasDates(kensa_id_list, start_date, end_date, true, limit, t.EyeDb, t.PatDb, t.Report);
+                count = list.Count;
+                return MakeListTable(list, empty, t);
+            });
 
             // 中止・エラー時は表示中の一覧を維持する
-            if (list == null)
+            if (table == null)
             {
                 return;
             }
 
-            if (list.Count >= limit)
+            if (count >= limit)
             {
                 MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間や検査の種類を絞って再検索してください。");
             }
 
-            // 患者ID, 検査日, 検査ID でソート
-            list.Sort((x, y) =>
-            {
-                int i = 0;
-
-                int ix = int.Parse(x.PtId);
-                int iy = int.Parse(y.PtId);
-                i = ix - iy;
-
-                if (i.Equals(0))
-                {
-                    ix = int.Parse(x.KensaDate);
-                    iy = int.Parse(y.KensaDate);
-                    i = ix - iy;
-                }
-
-                if (i.Equals(0))
-                {
-                    ix = int.Parse(x.KensaId);
-                    iy = int.Parse(y.KensaId);
-                    i = ix - iy;
-                }
-
-                return i;
-            });
-
-            DataTable table = dSet.Tables["検査結果"];
-            table.Clear();
-
-            // 患者ID・検査日でソート済みのため、同じ患者・同じ日の検査は直前の行にまとめる
-            DataRow last = null;
-
-            foreach (EyeKensa kensa in list)
-            {
-                if (last != null &&
-                    last["KENSA_DATE"].ToString().Equals(kensa.KensaDate) &&
-                    last["ID"].ToString().Equals(kensa.PtId))
-                {
-                    if (last["検査"].ToString().Length > 0)
-                    {
-                        last["検査"] += ", ";
-                        last["CONT"] += "\r\n";
-                    }
-
-                    last["検査"] += kensa.KensaShort;
-                    last["CONT"] += kensa.Cont;
-                }
-                else
-                {
-                    DataRow r = table.NewRow();
-
-                    r["KENSA_DATE"] = kensa.KensaDate;
-                    r["日付"] = DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.SHORT);
-                    r["ID"] = kensa.Pat.Id;
-                    r["カナ"] = kensa.Pat.Kana;
-                    r["氏名"] = kensa.Pat.Name;
-                    r["性別"] = kensa.Pat.SexNameEng;
-                    r["生年月日"] = kensa.Pat.BirthString;
-                    r["年齢"] = kensa.Pat.AgeCalc(kensa.KensaDate);
-                    r["検査"] = kensa.KensaShort;
-                    r["CONT"] = kensa.Cont;
-
-                    table.Rows.Add(r);
-                    last = r;
-                }
-            }
+            dSet.Tables.Remove(table.TableName);
+            dSet.Tables.Add(table);
 
             KensaListView.DataSource = new DataView(table);
 
@@ -180,9 +124,93 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// 一覧の表を作成する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="list">検索結果</param>
+        /// <param name="table">行を追加する空の表</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        DataTable MakeListTable(List<EyeKensa> list, DataTable table, SearchTask t)
+        {
+            t.Report("並べ替えています...");
+
+            // 患者ID, 検査日, 検査ID でソート
+            list.Sort((x, y) =>
+            {
+                int i = 0;
+
+                int ix = int.Parse(x.PtId);
+                int iy = int.Parse(y.PtId);
+                i = ix - iy;
+
+                if (i.Equals(0))
+                {
+                    ix = int.Parse(x.KensaDate);
+                    iy = int.Parse(y.KensaDate);
+                    i = ix - iy;
+                }
+
+                if (i.Equals(0))
+                {
+                    ix = int.Parse(x.KensaId);
+                    iy = int.Parse(y.KensaId);
+                    i = ix - iy;
+                }
+
+                return i;
+            });
+
+            // 患者ID・検査日でソート済みのため、同じ患者・同じ日の検査は直前の行にまとめる
+            DataRow last = null;
+            int count = 0;
+
+            foreach (EyeKensa kensa in list)
+            {
+                if (last != null &&
+                    last["KENSA_DATE"].ToString().Equals(kensa.KensaDate) &&
+                    last["ID"].ToString().Equals(kensa.PtId))
+                {
+                    if (last["検査"].ToString().Length > 0)
+                    {
+                        last["検査"] += ", ";
+                        last["CONT"] += "\r\n";
+                    }
+
+                    last["検査"] += kensa.KensaShort;
+                    last["CONT"] += kensa.Cont;
+                }
+                else
+                {
+                    DataRow r = table.NewRow();
+
+                    r["KENSA_DATE"] = kensa.KensaDate;
+                    r["日付"] = DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.SHORT);
+                    r["ID"] = kensa.Pat.Id;
+                    r["カナ"] = kensa.Pat.Kana;
+                    r["氏名"] = kensa.Pat.Name;
+                    r["性別"] = kensa.Pat.SexNameEng;
+                    r["生年月日"] = kensa.Pat.BirthString;
+                    r["年齢"] = kensa.Pat.AgeCalc(kensa.KensaDate);
+                    r["検査"] = kensa.KensaShort;
+                    r["CONT"] = kensa.Cont;
+
+                    table.Rows.Add(r);
+                    last = r;
+                }
+
+                if (++count % 1000 == 0)
+                {
+                    t.Report("一覧を作成中 " + count.ToString("#,0") + " / " + list.Count.ToString("#,0") + "件");
+                }
+            }
+
+            return table;
+        }
+
+        /// <summary>
         /// 出力データを作成する。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>中止・エラー時は null</returns>
         TableData MakeTableData()
         {
             TableData data = new TableData();
