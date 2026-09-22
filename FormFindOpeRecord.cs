@@ -368,44 +368,65 @@ namespace EyeCenter
         /// <summary>
         /// 出力データを作成する。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>中止・エラー時は null</returns>
         TableData MakeTableData()
         {
             TableData data = new TableData();
 
             AddTitles(data);
 
+            // 一覧の行（グリッドの並び順・絞り込み・未検索時は空）はワーカーから読むため、コントロールではなく DataView から取得する
+            DataView view = OpeListView.DataSource as DataView;
+
+            if (view == null)
+            {
+                return data;
+            }
+
+            return SearchTask.Run("出力データを作成しています...", t => AddRecords(data, view, t));
+        }
+
+        /// <summary>
+        /// 出力データに一覧の行を追加する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="data">列見出しを設定済みの出力データ</param>
+        /// <param name="view">一覧の DataView</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        static TableData AddRecords(TableData data, DataView view, SearchTask t)
+        {
             Dictionary<string, string> recordDict;
             Dictionary<string, string> passDict;
+            int count = 0;
 
-            foreach (DataGridViewRow d in OpeListView.Rows)
+            foreach (DataRowView d in view)
             {
                 TableDataRecord record = new TableDataRecord();
 
-                record.DataList.Add(d.Cells["手術日"].Value.ToString());
-                record.DataList.Add(d.Cells["時刻"].Value.ToString());
-                record.DataList.Add(d.Cells["PT_ID"].Value.ToString());
-                record.DataList.Add(d.Cells["カナ"].Value.ToString());
-                record.DataList.Add(d.Cells["氏名"].Value.ToString());
-                record.DataList.Add(d.Cells["性別"].Value.ToString());
-                record.DataList.Add(d.Cells["生年月日"].Value.ToString());
-                record.DataList.Add(d.Cells["年齢"].Value.ToString());
-                record.DataList.Add(d.Cells["種別"].Value.ToString());
-                record.DataList.Add(d.Cells["手術室"].Value.ToString());
-                record.DataList.Add(d.Cells["手術"].Value.ToString());
-                record.DataList.Add(d.Cells["医師"].Value.ToString());
-                record.DataList.Add(d.Cells["麻酔"].Value.ToString());
-                record.DataList.Add(d.Cells["病名"].Value.ToString());
-                record.DataList.Add(d.Cells["入外"].Value.ToString());
-                record.DataList.Add(d.Cells["右"].Value.ToString());
-                record.DataList.Add(d.Cells["左"].Value.ToString());
-                record.DataList.Add(d.Cells["感染"].Value.ToString());
-                record.DataList.Add(d.Cells["同意"].Value.ToString());
-                record.DataList.Add(d.Cells["早期"].Value.ToString());
-                record.DataList.Add(d.Cells["術前"].Value.ToString());
+                record.DataList.Add(d["手術日"].ToString());
+                record.DataList.Add(d["時刻"].ToString());
+                record.DataList.Add(d["PT_ID"].ToString());
+                record.DataList.Add(d["カナ"].ToString());
+                record.DataList.Add(d["氏名"].ToString());
+                record.DataList.Add(d["性別"].ToString());
+                record.DataList.Add(d["生年月日"].ToString());
+                record.DataList.Add(d["年齢"].ToString());
+                record.DataList.Add(d["種別"].ToString());
+                record.DataList.Add(d["手術室"].ToString());
+                record.DataList.Add(d["手術"].ToString());
+                record.DataList.Add(d["医師"].ToString());
+                record.DataList.Add(d["麻酔"].ToString());
+                record.DataList.Add(d["病名"].ToString());
+                record.DataList.Add(d["入外"].ToString());
+                record.DataList.Add(d["右"].ToString());
+                record.DataList.Add(d["左"].ToString());
+                record.DataList.Add(d["感染"].ToString());
+                record.DataList.Add(d["同意"].ToString());
+                record.DataList.Add(d["早期"].ToString());
+                record.DataList.Add(d["術前"].ToString());
 
-                recordDict = ContData.Parse(d.Cells["記録"].Value.ToString());
-                passDict = ContData.Parse(d.Cells["経過"].Value.ToString());
+                recordDict = ContData.Parse(d["記録"].ToString());
+                passDict = ContData.Parse(d["経過"].ToString());
 
                 foreach (DataRow r in EyeDict.EyeSet.Tables["OpeTabItem"].Rows)
                 {
@@ -438,6 +459,11 @@ namespace EyeCenter
                 }
 
                 data.RecordList.Add(record);
+
+                if (++count % 1000 == 0)
+                {
+                    t.Report("出力データを作成中 " + count.ToString("#,0") + " / " + view.Count.ToString("#,0") + "件");
+                }
             }
 
             return data;
@@ -461,17 +487,24 @@ namespace EyeCenter
         {
             TableData data = MakeTableData();
 
+            if (data == null)
+            {
+                return;
+            }
+
             FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
-            if (data.ExcelOpen())
-            {
-                MessageBox.Show("Excel出力が完了しました");
-            }
+            SearchTask.ExcelOpen(data);
         }
 
         private void CSVButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
+
+            if (data == null)
+            {
+                return;
+            }
 
             FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
@@ -487,10 +520,7 @@ namespace EyeCenter
                 FormSumColumnSelect.AppendSavedSummaryColumns(data, ptList);
             }
 
-            if (data.CSVSave("手術記録検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
-            {
-                MessageBox.Show("出力が完了しました");
-            }
+            SearchTask.CSVSave(data, "手術記録検索" + DateTime.Now.ToString("yyMMdd") + ".csv");
         }
 
         private void RecordBox11_SelectedIndexChanged(object sender, EventArgs e)

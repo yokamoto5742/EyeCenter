@@ -314,12 +314,34 @@ namespace EyeCenter
 
             AddTitles(data);
 
+            DataTable table = DSet.Tables["サマリ"];
+
+            if (SearchTask.Run("出力データを作成しています...", t => AddRecords(data, table, t)) == null)
+            {
+                return;
+            }
+
+            FormCsvColumnSelect.ApplySavedColumns(data, "Summary");
+
+            SearchTask.CSVSave(data, "サマリ検索" + DateTime.Now.ToString("yyMMdd") + ".csv");
+        }
+
+        /// <summary>
+        /// 出力データに一覧の行を追加する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="data">列見出しを設定済みの出力データ</param>
+        /// <param name="table">一覧の表</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        static TableData AddRecords(TableData data, DataTable table, SearchTask t)
+        {
             Dictionary<string, string> dict1 = new Dictionary<string, string>();
             Dictionary<string, string> dict2 = new Dictionary<string, string>();
             Dictionary<string, string> dict3 = new Dictionary<string, string>();
             Dictionary<string, string> dict4 = new Dictionary<string, string>();
+            int count = 0;
 
-            foreach (DataRow row in DSet.Tables["サマリ"].Rows)
+            foreach (DataRow row in table.Rows)
             {
                 TableDataRecord d = new TableDataRecord();
 
@@ -447,14 +469,14 @@ namespace EyeCenter
                 }
 
                 data.RecordList.Add(d);
+
+                if (++count % 1000 == 0)
+                {
+                    t.Report("出力データを作成中 " + count.ToString("#,0") + " / " + table.Rows.Count.ToString("#,0") + "件");
+                }
             }
 
-            FormCsvColumnSelect.ApplySavedColumns(data, "Summary");
-
-            if (data.CSVSave("サマリ検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
-            {
-                MessageBox.Show("出力が完了しました");
-            }
+            return data;
         }
 
         private void SumListView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

@@ -238,26 +238,47 @@ namespace EyeCenter
                 }
             }
 
+            // 一覧の行（グリッドの並び順・未検索時は空）はワーカーから読むため、コントロールではなく DataView から取得する
+            DataView view = KensaListView.DataSource as DataView;
+
+            if (view == null)
+            {
+                return data;
+            }
+
+            return SearchTask.Run("出力データを作成しています...", t => AddRecords(data, view, t));
+        }
+
+        /// <summary>
+        /// 出力データに一覧の行を追加する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="data">列見出しを設定済みの出力データ</param>
+        /// <param name="view">一覧の DataView</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        TableData AddRecords(TableData data, DataView view, SearchTask t)
+        {
             int comma = 0;
             string key = "";
             Dictionary<string, string> recordDict = new Dictionary<string, string>();
             int i = 0;
+            int count = 0;
 
-            foreach (DataGridViewRow d in KensaListView.Rows)
+            foreach (DataRowView d in view)
             {
                 TableDataRecord record = new TableDataRecord();
 
-                record.DataList.Add(d.Cells["日付"].Value.ToString());
-                record.DataList.Add(d.Cells["ID"].Value.ToString());
-                record.DataList.Add(d.Cells["カナ"].Value.ToString());
-                record.DataList.Add(d.Cells["氏名"].Value.ToString());
-                record.DataList.Add(d.Cells["性別"].Value.ToString());
-                record.DataList.Add(d.Cells["生年月日"].Value.ToString());
-                record.DataList.Add(d.Cells["年齢"].Value.ToString());
+                record.DataList.Add(d["日付"].ToString());
+                record.DataList.Add(d["ID"].ToString());
+                record.DataList.Add(d["カナ"].ToString());
+                record.DataList.Add(d["氏名"].ToString());
+                record.DataList.Add(d["性別"].ToString());
+                record.DataList.Add(d["生年月日"].ToString());
+                record.DataList.Add(d["年齢"].ToString());
 
                 recordDict.Clear();
 
-                foreach (string line in d.Cells["CONT"].Value.ToString().Split('\r', '\n'))
+                foreach (string line in d["CONT"].ToString().Split('\r', '\n'))
                 {
                     // 最初のカンマより前が項目コード、後ろ（カンマを含む）が値
                     comma = line.IndexOf(',');
@@ -288,6 +309,11 @@ namespace EyeCenter
                 }
 
                 data.RecordList.Add(record);
+
+                if (++count % 1000 == 0)
+                {
+                    t.Report("出力データを作成中 " + count.ToString("#,0") + " / " + view.Count.ToString("#,0") + "件");
+                }
             }
 
             return data;
@@ -297,30 +323,24 @@ namespace EyeCenter
         {
             TableData data = MakeTableData();
 
-            if (!FormCsvColumnSelect.FilterColumns(data, "Kensa"))
+            if (data == null || !FormCsvColumnSelect.FilterColumns(data, "Kensa"))
             {
                 return;
             }
 
-            if (data.ExcelOpen())
-            {
-                MessageBox.Show("Excel出力が完了しました");
-            }
+            SearchTask.ExcelOpen(data);
         }
 
         private void CSVButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
 
-            if (!FormCsvColumnSelect.FilterColumns(data, "Kensa"))
+            if (data == null || !FormCsvColumnSelect.FilterColumns(data, "Kensa"))
             {
                 return;
             }
 
-            if (data.CSVSave("検査結果検索" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
-            {
-                MessageBox.Show("出力が完了しました");
-            }
+            SearchTask.CSVSave(data, "検査結果検索" + DateTime.Now.ToString("yyMMdd") + ".csv");
         }
 
         /// <summary>
@@ -334,19 +354,37 @@ namespace EyeCenter
             string end_date = EndDate.Value.ToString("yyyyMMdd");
 
             int limit = AppConfig.GetInt("FindRowLimit", 10000);
+            int count = 0;
 
-            List<EyeKensa2> list = SearchTask.Run("レフ・ケラトを検索しています...",
-                t => EyeKensa2.LoadByKensaDates("18", start_date, end_date, true, limit, t.EyeDb, t.PatDb));
+            TableData data = SearchTask.Run("レフ・ケラトを検索しています...", t =>
+            {
+                List<EyeKensa2> list = EyeKensa2.LoadByKensaDates("18", start_date, end_date, true, limit, t.EyeDb, t.PatDb, t.Report);
+                count = list.Count;
+                return MakeRefKrtRecords(list, t);
+            });
 
-            if (list == null)
+            if (data == null)
             {
                 return null;
             }
 
-            if (list.Count >= limit)
+            if (count >= limit)
             {
                 MessageBox.Show("検索結果が上限の " + limit.ToString("#,0") + " 件に達しました。\r\n期間を絞って再度出力してください。");
             }
+
+            return data;
+        }
+
+        /// <summary>
+        /// レフ・ケラトの検索結果から出力データを作成する（ワーカースレッドから呼び出す）。
+        /// </summary>
+        /// <param name="list">検索結果</param>
+        /// <param name="t">進捗の表示先</param>
+        /// <returns></returns>
+        static TableData MakeRefKrtRecords(List<EyeKensa2> list, SearchTask t)
+        {
+            t.Report("並べ替えています...");
 
             // 患者ID, 検査日, SEQ でソート
             list.Sort((x, y) =>
@@ -387,8 +425,15 @@ namespace EyeCenter
                 }
             }
 
+            int count = 0;
+
             foreach (EyeKensa2 kensa in list)
             {
+                if (++count % 1000 == 0)
+                {
+                    t.Report("出力データを作成中 " + count.ToString("#,0") + " / " + list.Count.ToString("#,0") + "件");
+                }
+
                 // NIDEK ARK 以外（CANON など）の形式は出力しない
                 NidekArkParser.Result result = NidekArkParser.Parse(kensa.Cont);
 
@@ -427,10 +472,7 @@ namespace EyeCenter
                 return;
             }
 
-            if (data.ExcelOpen())
-            {
-                MessageBox.Show("Excel出力が完了しました");
-            }
+            SearchTask.ExcelOpen(data);
         }
 
         private void RefKrtCSVButton_Click(object sender, EventArgs e)
@@ -442,10 +484,7 @@ namespace EyeCenter
                 return;
             }
 
-            if (data.CSVSave("レフケラ" + DateTime.Now.ToString("yyMMdd") + ".csv", false, true, true))
-            {
-                MessageBox.Show("出力が完了しました");
-            }
+            SearchTask.CSVSave(data, "レフケラ" + DateTime.Now.ToString("yyMMdd") + ".csv");
         }
 
         private void KensaListView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

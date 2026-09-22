@@ -102,6 +102,38 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// Excel に出力する（書き込みはワーカーで行い、進捗を表示する）。
+        /// </summary>
+        /// <param name="data">出力データ</param>
+        public static void ExcelOpen(TableData data)
+        {
+            if (Run("Excelに出力しています...", t => data.ExcelOpen(true, t.Report)))
+            {
+                MessageBox.Show("Excel出力が完了しました");
+            }
+        }
+
+        /// <summary>
+        /// 保存先を選んで CSV に出力する（書き込みはワーカーで行い、進捗を表示する）。
+        /// </summary>
+        /// <param name="data">出力データ</param>
+        /// <param name="file">保存先ダイアログの初期ファイル名</param>
+        public static void CSVSave(TableData data, string file)
+        {
+            string save_file = TableData.SelectSaveFile(file);
+
+            if (save_file.Length == 0)
+            {
+                return;
+            }
+
+            if (Run("CSVを出力しています...", t => data.CSVWrite(save_file, false, true, t.Report)))
+            {
+                MessageBox.Show("出力が完了しました");
+            }
+        }
+
+        /// <summary>
         /// 結果が成否（bool）の処理をバックグラウンドで実行する。
         /// 中止時・エラー時は false を返す。
         /// </summary>
