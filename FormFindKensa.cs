@@ -96,7 +96,7 @@ namespace EyeCenter
             KensaListView.Columns["KENSA_DATE"].Visible = false;
 
             KensaListView.Columns["日付"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            KensaListView.Columns["日付"].Width = 55;
+            KensaListView.Columns["日付"].Width = 70;
 
             KensaListView.Columns["ID"].Width = 55;
             KensaListView.Columns["ID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -184,7 +184,7 @@ namespace EyeCenter
                     DataRow r = table.NewRow();
 
                     r["KENSA_DATE"] = kensa.KensaDate;
-                    r["日付"] = DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.SHORT);
+                    r["日付"] = DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.LONG);
                     r["ID"] = kensa.Pat.Id;
                     r["カナ"] = kensa.Pat.Kana;
                     r["氏名"] = kensa.Pat.Name;
@@ -444,7 +444,7 @@ namespace EyeCenter
 
                 TableDataRecord record = new TableDataRecord();
 
-                record.DataList.Add(DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.SHORT));
+                record.DataList.Add(DateTimeAgent.DateFormat(int.Parse(kensa.KensaDate), DateTimeAgent.DateFormatKind.LONG));
                 record.DataList.Add(kensa.Pat.Id);
                 record.DataList.Add(kensa.Pat.Kana);
                 record.DataList.Add(kensa.Pat.Name);

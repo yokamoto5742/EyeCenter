@@ -725,7 +725,7 @@ namespace EyeCenter
             // ‰¡²‚ÆŒŸ¸Œ‹‰Ê
             for (int i = 0; i < date_list.Count; i++)
             {
-                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.SHORT), f1, Brushes.Black, 40 + (date_list.Count - i - 1) * date_interval - 20, h + 25);
+                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.LONG), f1, Brushes.Black, 40 + (date_list.Count - i - 1) * date_interval - 30, h + 25);
                 g.DrawLine(pen2, 40 + (date_list.Count - i - 1) * date_interval, h + 20, 40 + (date_list.Count - i - 1) * date_interval, 20);
 
                 if (date_dict.ContainsKey(date_list[i]))
@@ -849,7 +849,7 @@ namespace EyeCenter
             // ‰¡²‚ÆŒŸ¸Œ‹‰Ê
             for (int i = 0; i < date_list.Count; i++)
             {
-                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.SHORT), f1, Brushes.Black, 40 + (date_list.Count - i - 1) * date_interval - 20, h + 25);
+                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.LONG), f1, Brushes.Black, 40 + (date_list.Count - i - 1) * date_interval - 30, h + 25);
                 g.DrawLine(pen2, 40 + (date_list.Count - i - 1) * date_interval, h + 20, 40 + (date_list.Count - i - 1) * date_interval, 20);
 
                 if (date_dict.ContainsKey(date_list[i]))
@@ -969,7 +969,7 @@ namespace EyeCenter
             // ‰¡²‚ÆŒŸ¸Œ‹‰Ê
             for (int i = 0; i < date_list.Count; i++)
             {
-                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.SHORT), f1, Brushes.Black, axis_x + (date_list.Count - i - 1) * date_interval - 20, h + 25);
+                g.DrawString(DateTimeAgent.DateFormat(date_list[i], DateTimeAgent.DateFormatKind.LONG), f1, Brushes.Black, axis_x + (date_list.Count - i - 1) * date_interval - 30, h + 25);
                 g.DrawLine(pen2, axis_x + (date_list.Count - i - 1) * date_interval, h + 20, axis_x + (date_list.Count - i - 1) * date_interval, 20);
 
                 if (date_dict.ContainsKey(date_list[i]))

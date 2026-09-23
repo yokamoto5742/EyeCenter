@@ -205,7 +205,7 @@ namespace EyeCenter
                 r["病名"] = obj.Diag;
                 r["入外"] = obj.InOut;
 
-                r["入院日"] = DateTimeAgent.DateFormat(obj.InDate, DateTimeAgent.DateFormatKind.SHORT);
+                r["入院日"] = DateTimeAgent.DateFormat(obj.InDate, DateTimeAgent.DateFormatKind.LONG);
                 r["病室"] = obj.InRoom;
 
                 r["右"] = obj.EyeR.Equals("1") ? "○" : "";
@@ -274,7 +274,7 @@ namespace EyeCenter
 
             RsvGridView.Columns["入外"].Width = 40;
 
-            RsvGridView.Columns["入院日"].Width = 55;
+            RsvGridView.Columns["入院日"].Width = 70;
 
             RsvGridView.Columns["病室"].Width = 35;
             RsvGridView.Columns["病室"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -449,7 +449,7 @@ namespace EyeCenter
 
                 e.Graphics.DrawString(page + " ページ", f9, Brushes.Black, 730, 30);
 
-                e.Graphics.DrawString(DateTime.Now.ToString("yy/MM/dd HH:mm") + " 発行", f9, Brushes.Black, 550, 30);
+                e.Graphics.DrawString(DateTime.Now.ToString("yyyy/MM/dd HH:mm") + " 発行", f9, Brushes.Black, 550, 30);
 
                 e.Graphics.DrawString("手術患者一覧　［" + room + "］", f16, Brushes.Black, 50, 50);
                 e.Graphics.DrawString("手術日 : " + OpeDateTimePicker.Value.ToString("yyyy年MM月dd日") + "（" + DateTimeAgent.JWeekday(OpeDateTimePicker.Value.ToString("yyyyMMdd")) + "）", f12, Brushes.Black, 320, 55);

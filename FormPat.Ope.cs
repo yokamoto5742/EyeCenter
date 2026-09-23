@@ -134,7 +134,7 @@ namespace EyeCenter
 
             const int TIME_X_START = 115;
             const int TIME_Y_POS = 3;
-            const int TIME_X_INTERVAL = 60;
+            const int TIME_X_INTERVAL = 70;
 
             const int TIME_WIDTH = TIME_X_INTERVAL - 2;
             const int TIME_HEIGHT = 32;
@@ -193,15 +193,15 @@ namespace EyeCenter
                         {
                             if (kensa_add_kind.Equals("AddDays", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                kensa_date = OpeDateTimePicker.Value.AddDays(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                kensa_date = OpeDateTimePicker.Value.AddDays(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                             }
                             else if (kensa_add_kind.Equals("AddMonths", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                kensa_date = OpeDateTimePicker.Value.AddMonths(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                kensa_date = OpeDateTimePicker.Value.AddMonths(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                             }
                             else if (kensa_add_kind.Equals("AddYears", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                kensa_date = OpeDateTimePicker.Value.AddYears(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                kensa_date = OpeDateTimePicker.Value.AddYears(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                             }
                         }
                     }
@@ -410,15 +410,15 @@ namespace EyeCenter
                             {
                                 if (kensa_add_kind.Equals("AddDays", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    kensa_date = OpeDateTimePicker.Value.AddDays(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                    kensa_date = OpeDateTimePicker.Value.AddDays(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                                 }
                                 else if (kensa_add_kind.Equals("AddMonths", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    kensa_date = OpeDateTimePicker.Value.AddMonths(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                    kensa_date = OpeDateTimePicker.Value.AddMonths(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                                 }
                                 else if (kensa_add_kind.Equals("AddYears", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    kensa_date = OpeDateTimePicker.Value.AddYears(int.Parse(kensa_add_value)).ToString("yy/MM/dd");
+                                    kensa_date = OpeDateTimePicker.Value.AddYears(int.Parse(kensa_add_value)).ToString("yyyy/MM/dd");
                                 }
                             }
                         }

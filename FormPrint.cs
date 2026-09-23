@@ -137,7 +137,7 @@ namespace EyeCenter
             if (mode == MODE.PAT_LIST)
             {
                 e.Graphics.DrawString(PrintDate.Value.ToString("M月d日") + "　入院患者一覧", f10, Brushes.Black, StartX1, 18); ;
-                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yy/MM/dd HH:mm") + "　　　　　　　　Page " + PageNumber, f8, Brushes.Black, 800, 22); ;
+                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yyyy/MM/dd HH:mm") + "　　　　　　　　Page " + PageNumber, f8, Brushes.Black, 800, 22); ;
 
                 int tmp_x1 = StartX1;
 
@@ -207,7 +207,7 @@ namespace EyeCenter
             else if (mode == MODE.KENSA_LIST)
             {
                 e.Graphics.DrawString(PrintDate.Value.ToString("M月d日") + "　検査予定一覧", f10, Brushes.Black, StartX2, 18); ;
-                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yy/MM/dd HH:mm") + "　　　　　　　　Page " + PageNumber, f8, Brushes.Black, 800, 22); ;
+                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yyyy/MM/dd HH:mm") + "　　　　　　　　Page " + PageNumber, f8, Brushes.Black, 800, 22); ;
 
                 int tmp_x2 = StartX2;
 
@@ -258,7 +258,7 @@ namespace EyeCenter
                     return;
                 }
 
-                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yy/MM/dd HH:mm"), f8, Brushes.Black, 500, 12); ;
+                e.Graphics.DrawString("印刷日時　：　" + DateTime.Now.ToString("yyyy/MM/dd HH:mm"), f8, Brushes.Black, 500, 12); ;
 
                 InPrint3 tmpPrint = List3[counter3];
 

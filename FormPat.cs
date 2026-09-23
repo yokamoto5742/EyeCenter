@@ -761,7 +761,7 @@ namespace EyeCenter
 
                 r["ID"] = tmpOpe.Id;
                 r["OPE_DATE"] = tmpOpe.OpeDate;
-                r["èp“ú"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.SHORT);
+                r["èp“ú"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.LONG);
                 r["OPE_TIME"] = tmpOpe.OpeTime;
                 r[""] = tmpOpe.OpeTime.PadLeft(4, '0').Insert(2, ":");
 
@@ -853,7 +853,7 @@ namespace EyeCenter
 
                     OpeHistoryView.Columns["OPE_DATE"].Visible = false;
 
-                    OpeHistoryView.Columns["èp“ú"].Width = 55;
+                    OpeHistoryView.Columns["èp“ú"].Width = 70;
                     OpeHistoryView.Columns["èp“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     OpeHistoryView.Columns["OPE_TIME"].Visible = false;
@@ -914,7 +914,7 @@ namespace EyeCenter
 
                     OpeHistoryView.Columns["OPE_DATE"].Visible = false;
 
-                    OpeHistoryView.Columns["èp“ú"].Width = 55;
+                    OpeHistoryView.Columns["èp“ú"].Width = 70;
                     OpeHistoryView.Columns["èp“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     OpeHistoryView.Columns["OPE_TIME"].Visible = false;
@@ -927,7 +927,7 @@ namespace EyeCenter
 
                     OpeHistoryView.Columns["èpº"].Visible = false;
 
-                    OpeHistoryView.Columns["èp"].Width = 145;
+                    OpeHistoryView.Columns["èp"].Width = 130;
 
                     OpeHistoryView.Columns["ˆãt"].HeaderText = "Dr";
                     OpeHistoryView.Columns["ˆãt"].Width = 30;

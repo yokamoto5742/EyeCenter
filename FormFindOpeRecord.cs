@@ -170,7 +170,7 @@ namespace EyeCenter
 
                     r["ID"] = tmpOpe.Id;
                     r["OPE_DATE"] = tmpOpe.OpeDate;
-                    r["èp“ú"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.SHORT);
+                    r["èp“ú"] = DateTimeAgent.DateFormat(tmpOpe.OpeDate, DateTimeAgent.DateFormatKind.LONG);
 
                     r["OPE_TIME"] = tmpOpe.OpeTime;
                     r[""] = tmpOpe.OpeTime.PadLeft(4, '0').Insert(2, ":");
@@ -246,7 +246,7 @@ namespace EyeCenter
             OpeListView.Columns["OPE_DATE"].Visible = false;
 
             OpeListView.Columns["èp“ú"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            OpeListView.Columns["èp“ú"].Width = 55;
+            OpeListView.Columns["èp“ú"].Width = 70;
 
             OpeListView.Columns["OPE_TIME"].Visible = false;
 
