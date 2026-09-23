@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -118,6 +119,7 @@ namespace EyeCenter
             if (Run("Excelに出力しています...", t => data.ExcelWrite(save_file, true, t.Report)))
             {
                 MessageBox.Show("出力が完了しました");
+                OpenSaveFolder(save_file);
             }
         }
 
@@ -138,7 +140,17 @@ namespace EyeCenter
             if (Run("CSVを出力しています...", t => data.CSVWrite(save_file, false, true, t.Report)))
             {
                 MessageBox.Show("出力が完了しました");
+                OpenSaveFolder(save_file);
             }
+        }
+
+        /// <summary>
+        /// 保存したファイルを選択した状態でエクスプローラーの保存先フォルダを開く。
+        /// </summary>
+        /// <param name="save_file">保存したファイル名</param>
+        static void OpenSaveFolder(string save_file)
+        {
+            Process.Start("explorer.exe", "/select,\"" + save_file + "\"");
         }
 
         /// <summary>
