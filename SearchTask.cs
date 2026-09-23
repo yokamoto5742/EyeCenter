@@ -102,14 +102,22 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// Excel に出力する（書き込みはワーカーで行い、進捗を表示する）。
+        /// 保存先を選んで Excel に出力する（書き込みはワーカーで行い、進捗を表示する）。
         /// </summary>
         /// <param name="data">出力データ</param>
-        public static void ExcelOpen(TableData data)
+        /// <param name="file">保存先ダイアログの初期ファイル名</param>
+        public static void ExcelSave(TableData data, string file)
         {
-            if (Run("Excelに出力しています...", t => data.ExcelOpen(true, t.Report)))
+            string save_file = TableData.SelectSaveFile(file, "Excel ブック (*.xlsx)|*.xlsx");
+
+            if (save_file.Length == 0)
             {
-                MessageBox.Show("Excel出力が完了しました");
+                return;
+            }
+
+            if (Run("Excelに出力しています...", t => data.ExcelWrite(save_file, true, t.Report)))
+            {
+                MessageBox.Show("出力が完了しました");
             }
         }
 

@@ -323,7 +323,7 @@ namespace EyeCenter
 
             FormCsvColumnSelect.ApplySavedColumns(data, "Summary");
 
-            SearchTask.CSVSave(data, "サマリ検索" + DateTime.Now.ToString("yyMMdd") + ".csv");
+            SearchTask.CSVSave(data, "サマリ検索" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
         }
 
         /// <summary>

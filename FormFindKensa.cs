@@ -328,7 +328,7 @@ namespace EyeCenter
                 return;
             }
 
-            SearchTask.ExcelOpen(data);
+            SearchTask.ExcelSave(data, "検査結果検索" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx");
         }
 
         private void CSVButton_Click(object sender, EventArgs e)
@@ -340,7 +340,7 @@ namespace EyeCenter
                 return;
             }
 
-            SearchTask.CSVSave(data, "検査結果検索" + DateTime.Now.ToString("yyMMdd") + ".csv");
+            SearchTask.CSVSave(data, "検査結果検索" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
         }
 
         /// <summary>
@@ -472,7 +472,7 @@ namespace EyeCenter
                 return;
             }
 
-            SearchTask.ExcelOpen(data);
+            SearchTask.ExcelSave(data, "レフケラ" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx");
         }
 
         private void RefKrtCSVButton_Click(object sender, EventArgs e)
@@ -484,7 +484,7 @@ namespace EyeCenter
                 return;
             }
 
-            SearchTask.CSVSave(data, "レフケラ" + DateTime.Now.ToString("yyMMdd") + ".csv");
+            SearchTask.CSVSave(data, "レフケラ" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
         }
 
         private void KensaListView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

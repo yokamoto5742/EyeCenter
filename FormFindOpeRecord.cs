@@ -494,7 +494,7 @@ namespace EyeCenter
 
             FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
-            SearchTask.ExcelOpen(data);
+            SearchTask.ExcelSave(data, "èp‹L˜^ŒŸõ" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx");
         }
 
         private void CSVButton_Click(object sender, EventArgs e)
@@ -520,7 +520,7 @@ namespace EyeCenter
                 FormSumColumnSelect.AppendSavedSummaryColumns(data, ptList);
             }
 
-            SearchTask.CSVSave(data, "èp‹L˜^ŒŸõ" + DateTime.Now.ToString("yyMMdd") + ".csv");
+            SearchTask.CSVSave(data, "èp‹L˜^ŒŸõ" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
         }
 
         private void RecordBox11_SelectedIndexChanged(object sender, EventArgs e)
