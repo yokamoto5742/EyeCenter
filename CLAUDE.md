@@ -3,11 +3,11 @@
 本ファイルは、このリポジトリのコードを操作する際の Claude Code（claude.ai/code）向け指示書です。
 必ず日本語で回答してください。
 
-眼科クリニック向けの業務アプリ。C# / .NET Framework 4.8 の WinForms デスクトップアプリ（WinExe, 単一インスタンス制御に WM_COPYDATA を使用）。患者(Pat)・検査(Kensa)・手術記録(Ope)・予約(Rsv)・サマリーを扱う。
+眼科専用の業務アプリ。C# / .NET Framework 4.8 の WinForms デスクトップアプリ（WinExe, 単一インスタンス制御に WM_COPYDATA を使用）。患者(Pat)・検査(Kensa)・手術記録(Ope)・予約(Rsv)・サマリーを扱う。
 
 ## 文字コード（重要）
 
-ソースファイルのエンコーディングが混在している（Shift-JIS のファイルと UTF-8 BOM のファイルが混在）。**編集時はそのファイルの既存エンコーディングを必ず維持すること。** Shift-JIS のファイルを UTF-8 で保存すると日本語のコメント・文字列が文字化けする。
+ソースファイルのエンコーディングが混在している（Shift-JIS のファイルと UTF-8 BOM のファイルが混在）。**編集時はそのファイルの既存エンコーディングと改行コード（LF/CRLF）を必ず維持すること。** Shift-JIS のファイルを UTF-8 で保存すると日本語のコメント・文字列が文字化けする。新規 .cs は BOM 付き UTF-8。
 
 ## MedicalLibrary 依存（重要）
 
@@ -22,12 +22,14 @@
 - Visual Studio で `EyeCenter.sln` を開いてビルド、または CLI: `msbuild EyeCenter.sln /p:Configuration=Debug /p:Platform=x86`
 - 既定プラットフォームは **x86**（`EyeCenter.slnx` 参照）
 - 旧形式（非SDKスタイル）の `.csproj` のため `dotnet build` ではなく `msbuild` を使う
+- 出力 EXE 名は `EyeData.exe`（AssemblyName=EyeData。プロジェクト名と異なる）
+- 配置: `deploy.ps1`（開発機の `C:\Shinseikai\EyeData` へ）/ `deploy-production.ps1`（本番用の `C:\Shinseikai\EyeData.production` を作成）。どちらも既定は Release
 
 ## テスト
 
-- `EyeCenter.Tests/`（SDKスタイル, MSTest, net48/x86）。本体の `.sln` には含めていない（本体ビルドに NuGet 復元を持ち込まないため）
-- 対象は外部依存（DB・MedicalLibrary・Excel COM）なしで動く `Barcode128` と `ExcelControl` のロジックのみ
-- 実行手順: 先に本体を x86 Debug でビルド → `dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj`（`bin\x86\Debug\EyeCenter.exe` を参照するため）
+- `EyeCenter.Tests/`（SDKスタイル, MSTest, net48/x86）。本体の `.sln` には含めず、別の `EyeCenter.Tests.sln` にしている（本体ビルドに NuGet 復元を持ち込まないため）
+- 対象は外部依存（DB・Excel COM・実行環境）なしで動くロジックのみ（`Barcode128`, `NidekArkParser`, `ContData`, `FormExport` のスキーマ/出力整形など）
+- 実行手順: 先に本体を x86 Debug でビルド → `dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj`（`bin\x86\Debug\EyeData.exe` と同フォルダの DLL を参照するため）
 
 ## 実行時の前提
 
