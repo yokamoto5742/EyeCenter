@@ -31,7 +31,7 @@
 
 ## 実行時の前提
 
-起動時に医療DB・ネットワーク共有（患者データ, `Pat.csv` など、いずれもリポジトリ外）に接続する。外部機器EXE（`CanonRKF1.exe`, `NidekARK1.exe`）を起動する箇所がある。これらは環境依存のため、ローカルでの実行は環境が整っていないと動かない。
+起動時に医療DB・ネットワーク共有（患者データ, `Pat.csv` など、いずれもリポジトリ外）に接続する。機器連携画面（MedicalLibrary の `CanonRKF1Form` / `NidekARK1ListForm`）は外部EXEではなく EyeData 内で `FormControl` から開く（1.3.0 で `CanonRKF1.exe` / `NidekARK1.exe` を廃止）。これらは環境依存のため、ローカルでの実行は環境が整っていないと動かない。
 
 ## 規約
 

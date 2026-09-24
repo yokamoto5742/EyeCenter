@@ -7,6 +7,17 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-09-24
+
+### 変更
+- Canon RKF・Nidek ARK 画面を EyeData に組み込み、外部 EXE（`CanonRKF1.exe` / `NidekARK1.exe`）を起動せずに EyeData 内で開くようにした（詳細は `docs/merge-plan-device-apps.md`）
+  - すでに開いている場合は新たに開かず、既存の画面を前面に表示する
+  - EyeData を終了すると、両画面も閉じる
+  - Canon RKF 画面を × で閉じてもシリアルポートが解放されるよう、MedicalLibrary 側も修正した（MedicalLibrary.dll の更新が必要）
+
+### 削除
+- `CanonRKF1.exe` / `NidekARK1.exe` の起動処理
+
 ## [1.2.4] - 2026-09-23
 
 ### 追加

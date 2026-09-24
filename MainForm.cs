@@ -149,12 +149,12 @@ namespace EyeCenter
 
         private void CanonButton_Click(object sender, EventArgs e)
         {
-            Launcher.Start("CanonRKF1.exe");
+            FormControl.FormCanonRKF1_Show();
         }
 
         private void NidekButton_Click(object sender, EventArgs e)
         {
-            Launcher.Start("NidekARK1.exe");
+            FormControl.FormNidekARK1_Show();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

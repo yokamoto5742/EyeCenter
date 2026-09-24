@@ -17,6 +17,8 @@ namespace EyeCenter
         static FormFindSummary F_FindSummary;
         static FormPrint F_Print;
         static FormInput F_Input;
+        static NidekARK1ListForm F_NidekARK1;
+        static CanonRKF1Form F_CanonRKF1;
 
         static List<FormPat> FormPat_List = new List<FormPat>();
 
@@ -313,6 +315,44 @@ namespace EyeCenter
         public static void FormInput_CommentClear()
         {
             F_Input.CommentBox.Clear();
+        }
+
+        /// <summary>
+        /// NidekARK1ListForm を表示する。
+        /// </summary>
+        public static void FormNidekARK1_Show()
+        {
+            if (F_NidekARK1 == null || !F_NidekARK1.Created)
+            {
+                F_NidekARK1 = new NidekARK1ListForm();
+            }
+
+            F_NidekARK1.Show();
+            F_NidekARK1.Activate();
+
+            if (F_NidekARK1.WindowState == FormWindowState.Minimized)
+            {
+                F_NidekARK1.WindowState = FormWindowState.Normal;
+            }
+        }
+
+        /// <summary>
+        /// CanonRKF1Form を表示する。
+        /// </summary>
+        public static void FormCanonRKF1_Show()
+        {
+            if (F_CanonRKF1 == null || !F_CanonRKF1.Created)
+            {
+                F_CanonRKF1 = new CanonRKF1Form();
+            }
+
+            F_CanonRKF1.Show();
+            F_CanonRKF1.Activate();
+
+            if (F_CanonRKF1.WindowState == FormWindowState.Minimized)
+            {
+                F_CanonRKF1.WindowState = FormWindowState.Normal;
+            }
         }
     }
 }

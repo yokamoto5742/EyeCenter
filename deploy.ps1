@@ -1,6 +1,6 @@
 ﻿# EyeData のビルド成果物を C:\Shinseikai\EyeData へ配置するスクリプト
 # 使い方: .\deploy.ps1 [-Configuration Debug]  （既定は Release）
-# 注意: 追加コピーのみ。配置先の Excel テンプレートや外部 EXE（CanonRKF1.exe 等）は削除しない。
+# 注意: 追加コピーのみ。配置先の Excel テンプレートや外部 EXE（1.3.0 で廃止した CanonRKF1.exe / NidekARK1.exe 等）は削除しない。
 param(
     [string]$Configuration = "Release"
 )

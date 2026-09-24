@@ -29,7 +29,7 @@
 - ネットワークドライブアクセス — `Pat.csv` など患者データ共有フォルダ
 - **`C:\Shinseikai\EyeData\`** ディレクトリ — 実行可能ファイルと設定ファイルの配置先
 
-> **注** : 眼科医療 DB、ネットワーク共有、外部機器用 EXE（Canon キャプチャ、Nidek デバイスなど）の詳細設定はリポジトリ外部の文書を参照してください。
+> **注** : 眼科医療 DB、ネットワーク共有、機器連携（Canon RKF、Nidek ARK）の詳細設定はリポジトリ外部の文書を参照してください。
 
 ## インストール
 
@@ -235,7 +235,7 @@ dotnet test EyeCenter.Tests/EyeCenter.Tests.csproj
 
 - **Oracle 医療 DB** — 患者・検査・手術・予約情報の読み書き
 - **ネットワーク共有** — `Pat.csv` などの患者マスタデータ
-- **外部機器 EXE** — キャプチャ装置ドライバ（`CanonRKF1.exe` など）
+- **機器連携の設定ファイル** — Canon RKF・Nidek ARK 画面が読む `CanonRKF1.xml` / `NidekARK1.xml`（1.3.0 で両画面は EyeData に組み込み済み。外部 EXE は不要）
 
 これらは環境依存のため、ローカルでの開発では整備されていない可能性があります。詳細は隣接プロジェクト `MedicalLibrary` のドキュメントを参照してください。
 
