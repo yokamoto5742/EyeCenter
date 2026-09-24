@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LibSettings>
+  <DBConnectionString2>User Id=a;Password=b;Data Source=c2;</DBConnectionString2>
+  <DBConnectionString3>User Id=a;Password=b;Data Source=c3;</DBConnectionString3>
+  <SchemaFolder>c:\schema</SchemaFolder>
+  <BaseInfoCodes>
+    <BaseInfoCode Code="01"><Name>Diag</Name></BaseInfoCode>
+    <BaseInfoCode Code="02"><Name>Allergy</Name></BaseInfoCode>
+    <BaseInfoCode Code="03"><Name>Drug</Name></BaseInfoCode>
+    <BaseInfoCode Code="10"><Name>Height</Name></BaseInfoCode>
+    <BaseInfoCode Code="11"><Name>Weight</Name></BaseInfoCode>
+    <BaseInfoCode Code="99"></BaseInfoCode>
+  </BaseInfoCodes>
+</LibSettings>

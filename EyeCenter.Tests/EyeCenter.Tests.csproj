@@ -30,6 +30,8 @@
   <ItemGroup>
     <!-- EyeCenter.exe の依存DLL（MedicalLibrary など）をテスト実行フォルダへコピー -->
     <None Include="..\bin\x86\Debug\*.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+    <!-- MedicalLibrary の変換処理のテスト用入力と期待値 -->
+    <None Update="TestData\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
