@@ -98,8 +98,6 @@ namespace EyeCenter
         /// <param name="record_id"></param>
         public static void FormPat_Show_ByRecord(string record_id)
         {
-            string pt_id = EyeOpe.Load(record_id).PtId;
-
             FormPat f = GetFormPat();
 
             f.ShowByRecord(record_id);
