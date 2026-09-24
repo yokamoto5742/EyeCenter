@@ -27,20 +27,7 @@ namespace EyeCenter
         /// </summary>
         public static int FormPat_Count
         {
-            get
-            {
-                int c = 0;
-
-                foreach (FormPat fp in FormPat_List)
-                {
-                    if (!fp.IsDisposed)
-                    {
-                        c++;
-                    }
-                }
-
-                return c;
-            }
+            get { return FormPat_List.Count(fp => !fp.IsDisposed); }
         }
 
         public static void FormPat_Remove(FormPat fp)
@@ -58,32 +45,9 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// FormPat を表示する。
+        /// 表示に使う FormPat を取得する。無ければ作る。
         /// </summary>
-        public static void FormPat_Show()
-        {
-            FormPat f = null;
-
-            if (FormPat_List.Count > 0)
-            {
-                f = FormPat_List[0];
-            }
-            else
-            {
-                f = new FormPat();
-                FormPat_List.Add(f);
-            }
-
-            f.Show();
-            f.Activate();
-            f.BringToFront();
-            f.WindowState = FormWindowState.Normal;
-        }
-
-        /// <summary>
-        /// FormPat を表示する。
-        /// </summary>
-        public static void FormPat_Show(string pt_id, FormPat.Mode mode)
+        static FormPat GetFormPat()
         {
             FormPat f = null;
 
@@ -98,7 +62,30 @@ namespace EyeCenter
                 FormPat_List.Add(f);
             }
 
-            f.ShowByPat(pt_id, FormPat.Mode.SHOW);
+            return f;
+        }
+
+        /// <summary>
+        /// FormPat を表示する。
+        /// </summary>
+        public static void FormPat_Show()
+        {
+            FormPat f = GetFormPat();
+
+            f.Show();
+            f.Activate();
+            f.BringToFront();
+            f.WindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// FormPat を表示する。
+        /// </summary>
+        public static void FormPat_Show(string pt_id, FormPat.Mode mode)
+        {
+            FormPat f = GetFormPat();
+
+            f.ShowByPat(pt_id, mode);
 
             f.Activate();
             f.BringToFront();
@@ -113,18 +100,7 @@ namespace EyeCenter
         {
             string pt_id = EyeOpe.Load(record_id).PtId;
 
-            FormPat f = null;
-
-            if (FormPat_List.Count > 0)
-            {
-                f = FormPat_List[0];
-            }
-
-            if (f == null || !f.Created)
-            {
-                f = new FormPat();
-                FormPat_List.Add(f);
-            }
+            FormPat f = GetFormPat();
 
             f.ShowByRecord(record_id);
             f.Activate();
@@ -140,18 +116,7 @@ namespace EyeCenter
         /// <param name="ope_time"></param>
         public static void FormPat_Show_ByNewRecord(string pt_id, string ope_kind, string ope_date, string ope_time)
         {
-            FormPat f = null;
-
-            if (FormPat_List.Count > 0)
-            {
-                f = FormPat_List[0];
-            }
-
-            if (f == null || !f.Created)
-            {
-                f = new FormPat();
-                FormPat_List.Add(f);
-            }
+            FormPat f = GetFormPat();
 
             f.ShowByNewRecord(pt_id, ope_kind, ope_date, ope_time);
             f.Activate();
@@ -179,9 +144,7 @@ namespace EyeCenter
             }
 
             // 当該患者の予約が存在すれば色を変える。
-            int i = 0;
-
-            if (pt_id.Length > 0 && int.TryParse(pt_id, out i))
+            if (int.TryParse(pt_id, out _))
             {
                 F_OpeRsv.PtTwinkle(pt_id);
             }
@@ -207,22 +170,32 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// フォームを 1 つだけ表示する。閉じられていれば作り直し、最小化されていれば元に戻す。
+        /// </summary>
+        static T ShowSingle<T>(T form) where T : Form, new()
+        {
+            if (form == null || !form.Created)
+            {
+                form = new T();
+            }
+
+            form.Show();
+            form.Activate();
+
+            if (form.WindowState == FormWindowState.Minimized)
+            {
+                form.WindowState = FormWindowState.Normal;
+            }
+
+            return form;
+        }
+
+        /// <summary>
         /// FormFindOpeRecord を表示する。
         /// </summary>
         public static void FormFindOpeRecord_Show()
         {
-            if (F_FindOpeRecord == null || !F_FindOpeRecord.Created)
-            {
-                F_FindOpeRecord = new FormFindOpeRecord();
-            }
-
-            F_FindOpeRecord.Show();
-            F_FindOpeRecord.Activate();
-
-            if (F_FindOpeRecord.WindowState == FormWindowState.Minimized)
-            {
-                F_FindOpeRecord.WindowState = FormWindowState.Normal;
-            }
+            F_FindOpeRecord = ShowSingle(F_FindOpeRecord);
         }
 
         /// <summary>
@@ -230,18 +203,7 @@ namespace EyeCenter
         /// </summary>
         public static void FormFindKensa_Show()
         {
-            if (F_FindKensa == null || !F_FindKensa.Created)
-            {
-                F_FindKensa = new FormFindKensa();
-            }
-
-            F_FindKensa.Show();
-            F_FindKensa.Activate();
-
-            if (F_FindKensa.WindowState == FormWindowState.Minimized)
-            {
-                F_FindKensa.WindowState = FormWindowState.Normal;
-            }
+            F_FindKensa = ShowSingle(F_FindKensa);
         }
 
         /// <summary>
@@ -249,18 +211,7 @@ namespace EyeCenter
         /// </summary>
         public static void FormFindSummary_Show()
         {
-            if (F_FindSummary == null || !F_FindSummary.Created)
-            {
-                F_FindSummary = new FormFindSummary();
-            }
-
-            F_FindSummary.Show();
-            F_FindSummary.Activate();
-
-            if (F_FindSummary.WindowState == FormWindowState.Minimized)
-            {
-                F_FindSummary.WindowState = FormWindowState.Normal;
-            }
+            F_FindSummary = ShowSingle(F_FindSummary);
         }
 
         /// <summary>
@@ -268,18 +219,7 @@ namespace EyeCenter
         /// </summary>
         public static void FormPrint_Show()
         {
-            if (F_Print == null || !F_Print.Created)
-            {
-                F_Print = new FormPrint();
-            }
-
-            F_Print.Show();
-            F_Print.Activate();
-
-            if (F_Print.WindowState == FormWindowState.Minimized)
-            {
-                F_Print.WindowState = FormWindowState.Normal;
-            }
+            F_Print = ShowSingle(F_Print);
         }
 
         /// <summary>
@@ -322,18 +262,7 @@ namespace EyeCenter
         /// </summary>
         public static void FormNidekARK1_Show()
         {
-            if (F_NidekARK1 == null || !F_NidekARK1.Created)
-            {
-                F_NidekARK1 = new NidekARK1ListForm();
-            }
-
-            F_NidekARK1.Show();
-            F_NidekARK1.Activate();
-
-            if (F_NidekARK1.WindowState == FormWindowState.Minimized)
-            {
-                F_NidekARK1.WindowState = FormWindowState.Normal;
-            }
+            F_NidekARK1 = ShowSingle(F_NidekARK1);
         }
 
         /// <summary>
@@ -341,18 +270,7 @@ namespace EyeCenter
         /// </summary>
         public static void FormCanonRKF1_Show()
         {
-            if (F_CanonRKF1 == null || !F_CanonRKF1.Created)
-            {
-                F_CanonRKF1 = new CanonRKF1Form();
-            }
-
-            F_CanonRKF1.Show();
-            F_CanonRKF1.Activate();
-
-            if (F_CanonRKF1.WindowState == FormWindowState.Minimized)
-            {
-                F_CanonRKF1.WindowState = FormWindowState.Normal;
-            }
+            F_CanonRKF1 = ShowSingle(F_CanonRKF1);
         }
     }
 }
