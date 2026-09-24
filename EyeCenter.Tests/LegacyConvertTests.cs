@@ -59,5 +59,23 @@ namespace EyeCenter.Tests
             Assert.IsFalse(EyeRefKrt.Read(TestData("NoSuchFile.csv"), text_box));
             Assert.AreEqual("before", text_box.Text);
         }
+
+        [TestMethod]
+        public void EyeRefKrt_Read_空ファイルはfalse()
+        {
+            string file = Path.GetTempFileName();
+
+            try
+            {
+                TextBox text_box = new TextBox { Multiline = true, Text = "before" };
+
+                Assert.IsFalse(EyeRefKrt.Read(file, text_box));
+                Assert.AreEqual("before", text_box.Text);
+            }
+            finally
+            {
+                File.Delete(file);
+            }
+        }
     }
 }
