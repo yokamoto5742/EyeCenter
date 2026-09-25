@@ -930,7 +930,7 @@ namespace EyeCenter
                     OpeHistoryView.Columns["éËèp"].Width = 130;
 
                     OpeHistoryView.Columns["à„ét"].HeaderText = "Dr";
-                    OpeHistoryView.Columns["à„ét"].Width = 30;
+                    OpeHistoryView.Columns["à„ét"].Width = 55;
 
                     OpeHistoryView.Columns["ñÉêå"].Visible = false;
 

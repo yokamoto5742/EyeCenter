@@ -81,7 +81,7 @@ namespace EyeCenter
 
                 r["ID"] = tmpIV.Id;
                 r["IV_DATE"] = tmpIV.IVDate;
-                r["ì˙ït"] = tmpIV.IVDate.Substring(2, 6).Insert(2, "/").Insert(5, "/");
+                r["ì˙ït"] = tmpIV.IVDate.Insert(4, "/").Insert(7, "/");
                 r["éûçè"] = tmpIV.SaveTime.PadLeft(6, '0').Substring(0, 4).Insert(2, ":");
                 r["ì‡óe"] = tmpIV.Cont;
                 r["STAFF"] = tmpIV.Staff;

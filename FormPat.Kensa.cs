@@ -50,7 +50,7 @@ namespace EyeCenter
                     tmpDate = tmpKensa.KensaDate;
                     tmpRow = tmpTable.NewRow();
                     tmpRow["KENSA_DATE"] = tmpKensa.KensaDate;
-                    tmpRow["検査日"] = tmpKensa.KensaDate.PadRight(8, '0').Substring(2, 6).Insert(2, "/").Insert(5, "/");
+                    tmpRow["検査日"] = tmpKensa.KensaDate.PadRight(8, '0').Insert(4, "/").Insert(7, "/");
                 }
 
                 tmpRow[tmpKensa.KensaId] = "○";
@@ -284,7 +284,7 @@ namespace EyeCenter
                 {
                     DataRow r = tmpTable.NewRow();
                     r["KENSA_DATE"] = tmpKensa.KensaDate;
-                    r["検査日"] = tmpKensa.KensaDate.PadRight(8, '0').Substring(2, 6).Insert(2, "/").Insert(5, "/");
+                    r["検査日"] = tmpKensa.KensaDate.PadRight(8, '0').Insert(4, "/").Insert(7, "/");
                     r[tmpKensa.KensaId] = "○";
                     tmpTable.Rows.Add(r);
                 }
@@ -305,7 +305,7 @@ namespace EyeCenter
         {
             KensaHistoryView.Columns["KENSA_DATE"].Visible = false;
 
-            KensaHistoryView.Columns["検査日"].Width = 55;
+            KensaHistoryView.Columns["検査日"].Width = 70;
             KensaHistoryView.Columns["検査日"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             foreach (DataRow tmpRow in EyeDict.EyeSet.Tables["KensaPage"].Rows)
