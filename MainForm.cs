@@ -23,6 +23,12 @@ namespace EyeCenter
 
         FIRST_SHOW first_show = FIRST_SHOW.MAIN;
 
+        /// <summary>
+        /// ユーザー変更ボタンでユーザーを変更したか。
+        /// 変更後はアプリケーションを終了するまで、電子カルテ（Pat.csv）のユーザーより優先する。
+        /// </summary>
+        bool userChanged = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -88,7 +94,12 @@ namespace EyeCenter
 
         void InitShow(string[] args = null)
         {
-            LoginUser.Init(true, args);
+            if (!userChanged)
+            {
+                LoginUser.Init(true, args);
+            }
+
+            this.UserLabelShow();
 
             int pat_id = 0;
 
@@ -120,6 +131,34 @@ namespace EyeCenter
             {
                 FormControl.FormOpeRsv_Show();
             }
+        }
+
+        /// <summary>
+        /// ログイン中のユーザーを表示する。
+        /// </summary>
+        void UserLabelShow()
+        {
+            this.UserLabel.Text = LoginUser.Name + " ログイン中";
+        }
+
+        private void UserChangeButton_Click(object sender, EventArgs e)
+        {
+            string before = LoginUser.Id + "," + LoginUser.Id2;
+
+            LoginPrompt lp = new LoginPrompt();
+            lp.ShowDialog();
+
+            // キャンセルされた場合や同じユーザーでログインした場合は何もしない
+            if ((LoginUser.Id + "," + LoginUser.Id2).Equals(before))
+            {
+                return;
+            }
+
+            // 前のユーザーの画面（入力途中の内容を含む）を残さない
+            FormControl.CloseAll(this);
+
+            userChanged = true;
+            this.UserLabelShow();
         }
 
         private void PatButton_Click(object sender, EventArgs e)

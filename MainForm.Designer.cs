@@ -39,6 +39,8 @@
             this.ExitButton = new System.Windows.Forms.Button();
             this.RsvButton = new System.Windows.Forms.Button();
             this.PatButton = new System.Windows.Forms.Button();
+            this.UserChangeButton = new System.Windows.Forms.Button();
+            this.UserLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CanonButton
@@ -140,12 +142,33 @@
             this.PatButton.Text = "患者台帳";
             this.PatButton.UseVisualStyleBackColor = true;
             this.PatButton.Click += new System.EventHandler(this.PatButton_Click);
+            //
+            // UserChangeButton
+            //
+            this.UserChangeButton.Location = new System.Drawing.Point(5, 148);
+            this.UserChangeButton.Name = "UserChangeButton";
+            this.UserChangeButton.Size = new System.Drawing.Size(85, 23);
+            this.UserChangeButton.TabIndex = 17;
+            this.UserChangeButton.Text = "ユーザー変更";
+            this.UserChangeButton.UseVisualStyleBackColor = true;
+            this.UserChangeButton.Click += new System.EventHandler(this.UserChangeButton_Click);
+            //
+            // UserLabel
+            //
+            this.UserLabel.AutoEllipsis = true;
+            this.UserLabel.Location = new System.Drawing.Point(5, 176);
+            this.UserLabel.Name = "UserLabel";
+            this.UserLabel.Size = new System.Drawing.Size(175, 15);
+            this.UserLabel.TabIndex = 18;
+            this.UserLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(185, 174);
+            this.ClientSize = new System.Drawing.Size(185, 196);
+            this.Controls.Add(this.UserLabel);
+            this.Controls.Add(this.UserChangeButton);
             this.Controls.Add(this.CanonButton);
             this.Controls.Add(this.NidekButton);
             this.Controls.Add(this.SummaryFindButton);
@@ -181,5 +204,7 @@
         private System.Windows.Forms.Button SummaryFindButton;
         private System.Windows.Forms.Button NidekButton;
         private System.Windows.Forms.Button CanonButton;
+        private System.Windows.Forms.Button UserChangeButton;
+        private System.Windows.Forms.Label UserLabel;
     }
 }

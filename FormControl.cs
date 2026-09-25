@@ -270,5 +270,20 @@ namespace EyeCenter
         {
             F_CanonRKF1 = ShowSingle(F_CanonRKF1);
         }
+
+        /// <summary>
+        /// メイン画面以外の画面をすべて閉じる（ユーザー変更時に前のユーザーの画面を残さないため）。
+        /// FormInput は作り直さずに使い回しているため閉じない。
+        /// </summary>
+        public static void CloseAll(Form main)
+        {
+            foreach (Form f in Application.OpenForms.Cast<Form>().ToList())
+            {
+                if (f != main && f != F_Input && !f.IsDisposed)
+                {
+                    f.Close();
+                }
+            }
+        }
     }
 }
