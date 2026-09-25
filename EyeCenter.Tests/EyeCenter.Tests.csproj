@@ -32,6 +32,8 @@
     <None Include="..\bin\x86\Debug\*.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
     <!-- MedicalLibrary の変換処理のテスト用入力と期待値 -->
     <None Update="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- EyeData.xml の記述ミス検出用（EyeDict.Init は実行フォルダの EyeData.xml を読む） -->
+    <None Include="..\EyeData.xml" CopyToOutputDirectory="PreserveNewest" Link="EyeData.xml" />
   </ItemGroup>
 
 </Project>
