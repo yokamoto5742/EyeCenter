@@ -31,25 +31,6 @@ namespace EyeCenter
             this.Text = OriginalText + "（" + LoginUser.Name + " ログイン中）";
         }
 
-        protected void FormBase_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F8)
-            {
-                MedicalLibrary.Boundary.LoginChange lc = new MedicalLibrary.Boundary.LoginChange();
-                lc.ShowDialog();
-                this.FormTextShow();
-
-                foreach (Control c in this.Controls)
-                {
-                    if (c is Label || c is Button)
-                    {
-                        c.Select();
-                        break;
-                    }
-                }
-            }
-        }
-
         protected void FormBase_Paint(object sender, PaintEventArgs e)
         {
             this.FormTextShow();

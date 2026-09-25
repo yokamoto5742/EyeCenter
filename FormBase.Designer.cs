@@ -38,11 +38,9 @@
             this.ClientSize = new System.Drawing.Size(192, 73);
             this.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
             this.Name = "FormBase";
             this.Text = "FormBase";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormBase_Paint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormBase_KeyDown);
             this.ResumeLayout(false);
 
         }

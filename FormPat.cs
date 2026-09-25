@@ -179,6 +179,8 @@ namespace EyeCenter
 
         private void FormPat_Load(object sender, EventArgs e)
         {
+            this.TitleShow();
+
             // 問診入力・問診履歴の横幅を設定ファイル(EyeCenter.exe.config)から反映する
             int ivContWidth = AppConfig.GetInt("IVContBoxWidth", this.IVContBox.Width);
             int ivHistWidth = AppConfig.GetInt("IVHistoryViewWidth", this.IVHistoryView.Width);
@@ -624,6 +626,14 @@ namespace EyeCenter
         }
 
         /// <summary>
+        /// タイトルバーにログイン中のユーザーを表示する
+        /// </summary>
+        private void TitleShow()
+        {
+            this.Text = "EyeData(" + LoginUser.Name + "ログイン中)";
+        }
+
+        /// <summary>
         /// 患者情報（ID, 氏名, 手術履歴）を表示する
         /// </summary>
         private void PtShow()
@@ -633,7 +643,7 @@ namespace EyeCenter
                 return;
             }
 
-            this.Text = this.Pat.Name;
+            this.TitleShow();
 
             // 家族連絡先情報が存在すれば「家族」ボタンが赤くなる。それ以外は黄色。
             List<PatContact> tmpList = PatContact.GetList(this.Pat.Id);

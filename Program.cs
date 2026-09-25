@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
 using MedicalLibrary.Utility;
 
 namespace EyeCenter
 {
     static class Program
     {
+        [DllImport("user32.dll")]
+        static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+        [DllImport("user32.dll")]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
@@ -63,6 +71,29 @@ namespace EyeCenter
             MessageBox.Show(e.Exception.ToString(), "エラー");
         }
 
+        /// <summary>
+        /// 起動済みの EyeData のメイン画面（タイトル「EyeData」）を探す。
+        /// 配置先フォルダ（EyeData）を開いたエクスプローラーも同じタイトルになるため、EyeData のプロセスのウィンドウに限る。
+        /// </summary>
+        static IntPtr FindMainWindow(Process[] procs)
+        {
+            int self = Process.GetCurrentProcess().Id;
+            IntPtr hWnd = IntPtr.Zero;
+
+            while ((hWnd = FindWindowEx(IntPtr.Zero, hWnd, null, "EyeData")) != IntPtr.Zero)
+            {
+                uint pid;
+                GetWindowThreadProcessId(hWnd, out pid);
+
+                if (procs.Any(p => p.Id == pid && p.Id != self))
+                {
+                    return hWnd;
+                }
+            }
+
+            return IntPtr.Zero;
+        }
+
         static void MainBody()
         {
             // すでに起動しているか
@@ -71,7 +102,7 @@ namespace EyeCenter
 
             if (procs.Length > 1)
             {
-                IntPtr hWnd = WinAPI.FindWindow(null, "EyeCenter");
+                IntPtr hWnd = FindMainWindow(procs);
 
                 if (hWnd != IntPtr.Zero)
                 {
