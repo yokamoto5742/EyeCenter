@@ -48,7 +48,7 @@
             this.CanonButton.Location = new System.Drawing.Point(5, 92);
             this.CanonButton.Name = "CanonButton";
             this.CanonButton.Size = new System.Drawing.Size(85, 23);
-            this.CanonButton.TabIndex = 16;
+            this.CanonButton.TabIndex = 7;
             this.CanonButton.Text = "Canon RKF";
             this.CanonButton.UseVisualStyleBackColor = true;
             this.CanonButton.Click += new System.EventHandler(this.CanonButton_Click);
@@ -58,7 +58,7 @@
             this.NidekButton.Location = new System.Drawing.Point(95, 92);
             this.NidekButton.Name = "NidekButton";
             this.NidekButton.Size = new System.Drawing.Size(85, 23);
-            this.NidekButton.TabIndex = 15;
+            this.NidekButton.TabIndex = 8;
             this.NidekButton.Text = "Nidek ARK";
             this.NidekButton.UseVisualStyleBackColor = true;
             this.NidekButton.Click += new System.EventHandler(this.NidekButton_Click);
@@ -68,7 +68,7 @@
             this.SummaryFindButton.Location = new System.Drawing.Point(95, 8);
             this.SummaryFindButton.Name = "SummaryFindButton";
             this.SummaryFindButton.Size = new System.Drawing.Size(85, 23);
-            this.SummaryFindButton.TabIndex = 11;
+            this.SummaryFindButton.TabIndex = 2;
             this.SummaryFindButton.Text = "サマリ検索";
             this.SummaryFindButton.UseVisualStyleBackColor = true;
             this.SummaryFindButton.Click += new System.EventHandler(this.SummaryFindButton_Click);
@@ -78,7 +78,7 @@
             this.KensaFindButton.Location = new System.Drawing.Point(95, 64);
             this.KensaFindButton.Name = "KensaFindButton";
             this.KensaFindButton.Size = new System.Drawing.Size(85, 23);
-            this.KensaFindButton.TabIndex = 10;
+            this.KensaFindButton.TabIndex = 6;
             this.KensaFindButton.Text = "検査検索";
             this.KensaFindButton.UseVisualStyleBackColor = true;
             this.KensaFindButton.Click += new System.EventHandler(this.KensaFindButton_Click);
@@ -88,7 +88,7 @@
             this.ExportButton.Location = new System.Drawing.Point(5, 64);
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Size = new System.Drawing.Size(85, 23);
-            this.ExportButton.TabIndex = 6;
+            this.ExportButton.TabIndex = 5;
             this.ExportButton.Text = "エクスポート";
             this.ExportButton.UseVisualStyleBackColor = true;
             this.ExportButton.Click += new System.EventHandler(this.ExportButton_Click);
@@ -98,7 +98,7 @@
             this.PrintButton.Location = new System.Drawing.Point(5, 120);
             this.PrintButton.Name = "PrintButton";
             this.PrintButton.Size = new System.Drawing.Size(85, 23);
-            this.PrintButton.TabIndex = 5;
+            this.PrintButton.TabIndex = 9;
             this.PrintButton.Text = "一括印刷";
             this.PrintButton.UseVisualStyleBackColor = true;
             this.PrintButton.Click += new System.EventHandler(this.PrintButton_Click);
@@ -115,10 +115,10 @@
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(95, 120);
+            this.ExitButton.Location = new System.Drawing.Point(95, 148);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(85, 23);
-            this.ExitButton.TabIndex = 3;
+            this.ExitButton.TabIndex = 11;
             this.ExitButton.Text = "終了";
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
@@ -128,7 +128,7 @@
             this.RsvButton.Location = new System.Drawing.Point(5, 36);
             this.RsvButton.Name = "RsvButton";
             this.RsvButton.Size = new System.Drawing.Size(85, 23);
-            this.RsvButton.TabIndex = 2;
+            this.RsvButton.TabIndex = 3;
             this.RsvButton.Text = "手術予約";
             this.RsvButton.UseVisualStyleBackColor = true;
             this.RsvButton.Click += new System.EventHandler(this.RsvButton_Click);
@@ -145,10 +145,10 @@
             //
             // UserChangeButton
             //
-            this.UserChangeButton.Location = new System.Drawing.Point(5, 148);
+            this.UserChangeButton.Location = new System.Drawing.Point(95, 120);
             this.UserChangeButton.Name = "UserChangeButton";
             this.UserChangeButton.Size = new System.Drawing.Size(85, 23);
-            this.UserChangeButton.TabIndex = 17;
+            this.UserChangeButton.TabIndex = 10;
             this.UserChangeButton.Text = "ユーザー変更";
             this.UserChangeButton.UseVisualStyleBackColor = true;
             this.UserChangeButton.Click += new System.EventHandler(this.UserChangeButton_Click);
@@ -159,7 +159,7 @@
             this.UserLabel.Location = new System.Drawing.Point(5, 176);
             this.UserLabel.Name = "UserLabel";
             this.UserLabel.Size = new System.Drawing.Size(175, 15);
-            this.UserLabel.TabIndex = 18;
+            this.UserLabel.TabIndex = 12;
             this.UserLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainForm
