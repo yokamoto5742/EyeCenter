@@ -486,6 +486,21 @@ namespace EyeCenter
                             dateDict2.Add(kensa.KensaDate, k);
                         }
                     }
+                    else if (KensaPageRow["Name"].ToString().Equals("GAT"))
+                    {
+                        // GAT（未入力・非数値・０はグラフの対象外とする）
+                        float k = 0.0F;
+
+                        if (kensaDict.ContainsKey("501R") && float.TryParse(kensaDict["501R"], out k) && k > 0.0F)
+                        {
+                            dateDict1.Add(kensa.KensaDate, k);
+                        }
+
+                        if (kensaDict.ContainsKey("501L") && float.TryParse(kensaDict["501L"], out k) && k > 0.0F)
+                        {
+                            dateDict2.Add(kensa.KensaDate, k);
+                        }
+                    }
 
                     // 検査日・作成者ラベルの表示
                     Label staffLabel = new Label();
@@ -674,6 +689,54 @@ namespace EyeCenter
                 p2.Image = new Bitmap(p2.Width, p2.Height);
 
                 this.GraphDraw3("左", p2.Image, dateList, dateDict2, date_interval);
+
+                this.Controls.Add(p1);
+                this.Controls.Add(p2);
+            }
+            else if (KensaPageRow["Name"].ToString().Equals("GAT"))
+            {
+                // 元のグラフがあれば削除する
+                if (this.Controls.ContainsKey("Graph1"))
+                {
+                    this.Controls.RemoveByKey("Graph1");
+                }
+
+                if (this.Controls.ContainsKey("Graph2"))
+                {
+                    this.Controls.RemoveByKey("Graph2");
+                }
+
+                int form_height = int.Parse(KensaHistoryRow["FormHeight"].ToString());
+                int p_height = (form_height - 100) / 2;
+
+                // グラフの実座標からフォーム幅を決める
+                int graph_x = this.ContentPanel.Location.X + this.ContentPanel.Width + 10;
+                int graph_width = dateList.Count * date_interval + 50;
+
+                this.Width = graph_x + graph_width + 30;
+
+                if (Screen.PrimaryScreen.Bounds.Width < this.Width + this.Location.X)
+                {
+                    this.Width = Screen.PrimaryScreen.Bounds.Width - this.Location.X;
+                }
+
+                PictureBox p1 = new PictureBox();
+                p1.Name = "Graph1";
+                p1.BackColor = Color.White;
+                p1.Location = new Point(graph_x, 30);
+                p1.Size = new Size(graph_width, p_height);
+                p1.Image = new Bitmap(p1.Width, p1.Height);
+
+                this.GraphDraw2("右", p1.Image, dateList, dateDict1, date_interval);
+
+                PictureBox p2 = new PictureBox();
+                p2.Name = "Graph2";
+                p2.BackColor = Color.White;
+                p2.Location = new Point(graph_x, 30 + p_height + 10);
+                p2.Size = new Size(graph_width, p_height);
+                p2.Image = new Bitmap(p2.Width, p2.Height);
+
+                this.GraphDraw2("左", p2.Image, dateList, dateDict2, date_interval);
 
                 this.Controls.Add(p1);
                 this.Controls.Add(p2);
