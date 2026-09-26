@@ -243,29 +243,11 @@ namespace EyeCenter
             data.Title.Add("Œo‰ß");
             data.Title.Add("—š—ð");
 
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-            data.Title2.Add("");
-
             foreach (DataRow r in EyeDict.EyeSet.Tables["SumItem1"].Rows)
             {
                 if (r["Code"].ToString().Length > 0)
                 {
-                    data.Title.Add(r["Code"].ToString());
-                    data.Title2.Add(r["Label"].ToString());
+                    data.Title.Add(r["Label"].ToString());
                 }
             }
 
@@ -273,10 +255,8 @@ namespace EyeCenter
             {
                 if (r["Code"].ToString().Length > 0)
                 {
-                    data.Title.Add(r["Code"].ToString());
-                    data.Title.Add(r["Code"].ToString());
-                    data.Title2.Add(r["Label"].ToString());
-                    data.Title2.Add(r["Label"].ToString());
+                    data.Title.Add(r["Label"].ToString() + "_“ú•t");
+                    data.Title.Add(r["Label"].ToString());
                 }
             }
 
@@ -284,8 +264,7 @@ namespace EyeCenter
             {
                 if (r["Code"].ToString().Length > 0)
                 {
-                    data.Title.Add(r["Code"].ToString());
-                    data.Title2.Add(r["Label"].ToString());
+                    data.Title.Add(r["Label"].ToString());
                 }
             }
 
@@ -293,8 +272,7 @@ namespace EyeCenter
             {
                 if (r["Code"].ToString().Length > 0)
                 {
-                    data.Title.Add(r["Code"].ToString());
-                    data.Title2.Add(r["Name"].ToString());
+                    data.Title.Add(r["Name"].ToString());
                 }
             }
         }
