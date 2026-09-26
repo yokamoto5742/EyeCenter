@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using MedicalLibrary.Agent;
 using MedicalLibrary.Boundary;
+using MedicalLibrary.Entity;
 
 namespace EyeCenter
 {
@@ -76,6 +77,43 @@ namespace EyeCenter
             f.Activate();
             f.BringToFront();
             f.WindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// バーコード読み取りで FormPat を表示する。
+        /// 別の患者を表示中の場合は、登録していない入力内容を失わないよう切り替えてよいか確認する。
+        /// </summary>
+        public static void FormPat_ShowByBarcode(string pt_id)
+        {
+            PatBase p = PatBase.Load(pt_id);
+
+            if (p.Id.Length == 0)
+            {
+                MessageBox.Show("患者ID " + pt_id + " の患者が見つかりません", "バーコード読み取り");
+                return;
+            }
+
+            FormPat f = FormPat_List.Count > 0 ? FormPat_List[0] : null;
+
+            if (f != null && f.Created && f.Visible && f.Pat.Id.Length > 0 && !f.Pat.Id.Equals(p.Id))
+            {
+                f.Activate();
+                f.WindowState = FormWindowState.Normal;
+
+                DialogResult result = MessageBox.Show(f,
+                    "患者台帳を切り替えます。\r\n\r\n" +
+                    "表示中　: " + f.Pat.Id + " " + f.Pat.Name + "\r\n" +
+                    "読み取り: " + p.Id + " " + p.Name + "\r\n\r\n" +
+                    "登録していない入力内容は破棄されます。よろしいですか？",
+                    "バーコード読み取り", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            FormPat_Show(p.Id, FormPat.Mode.SHOW);
         }
 
         /// <summary>

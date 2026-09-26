@@ -132,6 +132,7 @@
     <Compile Include="ControlIVPage.cs" />
     <Compile Include="ControlSumPage.cs" />
     <Compile Include="Barcode128.cs" />
+    <Compile Include="BarcodeKeyFilter.cs" />
     <Compile Include="ExcelControl.cs" />
     <Compile Include="ExcelWarmup.cs" />
     <Compile Include="FormControl.cs" />

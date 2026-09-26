@@ -127,6 +127,9 @@ namespace EyeCenter
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                // バーコードリーダーで36桁バーコードを読み取ったら患者台帳を開く
+                Application.AddMessageFilter(new BarcodeKeyFilter(AppConfig.GetInt("BarcodeKeyInterval", 50)));
+
                 try
                 {
                     // Excel の事前起動は帳票を出す手術記録画面（FormPat）を開いたときに行う。
