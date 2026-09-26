@@ -224,6 +224,8 @@ namespace EyeCenter
             data.Title.Add("年齢");
 
             List<EyeKensaItemMaster> list;
+            // 見出しはラベル名、値の取得は項目コードで行う
+            List<string> codes = new List<string>();
 
             foreach (string s in KensaListBox.CheckedItems)
             {
@@ -233,7 +235,8 @@ namespace EyeCenter
 
                     foreach (EyeKensaItemMaster kensa in list)
                     {
-                        data.Title.Add(kensa.Code);
+                        data.Title.Add(kensa.Name.Length > 0 ? kensa.Name : kensa.Code);
+                        codes.Add(kensa.Code);
                     }
                 }
             }
@@ -246,22 +249,22 @@ namespace EyeCenter
                 return data;
             }
 
-            return SearchTask.Run("出力データを作成しています...", t => AddRecords(data, view, t));
+            return SearchTask.Run("出力データを作成しています...", t => AddRecords(data, codes, view, t));
         }
 
         /// <summary>
         /// 出力データに一覧の行を追加する（ワーカースレッドから呼び出す）。
         /// </summary>
         /// <param name="data">列見出しを設定済みの出力データ</param>
+        /// <param name="codes">検査項目の列に対応する項目コード</param>
         /// <param name="view">一覧の DataView</param>
         /// <param name="t">進捗の表示先</param>
         /// <returns></returns>
-        TableData AddRecords(TableData data, DataView view, SearchTask t)
+        TableData AddRecords(TableData data, List<string> codes, DataView view, SearchTask t)
         {
             int comma = 0;
             string key = "";
             Dictionary<string, string> recordDict = new Dictionary<string, string>();
-            int i = 0;
             int count = 0;
 
             foreach (DataRowView d in view)
@@ -296,11 +299,11 @@ namespace EyeCenter
                     }
                 }
 
-                for (i = 7; i < data.Title.Count; i++)
+                foreach (string code in codes)
                 {
-                    if (recordDict.ContainsKey(data.Title[i]))
+                    if (recordDict.ContainsKey(code))
                     {
-                        record.DataList.Add(recordDict[data.Title[i]]);
+                        record.DataList.Add(recordDict[code]);
                     }
                     else
                     {
