@@ -630,7 +630,7 @@ namespace EyeCenter
         /// </summary>
         private void TitleShow()
         {
-            this.Text = "EyeData(" + LoginUser.Name + "ログイン中)";
+            this.Text = "EyeData (" + LoginUser.Name + " ログイン中)";
         }
 
         /// <summary>
