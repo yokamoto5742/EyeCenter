@@ -56,10 +56,18 @@ namespace EyeCenter
         {
             try
             {
+                int designWidth = this.ClientSize.Width;
                 // メイン画面のサイズを設定ファイル(EyeCenter.exe.config)から反映する
                 this.ClientSize = new Size(
                     AppConfig.GetInt("MainFormWidth", this.ClientSize.Width),
                     AppConfig.GetInt("MainFormHeight", this.ClientSize.Height));
+
+                // 幅を変えてもボタンの左右の余白が均等になるように全コントロールを横にずらす
+                int offsetX = (this.ClientSize.Width - designWidth) / 2;
+                foreach (Control c in this.Controls)
+                {
+                    c.Left += offsetX;
+                }
 
                 // 前回終了時の位置で表示する
                 WindowPosition.Attach(this, "MainForm");
