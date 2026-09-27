@@ -3,7 +3,7 @@
 namespace EyeCenter.Tests
 {
     /// <summary>
-    /// BarcodeKeyFilter のバーコード判定（打鍵間隔・桁数）と患者ID抽出の動作確認。
+    /// BarcodeKeyFilter のバーコード判定（所要時間・桁数）と患者ID抽出の動作確認。
     /// </summary>
     [TestClass]
     public class BarcodeKeyFilterTests
@@ -31,7 +31,7 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void 速い入力の36桁とEnterはバーコードとみなす()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36, 1000, 5);
 
             Assert.AreEqual(Digits36, f.Complete(tick + 5));
@@ -40,7 +40,7 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void 人の打鍵速度の入力はバーコードとみなさない()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36, 1000, 150);
 
             Assert.IsNull(f.Complete(tick + 150));
@@ -49,7 +49,7 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void 桁数が36でなければバーコードとみなさない()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36.Substring(0, 35), 1000, 5);
             Assert.IsNull(f.Complete(tick + 5), "35桁");
 
@@ -60,11 +60,11 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void 手入力の数字の直後に読み取っても読み取り分だけで判定する()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, "12", 1000, 300);
 
-            Assert.IsTrue(f.AddDigit(Digits36[0], tick + 300), "間隔が空いたら新しい読み取りの始まり");
-            tick = Type(f, Digits36.Substring(1), tick + 305, 5);
+            Assert.IsTrue(f.AddDigit(Digits36[0], tick + 1500), "間隔が空いたら新しい読み取りの始まり");
+            tick = Type(f, Digits36.Substring(1), tick + 1505, 5);
 
             Assert.AreEqual(Digits36, f.Complete(tick + 5));
         }
@@ -72,16 +72,26 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void Enterが遅れた場合はバーコードとみなさない()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36, 1000, 5);
 
-            Assert.IsNull(f.Complete(tick + 500));
+            Assert.IsNull(f.Complete(tick + 1000));
+        }
+
+        [TestMethod]
+        public void 途中で間隔が空いても全体が短ければバーコードとみなす()
+        {
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
+            int tick = Type(f, Digits36.Substring(0, 18), 1000, 20);
+            tick = Type(f, Digits36.Substring(18), tick + 200, 20);
+
+            Assert.AreEqual(Digits36, f.Complete(tick + 20));
         }
 
         [TestMethod]
         public void 判定後はバッファが空になる()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36, 1000, 5);
             f.Complete(tick + 5);
 
@@ -91,7 +101,7 @@ namespace EyeCenter.Tests
         [TestMethod]
         public void TickCountが一周しても判定できる()
         {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(50);
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, Digits36, int.MaxValue - 100, 5);
 
             Assert.AreEqual(Digits36, f.Complete(unchecked(tick + 5)));

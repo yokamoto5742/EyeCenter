@@ -7,7 +7,8 @@ namespace EyeCenter
 {
     /// <summary>
     /// バーコードリーダー（キーボード入力方式）で36桁バーコードを読み取ったら、その患者の患者台帳を開く。
-    /// リーダーは人の打鍵よりずっと速く文字を送るため、打鍵間隔が短い数字36桁＋Enter をバーコードとみなす。
+    /// リーダーは人の打鍵よりずっと速く文字を送るため、短い時間に入力された数字36桁＋Enter をバーコードとみなす。
+    /// 1文字ごとの間隔はリーダーや USB の都合でばらつくため、読み取り全体の所要時間で判定する。
     /// 読み取りでフォーカス先に入った数字は元に戻し、Enter は握りつぶす（既定ボタンなどを押させないため）。
     /// </summary>
     internal class BarcodeKeyFilter : IMessageFilter
@@ -18,11 +19,12 @@ namespace EyeCenter
         internal const int CodeLength = 36;
 
         /// <summary>
-        /// バーコードとみなす打鍵間隔の上限（ミリ秒）
+        /// バーコードとみなす、先頭の数字から Enter までの所要時間の上限（ミリ秒）
         /// </summary>
-        readonly int maxInterval;
+        readonly int maxTime;
 
         string buffer = "";
+        int startTick;
         int lastTick;
 
         // 読み取り開始時点のフォーカス先の入力内容（読み取った数字を取り除くため）
@@ -31,9 +33,9 @@ namespace EyeCenter
         int targetSelStart;
         int targetSelLength;
 
-        public BarcodeKeyFilter(int maxInterval)
+        public BarcodeKeyFilter(int maxTime)
         {
-            this.maxInterval = maxInterval;
+            this.maxTime = maxTime;
         }
 
         public bool PreFilterMessage(ref Message m)
@@ -74,11 +76,12 @@ namespace EyeCenter
         /// </summary>
         internal bool AddDigit(char c, int tick)
         {
-            bool start = this.buffer.Length == 0 || this.buffer.Length >= CodeLength || unchecked(tick - this.lastTick) > this.maxInterval;
+            bool start = this.buffer.Length == 0 || this.buffer.Length >= CodeLength || unchecked(tick - this.lastTick) > this.maxTime;
 
             if (start)
             {
                 this.buffer = "";
+                this.startTick = tick;
             }
 
             this.buffer += c;
@@ -95,7 +98,7 @@ namespace EyeCenter
             string code = this.buffer;
             this.buffer = "";
 
-            if (code.Length == CodeLength && unchecked(tick - this.lastTick) <= this.maxInterval)
+            if (code.Length == CodeLength && unchecked(tick - this.startTick) <= this.maxTime)
             {
                 return code;
             }

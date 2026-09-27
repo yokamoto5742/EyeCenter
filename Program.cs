@@ -128,7 +128,7 @@ namespace EyeCenter
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 // バーコードリーダーで36桁バーコードを読み取ったら患者台帳を開く
-                Application.AddMessageFilter(new BarcodeKeyFilter(AppConfig.GetInt("BarcodeKeyInterval", 50)));
+                Application.AddMessageFilter(new BarcodeKeyFilter(AppConfig.GetInt("BarcodeKeyInterval", 1000)));
 
                 try
                 {
