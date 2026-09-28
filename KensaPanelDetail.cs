@@ -343,17 +343,40 @@ namespace EyeCenter
                     double t2 = 0;
                     double t3 = 0;
 
-                    string s1 = this.Controls[str + "1" + g].Text;
-                    string s2 = this.Controls[str + "2" + g].Text;
-                    string s3 = this.Controls[str + "3" + g].Text;
+                    Control avgBox = FindTextBoxByCode(str + "4" + g);
+
+                    if (avgBox == null)
+                    {
+                        return;
+                    }
+
+                    string s1 = FindTextBoxByCode(str + "1" + g)?.Text ?? "";
+                    string s2 = FindTextBoxByCode(str + "2" + g)?.Text ?? "";
+                    string s3 = FindTextBoxByCode(str + "3" + g)?.Text ?? "";
 
                     if (s1.Length > 0 && double.TryParse(s1, out t1)) { ; }
                     if (s2.Length > 0 && double.TryParse(s2, out t2)) { ; }
                     if (s3.Length > 0 && double.TryParse(s3, out t3)) { ; }
 
-                    this.Controls[str + "4" + g].Text = EyeDict.CalcTensionAvg(t1, t2, t3).ToString();
+                    avgBox.Text = EyeDict.CalcTensionAvg(t1, t2, t3).ToString();
                 }
             }
+        }
+
+        /// <summary>
+        /// 項目コード(Tag)でテキストボックスを探す。Name は項目コードと一致しない場合がある(例: 304R の Name は「眼圧平均R」)。
+        /// </summary>
+        private Control FindTextBoxByCode(string code)
+        {
+            foreach (Control c in this.Controls)
+            {
+                if (c is TextBox && code.Equals(c.Tag as string))
+                {
+                    return c;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
