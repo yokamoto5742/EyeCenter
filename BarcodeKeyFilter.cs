@@ -6,8 +6,8 @@ using System.Windows.Forms;
 namespace EyeCenter
 {
     /// <summary>
-    /// バーコードリーダー（キーボード入力方式）で36桁バーコードを読み取ったら、その患者の患者台帳を開く。
-    /// リーダーは人の打鍵よりずっと速く文字を送るため、短い時間に入力された数字36桁＋Enter をバーコードとみなす。
+    /// バーコードリーダー（キーボード入力方式）で36桁バーコード、または患者IDのみ（1～6桁）のバーコードを読み取ったら、その患者の患者台帳を開く。
+    /// リーダーは人の打鍵よりずっと速く文字を送るため、短い時間に入力された数字36桁＋Enter、数字1～6桁＋Enter をバーコードとみなす。
     /// 1文字ごとの間隔はリーダーや USB の都合でばらつくため、読み取り全体の所要時間で判定する。
     /// 読み取りでフォーカス先に入った数字は元に戻し、Enter は握りつぶす（既定ボタンなどを押させないため）。
     /// </summary>
@@ -19,7 +19,18 @@ namespace EyeCenter
         internal const int CodeLength = 36;
 
         /// <summary>
-        /// バーコードとみなす、先頭の数字から Enter までの所要時間の上限（ミリ秒）
+        /// 患者IDのみのバーコードの最大桁数
+        /// </summary>
+        internal const int IdCodeMaxLength = 6;
+
+        /// <summary>
+        /// 患者IDのみのバーコードとみなす、先頭の数字から Enter までの所要時間の上限（ミリ秒）。
+        /// 桁数が少なく手入力と紛れやすいため、36桁よりずっと短くする（実測は5桁で約30ミリ秒）。
+        /// </summary>
+        internal const int IdCodeMaxTime = 100;
+
+        /// <summary>
+        /// 36桁バーコードとみなす、先頭の数字から Enter までの所要時間の上限（ミリ秒）
         /// </summary>
         readonly int maxTime;
 
@@ -76,7 +87,8 @@ namespace EyeCenter
         /// </summary>
         internal bool AddDigit(char c, int tick)
         {
-            bool start = this.buffer.Length == 0 || this.buffer.Length >= CodeLength || unchecked(tick - this.lastTick) > this.maxTime;
+            // 36桁を超えても続けて溜める（超えた分を患者IDのみのバーコードと誤認しないため）
+            bool start = this.buffer.Length == 0 || unchecked(tick - this.lastTick) > this.maxTime;
 
             if (start)
             {
@@ -98,7 +110,10 @@ namespace EyeCenter
             string code = this.buffer;
             this.buffer = "";
 
-            if (code.Length == CodeLength && unchecked(tick - this.startTick) <= this.maxTime)
+            int elapsed = unchecked(tick - this.startTick);
+
+            if ((code.Length == CodeLength && elapsed <= this.maxTime) ||
+                (code.Length >= 1 && code.Length <= IdCodeMaxLength && elapsed <= IdCodeMaxTime))
             {
                 return code;
             }
@@ -107,13 +122,14 @@ namespace EyeCenter
         }
 
         /// <summary>
-        /// 36桁バーコードの先頭9桁（患者ID）を取り出す。患者IDとして不正なら null を返す。
+        /// 36桁バーコードは先頭9桁、患者IDのみのバーコードは全体を患者IDとして取り出す。患者IDとして不正なら null を返す。
         /// </summary>
         internal static string ParsePatientId(string code)
         {
             int id;
+            string idPart = code.Length == CodeLength ? code.Substring(0, 9) : code;
 
-            if (code.Length == CodeLength && int.TryParse(code.Substring(0, 9), out id) && id > 0)
+            if ((code.Length == CodeLength || code.Length <= IdCodeMaxLength) && int.TryParse(idPart, out id) && id > 0)
             {
                 return id.ToString();
             }

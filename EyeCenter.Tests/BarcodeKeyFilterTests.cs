@@ -108,6 +108,53 @@ namespace EyeCenter.Tests
         }
 
         [TestMethod]
+        public void 速い入力の1から6桁とEnterは患者IDのバーコードとみなす()
+        {
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
+            int tick = Type(f, "188807", 1000, 5);
+            Assert.AreEqual("188807", f.Complete(tick + 5), "6桁");
+
+            tick = Type(f, "7", 2000, 5);
+            Assert.AreEqual("7", f.Complete(tick + 5), "1桁");
+        }
+
+        [TestMethod]
+        public void 患者IDのバーコードは100ミリ秒を超えたらバーコードとみなさない()
+        {
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
+            int tick = Type(f, "17176", 1000, 5);
+
+            Assert.IsNull(f.Complete(1000 + BarcodeKeyFilter.IdCodeMaxTime + 1));
+        }
+
+        [TestMethod]
+        public void 人の打鍵速度の患者IDはバーコードとみなさない()
+        {
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
+            int tick = Type(f, "17176", 1000, 150);
+
+            Assert.IsNull(f.Complete(tick + 150));
+        }
+
+        [TestMethod]
+        public void 桁数が7から35ならバーコードとみなさない()
+        {
+            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
+            int tick = Type(f, "1888070", 1000, 1);
+
+            Assert.IsNull(f.Complete(tick + 1));
+        }
+
+        [TestMethod]
+        public void 患者IDのみのバーコードは全体を患者IDとして取り出す()
+        {
+            Assert.AreEqual("188807", BarcodeKeyFilter.ParsePatientId("188807"));
+            Assert.AreEqual("7", BarcodeKeyFilter.ParsePatientId("0007"), "ゼロ埋めを除く");
+            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("000000"));
+            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("1888070"), "7桁");
+        }
+
+        [TestMethod]
         public void 先頭9桁から患者IDを取り出す()
         {
             Assert.AreEqual("1001", BarcodeKeyFilter.ParsePatientId(Digits36), "ゼロ埋めを除く");
