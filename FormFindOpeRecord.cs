@@ -483,6 +483,25 @@ namespace EyeCenter
             FormSumColumnSelect.ShowColumnSettings();
         }
 
+        /// <summary>
+        /// サマリー結合がチェックされていれば、保存済みの設定で選択されたサマリー項目を各行の右側に結合する（Excel/CSV 共通）。
+        /// </summary>
+        /// <param name="data">結合先の出力データ</param>
+        private void AppendSummaryIfChecked(TableData data)
+        {
+            if (SumJoinBox.Checked)
+            {
+                List<string> ptList = new List<string>();
+
+                foreach (DataGridViewRow d in OpeListView.Rows)
+                {
+                    ptList.Add(d.Cells["PT_ID"].Value.ToString());
+                }
+
+                FormSumColumnSelect.AppendSavedSummaryColumns(data, ptList);
+            }
+        }
+
         private void ExcelButton_Click(object sender, EventArgs e)
         {
             TableData data = MakeTableData();
@@ -493,6 +512,8 @@ namespace EyeCenter
             }
 
             FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
+
+            AppendSummaryIfChecked(data);
 
             SearchTask.ExcelSave(data, "手術記録検索" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".xlsx");
         }
@@ -508,17 +529,7 @@ namespace EyeCenter
 
             FormCsvColumnSelect.ApplySavedColumns(data, "OpeRecord");
 
-            if (SumJoinBox.Checked)
-            {
-                List<string> ptList = new List<string>();
-
-                foreach (DataGridViewRow d in OpeListView.Rows)
-                {
-                    ptList.Add(d.Cells["PT_ID"].Value.ToString());
-                }
-
-                FormSumColumnSelect.AppendSavedSummaryColumns(data, ptList);
-            }
+            AppendSummaryIfChecked(data);
 
             SearchTask.CSVSave(data, "手術記録検索" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
         }
