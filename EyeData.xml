@@ -3752,7 +3752,7 @@
     <KensaCode></KensaCode>
   </OpePassItem>
   <OpePassItem>
-    <Code>42</Code>
+    <Code>41</Code>
     <Name>LT</Name>
     <Type>ComboBox</Type>
     <Text>LT</Text>
@@ -3763,91 +3763,7 @@
     <KensaCode></KensaCode>
   </OpePassItem>
   <OpePassItem>
-    <Code>36</Code>
-    <Name>RefS</Name>
-    <Type>ComboBox</Type>
-    <Text>レフS</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit>D</Unit>
-    <KensaCode></KensaCode>
-    <SumCode>829,832</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>37</Code>
-    <Name>RefC</Name>
-    <Type>ComboBox</Type>
-    <Text>レフC</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit>D</Unit>
-    <KensaCode></KensaCode>
-    <SumCode>830,833</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>38</Code>
-    <Name>RefAx</Name>
-    <Type>ComboBox</Type>
-    <Text>レフAx</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit></Unit>
-    <KensaCode></KensaCode>
-    <SumCode>831,834</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>39</Code>
-    <Name>KrtR1</Name>
-    <Type>ComboBox</Type>
-    <Text>ケラトR1</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit></Unit>
-    <KensaCode></KensaCode>
-    <SumCode>723,727</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>40</Code>
-    <Name>KrtR2</Name>
-    <Type>ComboBox</Type>
-    <Text>ケラトR2</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit></Unit>
-    <KensaCode></KensaCode>
-    <SumCode>724,728</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>41</Code>
-    <Name>KrtAxR1</Name>
-    <Type>ComboBox</Type>
-    <Text>軸R1</Text>
-    <Data>Pre,M1</Data>
-    <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit></Unit>
-    <KensaCode></KensaCode>
-    <SumCode>725,729</SumCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>30</Code>
-    <Name>avgK</Name>
-    <Type>ComboBox</Type>
-    <Text>ケラトavg</Text>
-    <Data>Pre,Next,W1,M1</Data>
-   <Item>ND</Item>
-    <Ime>Off</Ime>
-    <Unit>D</Unit>
-    <KensaCode>
-    </KensaCode>
-  </OpePassItem>
-  <OpePassItem>
-    <Code>43</Code>
+    <Code>42</Code>
     <Name>SNR</Name>
     <Type>ComboBox</Type>
     <Text>SNR</Text>
@@ -3856,6 +3772,18 @@
     <Ime>Off</Ime>
     <Unit></Unit>
     <KensaCode></KensaCode>
+  </OpePassItem>
+  <OpePassItem>
+    <Code>43</Code>
+    <Name>ACD</Name>
+    <Type>ComboBox</Type>
+    <Text>ACD</Text>
+    <Data>Pre</Data>
+    <Item>ND</Item>
+    <Ime>Off</Ime>
+    <Unit></Unit>
+    <KensaCode></KensaCode>
+    <SumCode>704,705</SumCode>
   </OpePassItem>
   <OpePassItem>
     <Code>44</Code>
@@ -3937,6 +3865,19 @@
     <Ime>Off</Ime>
     <Unit>D</Unit>
     <KensaCode></KensaCode>
+  <OpePassItem>
+    <Code>30</Code>
+    <Name>avgK</Name>
+    <Type>ComboBox</Type>
+    <Text>ケラトavg</Text>
+    <Data>Pre,Next,W1,M1</Data>
+   <Item>ND</Item>
+    <Ime>Off</Ime>
+    <Unit>D</Unit>
+    <KensaCode>
+    </KensaCode>
+  </OpePassItem>
+
   </OpePassItem>
   <KensaTabControl>
     <ID>1</ID>
@@ -4419,7 +4360,7 @@
     </KensaItem>
     <KensaItem>
       <Code>134</Code>
-      <Name>hyojyun</Name>
+      <Name>標準視力表</Name>
       <Type>CheckBox</Type>
       <Text>
       </Text>　　		
@@ -4454,7 +4395,7 @@
     </KensaItem>
     <KensaItem>
       <Code>135</Code>
-      <Name>jyodan</Name>
+      <Name>上段液晶視力表</Name>
       <Type>CheckBox</Type>
       <Text>
       </Text>
@@ -4489,7 +4430,7 @@
     </KensaItem>
     <KensaItem>
       <Code>136</Code>
-      <Name>syoni</Name>
+      <Name>小児検査室液晶視力表</Name>
       <Type>CheckBox</Type>
       <Text>
       </Text>
@@ -4865,7 +4806,7 @@
     </KensaItem>
     <KensaItem>
       <Code>109C</Code>
-      <Name>コメント①</Name>
+      <Name>コメント</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
@@ -9079,7 +9020,7 @@
     </KensaItem>
     <KensaItem>
       <Code>304R</Code>
-      <Name>304R</Name>
+      <Name>眼圧平均R</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
@@ -9193,7 +9134,7 @@
     </KensaItem>
     <KensaItem>
       <Code>304L</Code>
-      <Name>304L</Name>
+      <Name>眼圧平均L</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
@@ -12435,8 +12376,7 @@
     </KensaItem>
     <KensaItem>
       <Code>2201L</Code>
-      <Name>
-      </Name>
+      <Name>2201L</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
@@ -12848,7 +12788,7 @@
     </Tenkey>
     <KensaItem>
       <Code>910</Code>
-      <Name>910</Name>
+      <Name>アニセイコニア％</Name>
       <Type>ComboBox</Type>
       <Text>
       </Text>
@@ -12882,7 +12822,7 @@
     </KensaItem>
     <KensaItem>
       <Code>911</Code>
-      <Name>911</Name>
+      <Name>アニセイコニア左右</Name>
       <Type>ComboBox</Type>
       <Text>
       </Text>
@@ -19805,7 +19745,7 @@
     <Tenkey>3</Tenkey>
     <KensaItem>
       <Code>1101</Code>
-      <Name>1101</Name>
+      <Name>斜視検査</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
@@ -19884,7 +19824,7 @@
     </Tenkey>
     <KensaItem>
       <Code>1102</Code>
-      <Name>1102</Name>
+      <Name>ロービジョン</Name>
       <Type>TextBox</Type>
       <Text>
       </Text>
