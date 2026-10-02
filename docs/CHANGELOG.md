@@ -15,6 +15,10 @@
   - DB の `EYE_OPE.SHORT_OPE3` 列と MedicalLibrary の `EyeOpe.ShortOpe3` は残っていたため変更なし
   - 削除していた間（2026-07-02 以降）に保存した手術情報は 0（チェックなし）で保存されている
 
+### 修正
+- `EyeData.xml` の申し送り項目（`OpePassItem`）で、「Realavg」の閉じタグが抜けて「avgK」が入れ子になっていたのを直した
+  - 閉じタグが「avgK」の後ろに余っていたため、正しい位置に移した（`EyeDataXmlTests` の失敗も解消）
+
 ## [1.5.5] - 2026-09-29
 
 ### 修正

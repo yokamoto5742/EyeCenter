@@ -3865,6 +3865,7 @@
     <Ime>Off</Ime>
     <Unit>D</Unit>
     <KensaCode></KensaCode>
+  </OpePassItem>
   <OpePassItem>
     <Code>30</Code>
     <Name>avgK</Name>
@@ -3876,8 +3877,6 @@
     <Unit>D</Unit>
     <KensaCode>
     </KensaCode>
-  </OpePassItem>
-
   </OpePassItem>
   <KensaTabControl>
     <ID>1</ID>
