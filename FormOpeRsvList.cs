@@ -54,6 +54,7 @@ namespace EyeCenter
             // もとは「同意書渡し済み」だったが、不要になったとのことで「禁忌」に変更。2010/08/29
             tmpTable.Columns.Add("禁忌");
 
+            tmpTable.Columns.Add("短3");
             tmpTable.Columns.Add("締後");
             tmpTable.Columns.Add("備考");
             tmpTable.Columns.Add("術前チェック");
@@ -226,6 +227,7 @@ namespace EyeCenter
                 r["感染詳細"] = obj.Infection;
 
                 r["禁忌"] = obj.Agree.Equals("1") ? "○" : "";
+                r["短3"] = obj.ShortOpe3.Equals("1") ? "○" : "";
                 r["締後"] = obj.EarlierOK.Equals("1") ? "○" : "";
                 r["備考"] = obj.Comment;
                 r["術前チェック"] = obj.PreCheck.Equals("1") ? "○" : "";
@@ -295,6 +297,9 @@ namespace EyeCenter
 
             RsvGridView.Columns["禁忌"].Width = 30;
             RsvGridView.Columns["禁忌"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            RsvGridView.Columns["短3"].Width = 30;
+            RsvGridView.Columns["短3"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             RsvGridView.Columns["締後"].Width = 30;
             RsvGridView.Columns["締後"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -470,6 +475,7 @@ namespace EyeCenter
                 e.Graphics.DrawString("予定時間", f9, Brushes.Black, 490, 118);
                 e.Graphics.DrawString("麻酔", f9, Brushes.Black, 490, 131);
                 e.Graphics.DrawString("感染", f9, Brushes.Black, 580, 105);
+                e.Graphics.DrawString("短3", f9, Brushes.Black, 580, 118);
                 e.Graphics.DrawString("締切後", f9, Brushes.Black, 580, 131);
 //                e.Graphics.DrawString("ビスダイン", f9, Brushes.Black, 580, 118);
 //                e.Graphics.DrawString("ブドウ糖", f9, Brushes.Black, 580, 131);
@@ -529,6 +535,11 @@ namespace EyeCenter
                     if (RsvGridView.Rows[row].Cells["感染"].Value.ToString().Contains("+"))
                     {
                         e.Graphics.DrawString("感染症： " + RsvGridView.Rows[row].Cells["感染詳細"].Value.ToString(), f9, Brushes.Black, 420, h + 67);
+                    }
+
+                    if (RsvGridView.Rows[row].Cells["短3"].Value.ToString().Equals("○"))
+                    {
+                        e.Graphics.DrawString("短3", f9, Brushes.Black, 580, h + 33);
                     }
 
                     if (RsvGridView.Rows[row].Cells["締後"].Value.ToString().Equals("○"))

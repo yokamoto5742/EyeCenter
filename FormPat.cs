@@ -494,6 +494,7 @@ namespace EyeCenter
             EyeDropBox.Checked = false;
             AgreeBox.Checked = false;
             PreCheckBox.Checked = false;
+            ShortOpe3Box.Checked = false;
             EarlierOKBox.Checked = false;
             OpeStaffLabel.Text = "";
 
@@ -1044,6 +1045,7 @@ namespace EyeCenter
             this.EyeDropBox.Checked = ope.EyeDrop.Equals("1");
             this.AgreeBox.Checked = ope.Agree.Equals("1");
             this.PreCheckBox.Checked = ope.PreCheck.Equals("1");
+            this.ShortOpe3Box.Checked = ope.ShortOpe3.Equals("1");
             this.EarlierOKBox.Checked = ope.EarlierOK.Equals("1");
 
             // 身長・体重の値から、体表面積・ビスダイン溶液・ブドウ糖液の量を計算する。
@@ -1420,6 +1422,7 @@ namespace EyeCenter
             ope.EyeDrop = this.EyeDropBox.Checked ? "1" : "0";
             ope.Agree = this.AgreeBox.Checked ? "1" : "0";
             ope.PreCheck = this.PreCheckBox.Checked ? "1" : "0";
+            ope.ShortOpe3 = this.ShortOpe3Box.Checked ? "1" : "0";
             ope.EarlierOK = this.EarlierOKBox.Checked ? "1" : "0";
 
             ope.Staff = LoginUser.Id;
