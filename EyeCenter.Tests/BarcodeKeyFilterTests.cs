@@ -108,35 +108,17 @@ namespace EyeCenter.Tests
         }
 
         [TestMethod]
-        public void 速い入力の1から9桁とEnterは患者IDのバーコードとみなす()
+        public void 速い入力の1から9桁とEnterはバーコードとみなさない()
         {
             BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
             int tick = Type(f, "123456789", 1000, 5);
-            Assert.AreEqual("123456789", f.Complete(tick + 5), "9桁");
+            Assert.IsNull(f.Complete(tick + 5), "9桁");
 
-            tick = Type(f, "188807", 1500, 5);
-            Assert.AreEqual("188807", f.Complete(tick + 5), "6桁");
+            tick = Type(f, "123", 1500, 5);
+            Assert.IsNull(f.Complete(tick + 5), "3桁");
 
             tick = Type(f, "7", 2000, 5);
-            Assert.AreEqual("7", f.Complete(tick + 5), "1桁");
-        }
-
-        [TestMethod]
-        public void 患者IDのバーコードは100ミリ秒を超えたらバーコードとみなさない()
-        {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
-            int tick = Type(f, "17176", 1000, 5);
-
-            Assert.IsNull(f.Complete(1000 + BarcodeKeyFilter.IdCodeMaxTime + 1));
-        }
-
-        [TestMethod]
-        public void 人の打鍵速度の患者IDはバーコードとみなさない()
-        {
-            BarcodeKeyFilter f = new BarcodeKeyFilter(1000);
-            int tick = Type(f, "17176", 1000, 150);
-
-            Assert.IsNull(f.Complete(tick + 150));
+            Assert.IsNull(f.Complete(tick + 5), "1桁");
         }
 
         [TestMethod]
@@ -149,14 +131,11 @@ namespace EyeCenter.Tests
         }
 
         [TestMethod]
-        public void 患者IDのみのバーコードは全体を患者IDとして取り出す()
+        public void 桁数が36でなければ患者IDを取り出さない()
         {
-            Assert.AreEqual("188807", BarcodeKeyFilter.ParsePatientId("188807"));
-            Assert.AreEqual("7", BarcodeKeyFilter.ParsePatientId("0007"), "ゼロ埋めを除く");
-            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("000000"));
-            Assert.AreEqual("1888070", BarcodeKeyFilter.ParsePatientId("1888070"), "7桁");
-            Assert.AreEqual("123456789", BarcodeKeyFilter.ParsePatientId("123456789"), "9桁");
-            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("1234567890"), "10桁");
+            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("188807"), "6桁");
+            Assert.IsNull(BarcodeKeyFilter.ParsePatientId("123456789"), "9桁");
+            Assert.IsNull(BarcodeKeyFilter.ParsePatientId(Digits36 + "1"), "37桁");
         }
 
         [TestMethod]
