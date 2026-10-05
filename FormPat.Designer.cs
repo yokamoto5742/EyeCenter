@@ -208,6 +208,7 @@
             this.OpeWideBox = new System.Windows.Forms.CheckBox();
             this.PDFButton = new System.Windows.Forms.Button();
             this.FamilyButton = new System.Windows.Forms.Button();
+            this.IntroBox = new System.Windows.Forms.TextBox();
             this.AllergyButton = new System.Windows.Forms.Button();
             this.GrapaButton = new System.Windows.Forms.Button();
             this.stdControlPat11 = new MedicalLibrary.Boundary.StdControlPat1();
@@ -2043,7 +2044,7 @@
             this.InnoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.InnoButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.InnoButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.InnoButton.Location = new System.Drawing.Point(610, 4);
+            this.InnoButton.Location = new System.Drawing.Point(800, 4);
             this.InnoButton.Name = "InnoButton";
             this.InnoButton.Size = new System.Drawing.Size(35, 23);
             this.InnoButton.TabIndex = 173;
@@ -2089,7 +2090,7 @@
             //
             this.RsvButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.RsvButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.RsvButton.Location = new System.Drawing.Point(530, 4);
+            this.RsvButton.Location = new System.Drawing.Point(720, 4);
             this.RsvButton.Name = "RsvButton";
             this.RsvButton.Size = new System.Drawing.Size(80, 23);
             this.RsvButton.TabIndex = 179;
@@ -2114,7 +2115,7 @@
             this.PDFButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PDFButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.PDFButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.PDFButton.Location = new System.Drawing.Point(690, 4);
+            this.PDFButton.Location = new System.Drawing.Point(880, 4);
             this.PDFButton.Name = "PDFButton";
             this.PDFButton.Size = new System.Drawing.Size(35, 23);
             this.PDFButton.TabIndex = 182;
@@ -2134,6 +2135,18 @@
             this.FamilyButton.UseVisualStyleBackColor = false;
             this.FamilyButton.Click += new System.EventHandler(this.FamilyButton_Click);
             // 
+            // IntroBox
+            // 
+            this.IntroBox.BackColor = System.Drawing.Color.LightYellow;
+            this.IntroBox.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
+            this.IntroBox.Location = new System.Drawing.Point(530, 6);
+            this.IntroBox.MaxLength = 200;
+            this.IntroBox.Name = "IntroBox";
+            this.IntroBox.ReadOnly = true;
+            this.IntroBox.Size = new System.Drawing.Size(190, 19);
+            this.IntroBox.TabIndex = 184;
+            this.IntroBox.DoubleClick += new System.EventHandler(this.IntroBox_DoubleClick);
+            // 
             // AllergyButton
             // 
             this.AllergyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
@@ -2151,7 +2164,7 @@
             this.GrapaButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GrapaButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.GrapaButton.Font = new System.Drawing.Font("ＭＳ Ｐゴシック", 9F);
-            this.GrapaButton.Location = new System.Drawing.Point(645, 4);
+            this.GrapaButton.Location = new System.Drawing.Point(835, 4);
             this.GrapaButton.Name = "GrapaButton";
             this.GrapaButton.Size = new System.Drawing.Size(45, 23);
             this.GrapaButton.TabIndex = 188;
@@ -2176,6 +2189,7 @@
             this.Controls.Add(this.stdControlPat11);
             this.Controls.Add(this.GrapaButton);
             this.Controls.Add(this.AllergyButton);
+            this.Controls.Add(this.IntroBox);
             this.Controls.Add(this.FamilyButton);
             this.Controls.Add(this.PDFButton);
             this.Controls.Add(this.OpeWideBox);
@@ -2360,6 +2374,7 @@
         private System.Windows.Forms.CheckBox OpeWideBox;
         private System.Windows.Forms.Button PDFButton;
         private System.Windows.Forms.Button FamilyButton;
+        private System.Windows.Forms.TextBox IntroBox;
         private System.Windows.Forms.TabPage SummaryTab;
         private System.Windows.Forms.Label SumDiagLabel;
         private System.Windows.Forms.Label label43;

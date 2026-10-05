@@ -743,6 +743,21 @@ namespace EyeCenter
                 AllergyButton.BackColor = Color.FromArgb(255, 255, 192);
             }
 
+            // 紹介状の宛先を取得
+            this.IntroBox.Text = "";
+
+            List<Intro> introList = Intro.GetList(this.Pat.Id);
+
+            foreach (Intro p in introList)
+            {
+                if ((p.Kind.Equals("2") || p.Kind.Equals("5") || p.Kind.Equals("6"))
+                    && p.DeptFromCode.Equals("7"))
+                {
+                    this.IntroBox.Text = p.Hospital + " " + p.DeptTo + " " + p.DoctorTo + " 先生";
+                    break;
+                }
+            }
+
             this.PtOpeHistoryShow();
             this.PtKensaHistoryShow();
 
@@ -1805,6 +1820,52 @@ namespace EyeCenter
             if (this.Pat.Id.Length > 0)
             {
                 FormString1 f1 = new FormString1("禁忌", "禁忌", ((Button)sender).Tag.ToString());
+                f1.ShowDialog();
+            }
+        }
+
+        private void IntroBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.Pat.Id.Length > 0)
+            {
+                List<Intro> introList = Intro.GetList(this.Pat.Id);
+
+                string intro = "";
+
+                foreach (Intro p in introList)
+                {
+                    intro += p.IntroDate.Insert(4, "/").Insert(7, "/");
+
+                    if (p.Kind.Equals("1"))
+                    {
+                        intro += " 紹介";
+                    }
+                    else if (p.Kind.Equals("2"))
+                    {
+                        intro += " 返事（眼科）";
+                    }
+                    else if (p.Kind.Equals("3"))
+                    {
+                        intro += " 依頼";
+                    }
+                    else if (p.Kind.Equals("4"))
+                    {
+                        intro += " 返信Fax";
+                    }
+                    else if (p.Kind.Equals("5"))
+                    {
+                        intro += " 返事（途中）";
+                    }
+                    else if (p.Kind.Equals("6"))
+                    {
+                        intro += " 返事（最終）";
+                    }
+
+                    intro += "　" + p.Hospital + " " + p.DeptTo + " " + p.DoctorTo + " 先生（差出人　" + p.DeptFromName + " " + p.DoctorFromName + "）\r\n";
+                }
+
+                FormString1 f1 = new FormString1("紹介状", "過去の紹介状", intro);
+                f1.Size = new Size(500, 200);
                 f1.ShowDialog();
             }
         }
